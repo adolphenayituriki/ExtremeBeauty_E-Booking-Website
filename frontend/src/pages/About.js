@@ -61,7 +61,7 @@ const About = () => {
         </p>
         <div className="flex flex-wrap gap-3 justify-center">
           <Link to="/booking" className="btn-primary">Book Appointment</Link>
-          <Link to="/contact" className="btn-secondary">Get Directions</Link>
+          <Link to="/contact" className="btn-secondary border-white/20 text-white hover:border-gold hover:text-gold hover:bg-gold/5">Get Directions</Link>
         </div>
       </section>
     </>

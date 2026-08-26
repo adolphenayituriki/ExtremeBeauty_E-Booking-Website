@@ -1,6 +1,23 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiChevronLeft, FiChevronRight, FiStar, FiEye, FiPlay, FiCalendar, FiCheck, FiX } from 'react-icons/fi';
+import { motion, useInView } from 'framer-motion';
+
+const FadeIn = ({ children, delay = 0, className = '' }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
 
 const heroSlides = [
   { type: 'image', src: '/images/Hero-bg-Image-1.jpg', title: 'Where Beauty Meets Artistry', subtitle: 'Extreme Beauty Lashes & Brows' },
@@ -103,7 +120,7 @@ const Home = () => {
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 w-full py-8 lg:py-0">
           <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-6 items-center">
-            <div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
               <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-4 font-medium">
                 {slide.subtitle}
               </p>
@@ -130,7 +147,7 @@ const Home = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Brand Card - Premium Business Card Style */}
             <div className="hidden lg:flex justify-center items-center">
@@ -174,23 +191,27 @@ const Home = () => {
       <section className="py-20 px-5 bg-white relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(184,149,106,0.04)_0%,transparent_60%)]" />
         <div className="relative">
-          <div className="text-center mb-12">
-            <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">What We Offer</p>
-            <h2 className="text-[2rem] mb-2 font-cormorant font-semibold">Our Categories</h2>
-          </div>
+          <FadeIn>
+            <div className="text-center mb-12">
+              <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">What We Offer</p>
+              <h2 className="text-[2rem] mb-2 font-cormorant font-semibold">Our Categories</h2>
+            </div>
+          </FadeIn>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1200px] mx-auto px-5">
             {categories.map((cat, index) => (
-              <Link to={`/services?category=${cat.category}`} key={index} className="relative h-[320px] overflow-hidden cursor-pointer rounded-2xl group glass-card">
-                <div className="w-full h-full overflow-hidden">
-                  <img src={cat.image} alt={cat.name} loading="lazy" className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[30%] group-hover:grayscale-0 group-hover:scale-[1.12]" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <div className="text-gold mb-2">{cat.icon}</div>
-                  <h3 className="text-[1.15rem] text-white mb-1 group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
-                  <p className="text-[0.68rem] uppercase tracking-[2px] text-gray-300">{cat.description}</p>
-                </div>
-              </Link>
+              <FadeIn key={index} delay={index * 0.1}>
+                <Link to={`/services?category=${cat.category}`} className="relative h-[320px] overflow-hidden cursor-pointer rounded-2xl group glass-card">
+                  <div className="w-full h-full overflow-hidden">
+                    <img src={cat.image} alt={cat.name} loading="lazy" className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[30%] group-hover:grayscale-0 group-hover:scale-[1.12]" />
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="text-gold mb-2">{cat.icon}</div>
+                    <h3 className="text-[1.15rem] text-white mb-1 group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
+                    <p className="text-[0.68rem] uppercase tracking-[2px] text-gray-300">{cat.description}</p>
+                  </div>
+                </Link>
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -199,33 +220,37 @@ const Home = () => {
       {/* ===== 3. FEATURED SERVICES ===== */}
       <section className="py-20 px-5 bg-white relative">
         <div className="max-w-[1200px] mx-auto relative">
-          <div className="text-center mb-12">
-            <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Popular Services</p>
-            <h2 className="text-[2rem] mb-3 font-cormorant font-semibold">Featured Treatments</h2>
-            <p className="text-gray-500 text-[0.88rem] max-w-[480px] mx-auto">Handpicked services our clients love most. Each treatment is crafted with precision and care.</p>
-          </div>
+          <FadeIn>
+            <div className="text-center mb-12">
+              <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Popular Services</p>
+              <h2 className="text-[2rem] mb-3 font-cormorant font-semibold">Featured Treatments</h2>
+              <p className="text-gray-500 text-[0.88rem] max-w-[480px] mx-auto">Handpicked services our clients love most. Each treatment is crafted with precision and care.</p>
+            </div>
+          </FadeIn>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {featuredServices.map((service, index) => (
-              <div key={index} className="group glass-card rounded-2xl overflow-hidden cursor-pointer" onClick={() => setSelectedService(service)}>
-                <div className="relative h-[220px] overflow-hidden">
-                  <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <span className="absolute top-3 left-3 glass text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-gold px-2.5 py-1 rounded-full">{service.category}</span>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-[1.05rem] mb-1.5 group-hover:text-gold transition-colors duration-300">{service.title}</h3>
-                  <p className="text-gray-500 text-[0.8rem] leading-[1.6] mb-4 line-clamp-2">{service.description}</p>
-                  <div className="flex items-center justify-between pt-3 border-t border-gray-100/60">
-                    <span className="inline-flex items-center gap-1.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-gold transition-all duration-300">
-                      View Details <FiArrowRight size={13} />
-                    </span>
-                    <Link to={`/booking?service=${encodeURIComponent(service.title)}`} onClick={(e) => e.stopPropagation()} className="text-[0.7rem] text-gray-400 hover:text-gold transition-colors duration-300">
-                      Book Now
-                    </Link>
+              <FadeIn key={index} delay={index * 0.08}>
+                <div className="group glass-card rounded-2xl overflow-hidden cursor-pointer" onClick={() => setSelectedService(service)}>
+                  <div className="relative h-[220px] overflow-hidden">
+                    <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <span className="absolute top-3 left-3 glass text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-gold px-2.5 py-1 rounded-full">{service.category}</span>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="text-[1.05rem] mb-1.5 group-hover:text-gold transition-colors duration-300">{service.title}</h3>
+                    <p className="text-gray-500 text-[0.8rem] leading-[1.6] mb-4 line-clamp-2">{service.description}</p>
+                    <div className="flex items-center justify-between pt-3 border-t border-gray-100/60">
+                      <span className="inline-flex items-center gap-1.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-gold transition-all duration-300">
+                        View Details <FiArrowRight size={13} />
+                      </span>
+                      <Link to={`/booking?service=${encodeURIComponent(service.title)}`} onClick={(e) => e.stopPropagation()} className="text-[0.7rem] text-gray-400 hover:text-gold transition-colors duration-300">
+                        Book Now
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </FadeIn>
             ))}
           </div>
 
@@ -240,7 +265,8 @@ const Home = () => {
       {/* ===== 4. GALLERY ===== */}
       <section className="py-20 px-5 bg-white relative">
         <div className="max-w-[1200px] mx-auto relative">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-start">
+          <FadeIn>
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-start">
             {/* Left - Carousel */}
             <div>
               <div className="mb-8">
@@ -292,17 +318,20 @@ const Home = () => {
                 </p>
               </div>
             </div>
-          </div>
+            </div>
+          </FadeIn>
         </div>
       </section>
 
       {/* ===== 5. VIDEOS ===== */}
       <section className="py-20 px-5 bg-gray-950 text-white">
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">See Our Work</p>
-            <h2 className="text-[2rem] mb-2 text-white font-cormorant font-semibold">Featured Videos</h2>
-          </div>
+          <FadeIn>
+            <div className="text-center mb-12">
+              <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">See Our Work</p>
+              <h2 className="text-[2rem] mb-2 text-white font-cormorant font-semibold">Featured Videos</h2>
+            </div>
+          </FadeIn>
           <div className="relative">
             <div className="overflow-hidden">
               <div className="flex transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(-${videoIndex * 33.333}%)` }}>
@@ -356,29 +385,31 @@ const Home = () => {
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold/[0.06] rounded-full blur-[120px]" />
         </div>
-        <div className="text-center max-w-[550px] mx-auto relative z-10">
-          <h2 className="text-[1.8rem] sm:text-[2.2rem] leading-[1.1] mb-3 font-cormorant font-semibold text-white">
-            Ready For Your Transformation?
-          </h2>
-          <p className="text-gray-400 max-w-[400px] mx-auto text-[0.85rem] mb-7 leading-[1.6]">
-            Don't wait to look and feel your best. Our expert artists are ready to bring out your natural beauty.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
-            <Link to="/booking" className="btn-primary">Book Appointment</Link>
-            <a href="https://wa.me/250785069349" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-9 py-3.5 text-xs font-semibold uppercase tracking-[2px] border-2 border-white/20 rounded-xl cursor-pointer transition-all duration-[400ms] hover:border-gold hover:text-gold hover:bg-gold/5">
-              Chat on WhatsApp
-            </a>
+        <FadeIn>
+          <div className="text-center max-w-[550px] mx-auto relative z-10">
+            <h2 className="text-[1.8rem] sm:text-[2.2rem] leading-[1.1] mb-3 font-cormorant font-semibold text-white">
+              Ready For Your Transformation?
+            </h2>
+            <p className="text-gray-400 max-w-[400px] mx-auto text-[0.85rem] mb-7 leading-[1.6]">
+              Don't wait to look and feel your best. Our expert artists are ready to bring out your natural beauty.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+              <Link to="/booking" className="btn-primary">Book Appointment</Link>
+              <a href="https://wa.me/250785069349" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-9 py-3.5 text-xs font-semibold uppercase tracking-[2px] border-2 border-white/20 rounded-xl cursor-pointer transition-all duration-[400ms] hover:border-gold hover:text-gold hover:bg-gold/5">
+                Chat on WhatsApp
+              </a>
+            </div>
+            <div className="flex items-center justify-center gap-5 text-gray-500 text-[0.72rem]">
+              <span className="flex items-center gap-1.5">
+                <FiCalendar size={11} className="text-gold/60" /> Same-day bookings
+              </span>
+              <span className="w-px h-3 bg-white/10" />
+              <span className="flex items-center gap-1.5">
+                <FiCheck size={11} className="text-gold/60" /> Free consultation
+              </span>
+            </div>
           </div>
-          <div className="flex items-center justify-center gap-5 text-gray-500 text-[0.72rem]">
-            <span className="flex items-center gap-1.5">
-              <FiCalendar size={11} className="text-gold/60" /> Same-day bookings
-            </span>
-            <span className="w-px h-3 bg-white/10" />
-            <span className="flex items-center gap-1.5">
-              <FiCheck size={11} className="text-gold/60" /> Free consultation
-            </span>
-          </div>
-        </div>
+        </FadeIn>
       </section>
 
       {/* Service Detail Modal */}
