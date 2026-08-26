@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Extreme Beauty Lashes & Brows Website",
   "scripts": {
+    "build": "cd frontend && npm run build",
     "server": "cd backend && node server.js",
     "client": "cd frontend && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",

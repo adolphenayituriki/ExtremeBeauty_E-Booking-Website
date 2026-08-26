@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { FiArrowRight, FiEye, FiStar, FiCheckCircle, FiSearch, FiX } from 'react-icons/fi';
 
 const allCategories = [
@@ -51,6 +52,7 @@ const allCategories = [
 
 const Services = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const query = searchParams.get('q') || '';
   const categoryFilter = searchParams.get('category') || '';
 
@@ -150,10 +152,10 @@ const Services = () => {
                         <h3 className="text-[0.95rem] font-semibold transition-colors duration-300 group-hover:text-gold mb-1.5">{service.name}</h3>
                         <span className="text-[0.82rem] font-bold text-gold mb-3 block">{service.price}</span>
                         <p className="text-gray-500 text-[0.8rem] leading-[1.6] mb-4">{service.description}</p>
-                        <Link to={`/booking?service=${encodeURIComponent(service.name)}`} className="group/btn inline-flex items-center justify-center gap-2 w-full py-3 border border-gray-200 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black rounded-xl transition-all duration-300 hover:bg-gold hover:text-white hover:border-gold">
+                        <button onClick={() => { toast.info(`Booking ${service.name}...`); setTimeout(() => navigate(`/booking?service=${encodeURIComponent(service.name)}`), 400); }} className="group/btn inline-flex items-center justify-center gap-2 w-full py-3 border border-gray-200 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black rounded-xl transition-all duration-300 hover:bg-gold hover:text-white hover:border-gold cursor-pointer bg-transparent">
                           Book Now
                           <FiArrowRight size={13} className="transition-transform duration-300 group-hover/btn:translate-x-0.5" />
-                        </Link>
+                        </button>
                       </div>
                     </div>
                   ))}
