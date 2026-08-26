@@ -146,54 +146,34 @@ const Booking = () => {
             )}
 
             {/* ── Appointment Details ── */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-5">
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-3">
                 <span className="w-2 h-2 rounded-full bg-gold" />
-                <h3 className="text-[0.9rem] font-semibold text-black">Appointment Details</h3>
+                <h3 className="text-[0.85rem] font-semibold text-black">Appointment Details</h3>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl border border-gray-200 bg-gray-50 overflow-hidden">
                 {[
-                  { icon: <FiCalendar size={16} className="text-gold" />, label: 'Date', value: dateStr },
-                  { icon: <FiClock size={16} className="text-gold" />, label: 'Time', value: bookingResult.time },
-                  { icon: <FiUser size={16} className="text-gold" />, label: 'Client', value: `${bookingResult.firstName} ${bookingResult.lastName}` },
-                  { icon: <FiPhone size={16} className="text-gold" />, label: 'Phone', value: bookingResult.phone },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                    <div className="mt-0.5 shrink-0">{item.icon}</div>
-                    <div className="min-w-0">
-                      <p className="text-[0.62rem] uppercase tracking-[1.5px] text-gray-400 mb-1">{item.label}</p>
-                      <p className="text-[0.82rem] text-black font-medium truncate">{item.value}</p>
-                    </div>
+                  { icon: <FiCalendar size={14} className="text-gold" />, label: 'Date', value: dateStr },
+                  { icon: <FiClock size={14} className="text-gold" />, label: 'Time', value: bookingResult.time },
+                  { icon: <FiUser size={14} className="text-gold" />, label: 'Client', value: `${bookingResult.firstName} ${bookingResult.lastName}` },
+                  { icon: <FiPhone size={14} className="text-gold" />, label: 'Phone', value: bookingResult.phone },
+                  ...(bookingResult.email ? [{ icon: <FiMail size={14} className="text-gold" />, label: 'Email', value: bookingResult.email }] : []),
+                  ...(bookingResult.message ? [{ icon: <FiMessageSquare size={14} className="text-gold" />, label: 'Notes', value: bookingResult.message }] : []),
+                ].map((item, i, arr) => (
+                  <div key={i} className={`flex items-center gap-3 px-4 py-2.5 ${i < arr.length - 1 ? 'border-b border-gray-100' : ''}`}>
+                    <span className="shrink-0">{item.icon}</span>
+                    <span className="text-[0.7rem] text-gray-400 w-14 shrink-0">{item.label}</span>
+                    <span className="text-[0.8rem] text-black font-medium truncate">{item.value}</span>
                   </div>
                 ))}
               </div>
-
-              {bookingResult.email && (
-                <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 mt-3">
-                  <div className="mt-0.5 shrink-0"><FiMail size={16} className="text-gold" /></div>
-                  <div className="min-w-0">
-                    <p className="text-[0.62rem] uppercase tracking-[1.5px] text-gray-400 mb-1">Email</p>
-                    <p className="text-[0.82rem] text-black font-medium truncate">{bookingResult.email}</p>
-                  </div>
-                </div>
-              )}
-
-              {bookingResult.message && (
-                <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl border border-gray-100 mt-3">
-                  <div className="mt-0.5 shrink-0"><FiMessageSquare size={16} className="text-gold" /></div>
-                  <div className="min-w-0">
-                    <p className="text-[0.62rem] uppercase tracking-[1.5px] text-gray-400 mb-1">Notes</p>
-                    <p className="text-[0.82rem] text-gray-600">{bookingResult.message}</p>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* ── Download Receipt ── */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
+            <div className="mb-6">
+              <div className="flex items-center gap-2 mb-3">
                 <span className="w-2 h-2 rounded-full bg-gold" />
-                <h3 className="text-[0.9rem] font-semibold text-black">Download Receipt</h3>
+                <h3 className="text-[0.85rem] font-semibold text-black">Download Receipt</h3>
               </div>
               <Receipt booking={bookingResult} />
             </div>
