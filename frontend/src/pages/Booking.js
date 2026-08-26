@@ -243,23 +243,23 @@ const Booking = () => {
         <div className="max-w-[960px] mx-auto">
 
           {/* Progress Steps */}
-          <div className="flex items-center justify-center gap-0 mb-12">
+          <div className="flex items-center justify-center gap-0 mb-8">
             {[
               { num: 1, label: 'Service' },
               { num: 2, label: 'Details' },
               { num: 3, label: 'Confirm' },
             ].map((s, i) => (
               <React.Fragment key={s.num}>
-                <div className="flex items-center gap-2">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[0.72rem] font-semibold transition-all duration-300 ${
+                <div className="flex items-center gap-1.5">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[0.68rem] font-semibold transition-all duration-300 ${
                     step >= s.num ? 'bg-black text-white' : 'bg-gray-100 text-gray-400'
                   }`}>
-                    {step > s.num ? <FiCheck size={14} /> : s.num}
+                    {step > s.num ? <FiCheck size={12} /> : s.num}
                   </div>
-                  <span className={`text-[0.78rem] font-medium hidden sm:block ${step >= s.num ? 'text-black' : 'text-gray-400'}`}>{s.label}</span>
+                  <span className={`text-[0.72rem] font-medium hidden sm:block ${step >= s.num ? 'text-black' : 'text-gray-400'}`}>{s.label}</span>
                 </div>
                 {i < 2 && (
-                  <div className={`w-12 h-[2px] mx-3 rounded-full transition-all duration-300 ${step > s.num ? 'bg-black' : 'bg-gray-200'}`} />
+                  <div className={`w-10 h-[2px] mx-2.5 rounded-full transition-all duration-300 ${step > s.num ? 'bg-black' : 'bg-gray-200'}`} />
                 )}
               </React.Fragment>
             ))}
@@ -268,17 +268,17 @@ const Booking = () => {
           {/* STEP 1: Service Selection */}
           {step === 1 && (
             <div className="animate-fade-in">
-              <div className="text-center mb-8">
-                <h2 className="text-[1.4rem] font-cormorant font-semibold text-black mb-2">Choose Your Service</h2>
-                <p className="text-[0.82rem] text-gray-400">Select the treatment you'd like to book</p>
+              <div className="text-center mb-6">
+                <h2 className="text-[1.2rem] font-cormorant font-semibold text-black mb-1">Choose Your Service</h2>
+                <p className="text-[0.78rem] text-gray-400">Select the treatment you'd like to book</p>
               </div>
 
               {/* Category Filter Tabs */}
-              <div className="flex flex-wrap items-center gap-2 mb-8">
+              <div className="flex flex-wrap items-center gap-2 mb-6">
                 <button
                   type="button"
                   onClick={() => setActiveCategory('all')}
-                  className={`px-5 py-2.5 rounded-full text-[0.82rem] font-medium border transition-all duration-300 cursor-pointer ${
+                  className={`px-4 py-2 rounded-full text-[0.75rem] font-medium border transition-all duration-300 cursor-pointer ${
                     activeCategory === 'all'
                       ? 'bg-black text-white border-black'
                       : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -291,7 +291,7 @@ const Booking = () => {
                     key={cat.key}
                     type="button"
                     onClick={() => setActiveCategory(cat.key)}
-                    className={`px-5 py-2.5 rounded-full text-[0.82rem] font-medium border transition-all duration-300 cursor-pointer ${
+                    className={`px-4 py-2 rounded-full text-[0.75rem] font-medium border transition-all duration-300 cursor-pointer ${
                       activeCategory === cat.key
                         ? 'bg-black text-white border-black'
                         : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
@@ -307,9 +307,9 @@ const Booking = () => {
                 .map((cat) => {
                 const catServices = services.filter((s) => s.category === cat.key);
                 return (
-                  <div key={cat.key} className="mb-8">
-                    <div className="mb-4">
-                      <p className="text-[0.82rem] tracking-[3px] uppercase font-cormorant font-semibold text-gray-900 border-b border-gold/30 pb-2">{cat.label}</p>
+                  <div key={cat.key} className="mb-6">
+                    <div className="mb-3">
+                      <p className="text-[0.78rem] tracking-[3px] uppercase font-cormorant font-semibold text-gray-900 border-b border-gold/30 pb-1.5">{cat.label}</p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                       {catServices.map((svc) => (
@@ -317,14 +317,14 @@ const Booking = () => {
                           key={svc.name}
                           type="button"
                           onClick={() => handleServiceSelect(svc)}
-                          className="group flex items-center gap-4 p-4 rounded-2xl border border-gray-200 bg-white text-left transition-all duration-300 cursor-pointer hover:border-gold/40 hover:shadow-[0_4px_20px_rgba(184,149,106,0.1)]"
+                          className="group flex items-center gap-3 p-3.5 rounded-2xl border border-gray-200 bg-white text-left transition-all duration-300 cursor-pointer hover:border-gold/40 hover:shadow-[0_4px_20px_rgba(184,149,106,0.1)]"
                         >
-                          <img src={svc.image} alt={svc.name} className="w-16 h-16 rounded-xl object-cover shrink-0 group-hover:scale-105 transition-transform duration-300" />
+                          <img src={svc.image} alt={svc.name} className="w-14 h-14 rounded-xl object-cover shrink-0 group-hover:scale-105 transition-transform duration-300" />
                           <div className="min-w-0 flex-1">
-                            <p className="text-[0.88rem] font-semibold text-black mb-1 group-hover:text-gold transition-colors">{svc.name}</p>
-                            <p className="text-[0.78rem] text-gold font-bold">{svc.priceFormatted}</p>
+                            <p className="text-[0.82rem] font-semibold text-black mb-0.5 group-hover:text-gold transition-colors">{svc.name}</p>
+                            <p className="text-[0.72rem] text-gold font-bold">{svc.priceFormatted}</p>
                           </div>
-                          <FiArrowRight size={16} className="text-gray-300 group-hover:text-gold group-hover:translate-x-1 transition-all duration-300 shrink-0" />
+                          <FiArrowRight size={14} className="text-gray-300 group-hover:text-gold group-hover:translate-x-1 transition-all duration-300 shrink-0" />
                         </button>
                       ))}
                     </div>
