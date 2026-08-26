@@ -10,7 +10,7 @@ const allServices = [
 
 const categoryMap = {
   'All Services': null,
-  'Lashes': 'Eyelash Extensions',
+  'Browse Services': 'Eyelash Extensions',
   'Brows': 'Brows',
   'Lash Lift': 'Lash Lift',
   'Retouch': 'Eyebrows Retouch',
@@ -19,7 +19,7 @@ const categoryMap = {
 const categoryLinks = [
   { path: '/', label: 'Home' },
   { path: '/services', label: 'All Services', category: 'All Services' },
-  { path: '/services', label: 'Lashes', category: 'Lashes' },
+  { path: '/services', label: 'Browse Services', category: 'Browse Services' },
   { path: '/services', label: 'Brows', category: 'Brows' },
   { path: '/services', label: 'Lash Lift', category: 'Lash Lift' },
   { path: '/about', label: 'About Us' },
@@ -119,9 +119,9 @@ const Navbar = () => {
   return (
     <>
       {/* ===== TOP UTILITY BAR ===== */}
-      <div className={`fixed top-0 w-full z-50 text-[0.68rem] hidden lg:block transition-all duration-500 ${scrolled ? 'opacity-0 -translate-y-full pointer-events-none h-0' : 'opacity-100 translate-y-0 h-[30px]'}`}>
+      <div className={`fixed top-0 w-full z-50 text-[0.65rem] hidden lg:block transition-all duration-500 ${scrolled ? 'opacity-0 -translate-y-full pointer-events-none h-0' : 'opacity-100 translate-y-0 h-[26px]'}`}>
         <div className="absolute inset-0 bg-gray-950/95 backdrop-blur-md border-b border-white/5" />
-        <div className="relative flex items-center justify-between px-6 lg:px-10 h-[30px] max-w-[1400px] mx-auto text-gray-400">
+        <div className="relative flex items-center justify-between px-6 lg:px-10 h-[26px] max-w-[1400px] mx-auto text-gray-400">
           <div className="flex items-center gap-5">
             <a href="tel:+250785069349" className="flex items-center gap-1.5 hover:text-gold transition-colors duration-200">
               <FiPhone size={10} /> +250 785 069 349
@@ -147,13 +147,15 @@ const Navbar = () => {
       <nav className={`fixed w-full z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
         scrolled
           ? 'top-0 bg-white/80 backdrop-blur-xl border-b border-black/[0.04] shadow-[0_1px_20px_rgba(0,0,0,0.06)]'
-          : 'top-0 lg:top-[30px] bg-white/60 backdrop-blur-lg border-b border-black/[0.03]'
+          : 'top-0 lg:top-[26px] bg-white/60 backdrop-blur-lg border-b border-black/[0.03]'
       }`}>
-        <div className="flex items-center justify-between px-4 lg:px-10 h-[60px] lg:h-[68px] max-w-[1400px] mx-auto gap-4">
+        <div className="flex items-center justify-between px-4 lg:px-10 h-[56px] lg:h-[60px] max-w-[1400px] mx-auto gap-4">
 
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0">
-            <img src="/logo/Logo-White-BG.jpg" alt="Extreme Beauty" className="h-[40px] lg:h-[46px] w-auto max-w-[170px] object-contain transition-all duration-300 hover:scale-105" />
+            <div className="w-[140px] h-[46px] flex items-center justify-center overflow-hidden">
+              <img src="/logo/removebg-preview.png" alt="Extreme Beauty" className="w-full h-full object-contain scale-[2.5] transition-all duration-300 hover:scale-[2.7]" />
+            </div>
           </Link>
 
           {/* Category dropdown - desktop */}
@@ -165,7 +167,7 @@ const Navbar = () => {
               {searchCategory} <FiChevronDown size={14} className={`transition-transform duration-200 ${showCategoryDropdown ? 'rotate-180' : ''}`} />
             </button>
             {showCategoryDropdown && (
-              <div className="absolute top-full left-0 mt-2 glass border border-gray-200/60 shadow-xl rounded-2xl py-2 min-w-[180px] z-50">
+              <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 shadow-xl rounded-2xl py-2 min-w-[180px] z-50">
                 {Object.keys(categoryMap).map((cat) => (
                   <button
                     key={cat}
@@ -233,13 +235,13 @@ const Navbar = () => {
 
           {/* Mobile: search + menu */}
           <div className="flex lg:hidden items-center gap-2">
-            <Link to="/services" className="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-black transition-colors">
+            <Link to="/services" className="w-11 h-11 flex items-center justify-center text-gray-600 hover:text-black transition-colors">
               <FiSearch size={20} />
             </Link>
-            <Link to="/booking" className="bg-black text-white !px-3 !py-1.5 text-[0.7rem] font-semibold uppercase tracking-wider rounded-lg">
+            <Link to="/booking" className="bg-black text-white !px-4 !py-2 text-[0.75rem] font-semibold uppercase tracking-wider rounded-lg">
               Book
             </Link>
-            <button className="p-1.5 cursor-pointer z-[60]" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
+            <button className="p-2.5 cursor-pointer z-[60]" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
               {mobileOpen ? <FiX size={22} className="text-black" /> : <FiMenu size={22} className="text-black" />}
             </button>
           </div>

@@ -85,8 +85,8 @@ const Services = () => {
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">
-          <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium font-heading">Our Offerings</p>
-          <h1 className="text-[2.2rem] mb-2 font-heading">Our Services</h1>
+          <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Our Offerings</p>
+          <h1 className="text-[2.2rem] mb-2 font-cormorant font-semibold text-white">Our Services</h1>
           <p className="text-gray-400 text-[0.88rem]">Professional beauty services crafted to enhance your natural beauty</p>
         </div>
       </div>
@@ -115,7 +115,7 @@ const Services = () => {
             <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
               <FiSearch size={28} className="text-gray-300" />
             </div>
-            <h2 className="text-[1.5rem] mb-2 font-heading">No services found</h2>
+            <h2 className="text-[1.5rem] mb-2 font-cormorant font-semibold">No services found</h2>
             <p className="text-gray-500 text-[0.88rem] mb-6">
               {query && `No results for "${query}"`} {categoryFilter && `in ${categoryFilter}`}. Try a different search.
             </p>
@@ -135,7 +135,7 @@ const Services = () => {
                       <span className="text-gold">{category.icon}</span>
                       <span className="text-[0.68rem] tracking-[4px] uppercase text-gold font-medium">{category.label}</span>
                     </div>
-                    <h2 className="text-[1.8rem] font-heading">{category.title}</h2>
+                    <h2 className="text-[1.8rem] font-cormorant font-semibold">{category.title}</h2>
                   </div>
                   <span className="text-[0.78rem] text-gray-400 hidden sm:block">{category.services.length} service{category.services.length !== 1 ? 's' : ''}</span>
                 </div>
@@ -147,7 +147,7 @@ const Services = () => {
                         <img src={service.image} alt={service.name} className="w-full h-full object-cover transition-all duration-500 group-hover:scale-[1.05]" />
                       </div>
                       <div className="p-5">
-                        <h3 className="text-[0.95rem] font-semibold font-heading transition-colors duration-300 group-hover:text-gold mb-1.5">{service.name}</h3>
+                        <h3 className="text-[0.95rem] font-semibold transition-colors duration-300 group-hover:text-gold mb-1.5">{service.name}</h3>
                         <span className="text-[0.82rem] font-bold text-gold mb-3 block">{service.price}</span>
                         <p className="text-gray-500 text-[0.8rem] leading-[1.6] mb-4">{service.description}</p>
                         <Link to={`/booking?service=${encodeURIComponent(service.name)}`} className="group/btn inline-flex items-center justify-center gap-2 w-full py-3 border border-gray-200 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black rounded-xl transition-all duration-300 hover:bg-gold hover:text-white hover:border-gold">
@@ -165,14 +165,14 @@ const Services = () => {
       )}
 
       <section className="py-20 px-5 bg-gray-950 text-white text-center">
-        <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium font-heading">Not Sure Which Service?</p>
-        <h2 className="text-[2rem] mb-3 text-white font-heading">Let Us Help You Choose</h2>
+        <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Not Sure Which Service?</p>
+        <h2 className="text-[2rem] mb-3 text-white font-cormorant font-semibold">Let Us Help You Choose</h2>
         <p className="text-gray-400 max-w-[500px] mx-auto text-[0.88rem] mb-6 leading-relaxed">
           Contact us for a free consultation. Our experts will help you find the perfect service.
         </p>
         <div className="flex flex-wrap gap-3 justify-center">
           <Link to="/contact" className="btn-primary">Contact Us</Link>
-          <Link to="/booking" className="btn-secondary">Book Consultation</Link>
+          <Link to="/booking" className="btn-secondary border-white/20 text-white hover:border-gold hover:text-gold hover:bg-gold/5">Book Consultation</Link>
         </div>
       </section>
     </>

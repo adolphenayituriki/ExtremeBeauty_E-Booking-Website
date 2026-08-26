@@ -19,7 +19,7 @@ const Footer = () => {
         <div className="max-w-[1200px] mx-auto px-6 lg:px-10 py-12">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
-              <h3 className="text-[1.3rem] mb-1">Stay Connected</h3>
+              <h3 className="text-[1.3rem] mb-1 font-cormorant font-semibold">Stay Connected</h3>
               <p className="text-gray-500 text-[0.85rem]">Follow us on Instagram for the latest updates, offers, and beauty inspiration.</p>
             </div>
             <a href="https://instagram.com/extreme_beauty.rw" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-gold text-black text-[0.78rem] font-semibold uppercase tracking-[1.5px] rounded-xl transition-all duration-300 hover:bg-gold-light hover:shadow-[0_8px_30px_rgba(184,149,106,0.3)] shrink-0">
@@ -54,7 +54,7 @@ const Footer = () => {
                   target={item.external ? '_blank' : undefined}
                   rel={item.external ? 'noopener noreferrer' : undefined}
                   aria-label={item.label}
-                  className="w-10 h-10 border border-white/[0.08] flex items-center justify-center text-gray-500 rounded-xl hover:bg-gold hover:text-black hover:border-gold transition-all duration-300"
+                  className="w-11 h-11 border border-white/[0.08] flex items-center justify-center text-gray-500 rounded-xl hover:bg-gold hover:text-black hover:border-gold transition-all duration-300"
                 >
                   {item.icon}
                 </a>

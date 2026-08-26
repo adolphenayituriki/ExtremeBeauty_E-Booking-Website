@@ -29,9 +29,23 @@ const trackBooking = async (req, res) => {
   }
 };
 
+const trackByPhone = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ phone: req.params.phone }).sort({ createdAt: -1 });
+    if (!bookings.length) return res.status(404).json({ message: 'No bookings found for this phone number' });
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const createBooking = async (req, res) => {
   try {
-    const booking = await Booking.create(req.body);
+    const crypto = require('crypto');
+    const booking = new Booking(req.body);
+    booking.bookingRef = 'EB-' + crypto.randomBytes(3).toString('hex').toUpperCase();
+    booking.status = 'approved';
+    await booking.save();
     res.status(201).json(booking);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -61,4 +75,4 @@ const deleteBooking = async (req, res) => {
   }
 };
 
-module.exports = { getBookings, getBooking, trackBooking, createBooking, updateBooking, deleteBooking };
+module.exports = { getBookings, getBooking, trackBooking, trackByPhone, createBooking, updateBooking, deleteBooking };

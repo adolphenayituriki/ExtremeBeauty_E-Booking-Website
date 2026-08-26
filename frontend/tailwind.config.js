@@ -16,6 +16,7 @@ module.exports = {
         heading: ['Montserrat', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
         poppins: ['Poppins', 'sans-serif'],
+        cormorant: ['"Cormorant Garamond"', 'serif'],
       },
       animation: {
         'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',

@@ -4,6 +4,24 @@ import { toast } from 'react-toastify';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
+async function safePost(url, body) {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const contentType = response.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    console.error('Expected JSON but received non-JSON response');
+    throw new Error('The server is currently unavailable. Please try again later.');
+  }
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || 'Request failed.');
+  }
+  return data;
+}
+
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
@@ -12,16 +30,14 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name.trim()) { toast.warning('Please enter your name'); return; }
+    if (!formData.email.trim()) { toast.warning('Please enter your email'); return; }
+    if (!formData.subject.trim()) { toast.warning('Please enter a subject'); return; }
+    if (!formData.message.trim()) { toast.warning('Please enter your message'); return; }
     setSubmitting(true);
     try {
-      const response = await fetch(`${API_URL}/api/contacts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || 'Failed to send message');
-      toast.success('Message sent! We will get back to you soon.');
+      await safePost(`${API_URL}/api/contacts`, formData);
+      toast.success('Message sent successfully! We will get back to you soon.');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     } catch (error) {
       toast.error(error.message || 'Something went wrong. Please try again.');
@@ -46,7 +62,7 @@ const Contact = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">
           <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Get In Touch</p>
-          <h1 className="text-[2.2rem] mb-2">Contact Us</h1>
+          <h1 className="text-[2.2rem] mb-2 font-cormorant font-semibold text-white">Contact Us</h1>
           <p className="text-gray-400 text-[0.88rem]">We&apos;d love to hear from you. Reach out anytime.</p>
         </div>
       </div>
@@ -58,7 +74,7 @@ const Contact = () => {
             {/* Left */}
             <div>
               <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Let&apos;s Connect</p>
-              <h2 className="text-[1.6rem] mb-2">Get in Touch</h2>
+              <h2 className="text-[1.6rem] mb-2 font-cormorant font-semibold">Get in Touch</h2>
               <p className="text-gray-500 text-[0.85rem] leading-relaxed mb-8">
                 Have a question about our services? Reach out and we&apos;ll respond as soon as possible.
               </p>
@@ -90,7 +106,7 @@ const Contact = () => {
               <div className="glass rounded-2xl p-6 md:p-8">
                 <div className="mb-6">
                   <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Send a Message</p>
-                  <h3 className="text-[1.3rem]">We&apos;re Here to Help</h3>
+                  <h3 className="text-[1.3rem] font-cormorant font-semibold">We&apos;re Here to Help</h3>
                 </div>
                 <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">

@@ -16,21 +16,21 @@ const About = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">
           <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Our Story</p>
-          <h1 className="text-[2.2rem] mb-2">About Extreme Beauty</h1>
+          <h1 className="text-[2.2rem] mb-2 font-cormorant font-semibold text-white">About Extreme Beauty</h1>
           <p className="text-gray-400 text-[0.88rem]">Dedicated to bringing out your natural beauty with precision and artistry</p>
         </div>
       </div>
 
       <section className="py-16 px-5 bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-[1200px] mx-auto px-5 items-center">
-          <div className="w-full h-[400px] overflow-hidden rounded-2xl relative group">
+          <div className="w-full h-[250px] sm:h-[350px] lg:h-[400px] overflow-hidden rounded-2xl relative group">
             <div className="absolute top-3 left-3 right-[-15px] bottom-[-15px] border-2 border-gold/60 rounded-2xl z-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:top-1.5 group-hover:left-1.5 group-hover:border-gold" />
             <img src="/images/IMG-20260826-WA0022.jpg" alt="Extreme Beauty Studio" className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 relative z-10 rounded-2xl shadow-lg" />
           </div>
 
           <div>
             <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Who We Are</p>
-            <h2 className="text-[1.8rem] text-black mb-4">Kigali&apos;s Premier Lash & Brow Studio</h2>
+            <h2 className="text-[1.8rem] text-black mb-4 font-cormorant font-semibold">Kigali&apos;s Premier Lash & Brow Studio</h2>
             <p className="text-gray-500 mb-3 leading-[1.7] text-[0.88rem]">
               Extreme Beauty Lashes & Brows is a professional beauty studio located in the heart of Nyarutarama, Kigali. We specialize in creating stunning, natural-looking eyebrows and eyelash enhancements.
             </p>
@@ -55,7 +55,7 @@ const About = () => {
 
       <section className="py-12 px-5 bg-gray-950 text-white text-center">
         <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Visit Us</p>
-        <h2 className="text-[2rem] mb-3 text-white">Experience the Difference</h2>
+        <h2 className="text-[2rem] mb-3 text-white font-cormorant font-semibold">Experience the Difference</h2>
         <p className="text-gray-400 max-w-[500px] mx-auto text-[0.88rem] mb-6 leading-relaxed">
           Located in the heart of Nyarutarama, our studio welcomes you to experience world-class beauty services.
         </p>
