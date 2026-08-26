@@ -1,0 +1,9 @@
+node_modules/
+.env
+.DS_Store
+client/build/
+frontend/build/
+backend/node_modules/
+server/uploads/*
+!server/uploads/.gitkeep
+.opencode/

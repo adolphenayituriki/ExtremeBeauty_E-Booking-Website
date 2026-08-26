@@ -1,0 +1,15 @@
+{
+  "name": "extreme-beauty-website",
+  "version": "1.0.0",
+  "description": "Extreme Beauty Lashes & Brows Website",
+  "scripts": {
+    "server": "cd backend && node server.js",
+    "client": "cd frontend && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "setup": "npm run install-all"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
