@@ -41,12 +41,11 @@ const trackByPhone = async (req, res) => {
 
 const createBooking = async (req, res) => {
   try {
-    const crypto = require('crypto');
     const booking = new Booking(req.body);
-    booking.bookingRef = 'EB-' + crypto.randomBytes(3).toString('hex').toUpperCase();
+    booking.bookingRef = 'EB-' + require('crypto').randomBytes(3).toString('hex').toUpperCase();
     booking.status = 'approved';
-    await booking.save();
-    res.status(201).json(booking);
+    const saved = await booking.save();
+    res.status(201).json(saved.toObject());
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

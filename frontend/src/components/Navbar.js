@@ -10,7 +10,7 @@ const allServices = [
 
 const categoryMap = {
   'All Services': null,
-  'Browse Services': 'Eyelash Extensions',
+  'Lashes': 'Lashes',
   'Brows': 'Brows',
   'Lash Lift': 'Lash Lift',
   'Retouch': 'Eyebrows Retouch',
@@ -19,7 +19,7 @@ const categoryMap = {
 const categoryLinks = [
   { path: '/', label: 'Home' },
   { path: '/services', label: 'All Services', category: 'All Services' },
-  { path: '/services', label: 'Browse Services', category: 'Browse Services' },
+  { path: '/services', label: 'Lashes', category: 'Lashes' },
   { path: '/services', label: 'Brows', category: 'Brows' },
   { path: '/services', label: 'Lash Lift', category: 'Lash Lift' },
   { path: '/about', label: 'About Us' },
