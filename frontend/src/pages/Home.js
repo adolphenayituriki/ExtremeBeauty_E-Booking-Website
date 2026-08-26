@@ -192,23 +192,25 @@ const Home = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(184,149,106,0.04)_0%,transparent_60%)]" />
         <div className="relative">
           <FadeIn>
-            <div className="text-center mb-12">
+            <div className="text-center mb-8">
               <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">What We Offer</p>
               <h2 className="text-[2rem] mb-2 font-cormorant font-semibold">Our Categories</h2>
+              <p className="text-gray-500 text-[0.85rem]">Discover our professional beauty services</p>
             </div>
           </FadeIn>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1200px] mx-auto px-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[1200px] mx-auto px-5">
             {categories.map((cat, index) => (
               <FadeIn key={index} delay={index * 0.1}>
-                <Link to={`/services?category=${cat.category}`} className="relative h-[180px] overflow-hidden cursor-pointer rounded-2xl group glass-card">
-                  <div className="w-full h-full overflow-hidden">
-                    <img src={cat.image} alt={cat.name} loading="lazy" className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[30%] group-hover:grayscale-0 group-hover:scale-[1.12]" />
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <div className="text-gold mb-2">{cat.icon}</div>
-                    <h3 className="text-[1.15rem] text-white mb-1 group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
-                    <p className="text-[0.68rem] uppercase tracking-[2px] text-gray-300">{cat.description}</p>
+                <Link to={`/services?category=${cat.category}`} className="group block relative h-[260px] overflow-hidden rounded-2xl">
+                  <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+                  <div className="absolute inset-0 flex flex-col justify-end p-5">
+                    <div className="text-gold mb-2 opacity-80 group-hover:opacity-100 transition-opacity">{cat.icon}</div>
+                    <h3 className="text-[1.1rem] text-white font-semibold mb-0.5 group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
+                    <p className="text-[0.7rem] text-gray-300 mb-3">{cat.description}</p>
+                    <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[2px] text-gold/80 group-hover:text-gold transition-colors">
+                      Explore <FiArrowRight size={11} />
+                    </span>
                   </div>
                 </Link>
               </FadeIn>
