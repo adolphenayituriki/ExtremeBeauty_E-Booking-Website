@@ -352,18 +352,38 @@ const Home = () => {
       </section>
 
       {/* ===== 6. CTA ===== */}
-      <section className="py-20 px-5 bg-white relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.05)_0%,transparent_70%)]" />
-        <div className="text-center max-w-[700px] mx-auto relative">
-          <div className="w-16 h-16 glass rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
-            <FiCalendar size={24} className="text-gold" />
+      <section className="py-24 px-5 bg-gray-950 text-white relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/[0.06] rounded-full blur-[120px]" />
+          <div className="absolute top-0 left-1/4 w-[200px] h-[200px] bg-gold/[0.03] rounded-full blur-[80px]" />
+          <div className="absolute bottom-0 right-1/4 w-[200px] h-[200px] bg-gold/[0.03] rounded-full blur-[80px]" />
+        </div>
+        <div className="text-center max-w-[650px] mx-auto relative z-10">
+          <div className="inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-5 py-2 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+            <span className="text-[0.7rem] uppercase tracking-[3px] text-gold font-medium">Limited Availability This Week</span>
           </div>
-          <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Ready For Your Transformation?</p>
-          <h2 className="text-[2rem] mb-3 font-cormorant font-semibold">Book Your Appointment Today</h2>
-          <p className="text-gray-500 max-w-[500px] mx-auto text-[0.88rem] mb-8 leading-relaxed">
-            Don't wait to look and feel your best. Schedule your appointment now.
+          <h2 className="text-[2.2rem] sm:text-[2.8rem] leading-[1.1] mb-4 font-cormorant font-semibold text-white">
+            Ready For Your<br />Transformation?
+          </h2>
+          <p className="text-gray-400 max-w-[440px] mx-auto text-[0.9rem] mb-10 leading-[1.7]">
+            Don't wait to look and feel your best. Our expert artists are ready to bring out your natural beauty with precision and care.
           </p>
-          <Link to="/booking" className="btn-primary">Book Now</Link>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link to="/booking" className="btn-primary">Book Appointment</Link>
+            <a href="https://wa.me/250785069349" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-9 py-3.5 text-xs font-semibold uppercase tracking-[2px] border-2 border-white/20 rounded-xl cursor-pointer transition-all duration-[400ms] hover:border-gold hover:text-gold hover:bg-gold/5">
+              Chat on WhatsApp
+            </a>
+          </div>
+          <div className="flex items-center justify-center gap-6 mt-10 text-gray-500 text-[0.75rem]">
+            <span className="flex items-center gap-1.5">
+              <FiCalendar size={12} className="text-gold/60" /> Same-day bookings
+            </span>
+            <span className="w-px h-3 bg-white/10" />
+            <span className="flex items-center gap-1.5">
+              <FiCheck size={12} className="text-gold/60" /> Free consultation
+            </span>
+          </div>
         </div>
       </section>
 
