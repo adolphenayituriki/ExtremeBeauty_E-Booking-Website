@@ -240,20 +240,20 @@ const Home = () => {
       {/* ===== 4. GALLERY ===== */}
       <section className="py-20 px-5 bg-white relative">
         <div className="max-w-[1200px] mx-auto relative">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-start">
             {/* Left - Carousel */}
-            <div className="flex flex-col">
+            <div>
               <div className="mb-8">
                 <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Our Work</p>
                 <h2 className="text-[2rem] mb-2 font-cormorant font-semibold">Gallery Showcase</h2>
                 <p className="text-gray-500 text-[0.88rem]">A glimpse into the artistry behind every treatment.</p>
               </div>
-              <div className="relative flex-1" onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)}>
-                <div className="overflow-hidden h-full">
-                  <div className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] h-full" ref={carouselRef} style={{ transform: `translateX(-${carouselIndex * (100 / 3)}%)` }}>
+              <div className="relative" onMouseEnter={() => setCarouselPaused(true)} onMouseLeave={() => setCarouselPaused(false)}>
+                <div className="overflow-hidden">
+                  <div className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" ref={carouselRef} style={{ transform: `translateX(-${carouselIndex * (100 / 3)}%)` }}>
                     {carouselImages.map((img, i) => (
-                      <div key={i} className="flex-shrink-0 w-1/3 px-1.5 h-full">
-                        <div className="h-full overflow-hidden rounded-2xl glass-card hover:transform-none">
+                      <div key={i} className="flex-shrink-0 w-1/3 px-1.5">
+                        <div className="h-[280px] overflow-hidden rounded-2xl glass-card hover:transform-none">
                           <img src={img} alt={`Gallery ${i + 1}`} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
                         </div>
                       </div>
