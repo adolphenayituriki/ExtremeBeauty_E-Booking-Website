@@ -252,7 +252,7 @@ const Home = () => {
                 <div className="overflow-hidden">
                   <div className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]" ref={carouselRef} style={{ transform: `translateX(-${carouselIndex * (100 / 3)}%)` }}>
                     {carouselImages.map((img, i) => (
-                      <div key={i} className="flex-shrink-0 min-w-[50%] sm:min-w-[33.333%] px-1.5">
+                      <div key={i} className="flex-shrink-0 w-1/3 px-1.5">
                         <div className="aspect-[3/4] overflow-hidden rounded-2xl glass-card hover:transform-none">
                           <img src={img} alt={`Gallery ${i + 1}`} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
                         </div>
