@@ -352,36 +352,30 @@ const Home = () => {
       </section>
 
       {/* ===== 6. CTA ===== */}
-      <section className="py-24 px-5 bg-gray-950 text-white relative overflow-hidden">
+      <section className="py-16 px-5 bg-gray-950 text-white relative overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/[0.06] rounded-full blur-[120px]" />
-          <div className="absolute top-0 left-1/4 w-[200px] h-[200px] bg-gold/[0.03] rounded-full blur-[80px]" />
-          <div className="absolute bottom-0 right-1/4 w-[200px] h-[200px] bg-gold/[0.03] rounded-full blur-[80px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gold/[0.06] rounded-full blur-[120px]" />
         </div>
-        <div className="text-center max-w-[650px] mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.08] rounded-full px-5 py-2 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-            <span className="text-[0.7rem] uppercase tracking-[3px] text-gold font-medium">Limited Availability This Week</span>
-          </div>
-          <h2 className="text-[2.2rem] sm:text-[2.8rem] leading-[1.1] mb-4 font-cormorant font-semibold text-white">
-            Ready For Your<br />Transformation?
+        <div className="text-center max-w-[550px] mx-auto relative z-10">
+          <h2 className="text-[1.8rem] sm:text-[2.2rem] leading-[1.1] mb-3 font-cormorant font-semibold text-white">
+            Ready For Your Transformation?
           </h2>
-          <p className="text-gray-400 max-w-[440px] mx-auto text-[0.9rem] mb-10 leading-[1.7]">
-            Don't wait to look and feel your best. Our expert artists are ready to bring out your natural beauty with precision and care.
+          <p className="text-gray-400 max-w-[400px] mx-auto text-[0.85rem] mb-7 leading-[1.6]">
+            Don't wait to look and feel your best. Our expert artists are ready to bring out your natural beauty.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <Link to="/booking" className="btn-primary">Book Appointment</Link>
             <a href="https://wa.me/250785069349" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-9 py-3.5 text-xs font-semibold uppercase tracking-[2px] border-2 border-white/20 rounded-xl cursor-pointer transition-all duration-[400ms] hover:border-gold hover:text-gold hover:bg-gold/5">
               Chat on WhatsApp
             </a>
           </div>
-          <div className="flex items-center justify-center gap-6 mt-10 text-gray-500 text-[0.75rem]">
+          <div className="flex items-center justify-center gap-5 text-gray-500 text-[0.72rem]">
             <span className="flex items-center gap-1.5">
-              <FiCalendar size={12} className="text-gold/60" /> Same-day bookings
+              <FiCalendar size={11} className="text-gold/60" /> Same-day bookings
             </span>
             <span className="w-px h-3 bg-white/10" />
             <span className="flex items-center gap-1.5">
-              <FiCheck size={12} className="text-gold/60" /> Free consultation
+              <FiCheck size={11} className="text-gold/60" /> Free consultation
             </span>
           </div>
         </div>
