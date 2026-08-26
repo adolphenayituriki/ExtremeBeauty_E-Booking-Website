@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FiPhone, FiMail, FiMapPin, FiClock, FiArrowRight, FiSend } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
 async function safePost(url, body) {
   const response = await fetch(url, {

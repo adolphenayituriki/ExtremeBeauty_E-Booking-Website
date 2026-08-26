@@ -5,7 +5,7 @@ import { FiCheckCircle, FiSearch, FiCalendar, FiClock, FiUser, FiPhone, FiMail, 
 import { services, categories, getServiceByName } from '../data/services';
 import Receipt from '../components/Receipt';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
 async function safePost(url, body) {
   const response = await fetch(url, {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiSearch, FiCalendar, FiClock, FiUser, FiCheckCircle, FiAlertCircle, FiLoader, FiPhone, FiHash } from 'react-icons/fi';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
 const statusConfig = {
   pending: { label: 'Pending', color: 'bg-amber-100 text-amber-700 border-amber-200' },
