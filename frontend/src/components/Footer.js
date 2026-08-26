@@ -28,10 +28,10 @@ const Footer = () => {
 
       {/* Main content */}
       <div className="max-w-[1200px] mx-auto px-6 lg:px-10 pt-10 pb-6 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr] gap-8 lg:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr] gap-8 lg:gap-6">
 
           {/* Brand */}
-          <div className="lg:pr-6">
+          <div className="col-span-2 lg:col-span-1 lg:pr-6">
             <Link to="/" className="inline-block mb-4">
               <img src="/logo/Logo-White-BG.jpg" alt="Extreme Beauty" className="h-[40px] w-auto object-contain hover:scale-105 transition-transform duration-300" />
             </Link>
@@ -100,7 +100,7 @@ const Footer = () => {
           </div>
 
           {/* Contact */}
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <h4 className="text-[0.65rem] font-semibold uppercase tracking-[2px] text-white mb-4">Contact</h4>
             <ul className="space-y-3">
               {[

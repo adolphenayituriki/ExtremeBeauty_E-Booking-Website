@@ -91,8 +91,8 @@ const Booking = () => {
     return today.toISOString().split('T')[0];
   };
 
-  const inputBase = "w-full px-4 py-3.5 bg-white border border-gray-200 text-[0.85rem] text-black outline-none rounded-xl placeholder:text-gray-400 transition-all duration-200 focus:border-gold focus:ring-2 focus:ring-gold/10";
-  const labelBase = "block text-[0.7rem] font-semibold uppercase tracking-[1.5px] text-gray-500 mb-2";
+  const inputBase = "w-full px-4 py-3.5 bg-gray-50 border border-gray-200 text-[0.85rem] text-black outline-none rounded-xl placeholder:text-gray-400 transition-all duration-200 focus:bg-white focus:border-gold focus:ring-2 focus:ring-gold/20";
+  const labelBase = "flex items-center text-[0.7rem] font-semibold uppercase tracking-[1.5px] text-gray-500 mb-2";
 
   if (bookingResult) {
     const dateStr = new Date(bookingResult.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -336,123 +336,147 @@ const Booking = () => {
 
           {/* STEP 2: Service Preview + Details */}
           {step === 2 && selectedService && (
-            <div className="animate-fade-in">
-              {/* Service Preview Card */}
-              <div className="mb-8 rounded-2xl overflow-hidden border border-gray-200/60 shadow-sm">
-                <div className="relative h-[200px]">
-                  <img src={selectedService.image} alt={selectedService.name} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-black/40 backdrop-blur-sm text-white text-[0.68rem] font-medium px-3 py-1.5 rounded-full">{selectedService.category}</span>
-                  </div>
-                  <div className="absolute bottom-5 left-5 right-5">
-                    <div className="flex items-end justify-between">
-                      <div>
-                        <p className="text-white/70 text-[0.68rem] tracking-[2px] uppercase mb-1">Selected Service</p>
-                        <h3 className="text-white text-[1.3rem] font-cormorant font-semibold">{selectedService.name}</h3>
+            <div className="animate-fade-in grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 items-start">
+
+              {/* ── Left Column: Service Preview + Summary (sticky) ── */}
+              <div className="space-y-5 lg:sticky lg:top-28">
+
+                {/* Service Preview Card */}
+                <div className="rounded-2xl overflow-hidden border border-gray-200/60 shadow-sm">
+                  <div className="relative h-[180px]">
+                    <img src={selectedService.image} alt={selectedService.name} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                    <span className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white text-[0.68rem] font-medium px-3 py-1.5 rounded-full">{selectedService.category}</span>
+                    <div className="absolute bottom-5 left-5 right-5">
+                      <div className="flex items-end justify-between">
+                        <div>
+                          <p className="text-white/70 text-[0.68rem] tracking-[2px] uppercase mb-1">Selected Service</p>
+                          <h3 className="text-white text-[1.3rem] font-cormorant font-semibold">{selectedService.name}</h3>
+                        </div>
+                        <div className="bg-gold text-black text-[0.88rem] font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">{selectedService.priceFormatted}</div>
                       </div>
-                      <div className="bg-gold text-black text-[0.78rem] sm:text-[0.88rem] font-bold px-3 py-1.5 rounded-xl whitespace-nowrap">{selectedService.priceFormatted}</div>
+                    </div>
+                  </div>
+                  <div className="p-5 bg-white">
+                    <p className="text-[0.82rem] text-gray-500 leading-[1.7]">{selectedService.description}</p>
+                    <button onClick={() => setStep(1)} className="mt-3 flex items-center gap-1.5 text-[0.78rem] text-gold font-medium hover:underline cursor-pointer bg-transparent border-none p-0">
+                      <FiArrowLeft size={13} /> Change service
+                    </button>
+                  </div>
+                </div>
+
+                {/* Booking Summary Card */}
+                <div className="rounded-2xl border border-gray-200/60 bg-white p-5 shadow-sm">
+                  <p className="text-[0.68rem] font-semibold uppercase tracking-[1.5px] text-gray-400 mb-4">Booking Summary</p>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[0.82rem] text-gray-500">Service</span>
+                      <span className="text-[0.82rem] font-semibold text-black">{selectedService.name}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[0.82rem] text-gray-500">Price</span>
+                      <span className="text-[0.82rem] font-bold text-gold">{selectedService.priceFormatted}</span>
+                    </div>
+                    <div className="h-px bg-gray-100" />
+                    <div className="flex items-center justify-between">
+                      <span className="text-[0.82rem] text-gray-500">Date</span>
+                      <span className={`text-[0.82rem] font-medium ${formData.date ? 'text-black' : 'text-gray-300'}`}>
+                        {formData.date || 'Not selected'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[0.82rem] text-gray-500">Time</span>
+                      <span className={`text-[0.82rem] font-medium ${formData.time ? 'text-black' : 'text-gray-300'}`}>
+                        {formData.time || 'Not selected'}
+                      </span>
                     </div>
                   </div>
                 </div>
-                <div className="p-5 bg-white">
-                  <p className="text-[0.82rem] text-gray-500 leading-[1.7]">{selectedService.description}</p>
-                  <button onClick={() => setStep(1)} className="mt-3 flex items-center gap-1.5 text-[0.78rem] text-gold font-medium hover:underline cursor-pointer bg-transparent border-none p-0">
-                    <FiArrowLeft size={13} /> Change service
-                  </button>
-                </div>
               </div>
 
-              {/* Details Form */}
-              <div className="text-center mb-6">
-                <h2 className="text-[1.4rem] font-cormorant font-semibold text-black mb-2">Your Details</h2>
-                <p className="text-[0.82rem] text-gray-400">Fill in your information to complete the booking</p>
-              </div>
-
-              <form className="rounded-2xl p-6 md:p-8 border border-gray-200 bg-white" onSubmit={handleSubmit}>
-                {/* Name row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label htmlFor="firstName" className={labelBase}>First Name *</label>
-                    <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} required placeholder="Your first name" className={inputBase} />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className={labelBase}>Last Name *</label>
-                    <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} required placeholder="Your last name" className={inputBase} />
-                  </div>
-                </div>
-
-                {/* Contact row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label htmlFor="email" className={labelBase}>Email *</label>
-                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required placeholder="your@email.com" className={inputBase} />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className={labelBase}>Phone *</label>
-                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required placeholder="+250 7XX XXX XXX" className={inputBase} />
-                  </div>
-                </div>
-
-                {/* Date + Time */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label htmlFor="date" className={labelBase}>Preferred Date *</label>
-                    <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required min={getMinDate()} className={`${inputBase} appearance-none`} />
-                  </div>
-                  <div>
-                    <label htmlFor="time" className={labelBase}>Preferred Time *</label>
-                    <div className="relative">
-                      <select id="time" name="time" value={formData.time} onChange={handleChange} required className={`${inputBase} appearance-none pr-10`}>
-                        <option value="">Select time...</option>
-                        {timeSlots.map((slot) => (
-                          <option key={slot} value={slot}>{slot}</option>
-                        ))}
-                      </select>
-                      <FiChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Notes */}
+              {/* ── Right Column: Form ── */}
+              <div>
                 <div className="mb-6">
-                  <label htmlFor="message" className={labelBase}>Additional Notes</label>
-                  <textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Any special requests or notes..." rows="3" className={`${inputBase} resize-y min-h-[80px]`} />
+                  <h2 className="text-[1.3rem] font-cormorant font-semibold text-black mb-1">Your Details</h2>
+                  <p className="text-[0.82rem] text-gray-400">Fill in your information to complete the booking</p>
                 </div>
 
-                {/* Summary */}
-                <div className="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
-                  <div className="flex items-center gap-3 mb-3">
-                    <img src={selectedService.image} alt="" className="w-12 h-12 rounded-lg object-cover" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-[0.78rem] text-gray-400 mb-0.5">Booking for</p>
-                      <p className="text-[0.88rem] font-semibold text-black truncate">{selectedService.name}</p>
+                <form className="rounded-2xl p-6 md:p-8 border border-gray-200 bg-white" onSubmit={handleSubmit}>
+                  {/* Name row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label htmlFor="firstName" className={labelBase}>
+                        <span className="inline-block w-1 h-1 rounded-full bg-gold mr-1.5" />First Name *
+                      </label>
+                      <input type="text" id="firstName" name="firstName" value={formData.firstName} onChange={handleChange} required placeholder="Your first name" className={inputBase} />
                     </div>
-                    <span className="text-[0.88rem] font-bold text-gold">{selectedService.priceFormatted}</span>
-                  </div>
-                  <div className="h-px bg-gray-200 my-3" />
-                  <div className="grid grid-cols-2 gap-3 text-[0.82rem]">
-                    <div className="flex items-center gap-2">
-                      <FiCalendar size={13} className="text-gray-400" />
-                      <span className="text-black font-medium">{formData.date || 'Select date'}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <FiClock size={13} className="text-gray-400" />
-                      <span className="text-black font-medium">{formData.time || 'Select time'}</span>
+                    <div>
+                      <label htmlFor="lastName" className={labelBase}>
+                        <span className="inline-block w-1 h-1 rounded-full bg-gold mr-1.5" />Last Name *
+                      </label>
+                      <input type="text" id="lastName" name="lastName" value={formData.lastName} onChange={handleChange} required placeholder="Your last name" className={inputBase} />
                     </div>
                   </div>
-                </div>
 
-                {/* Actions */}
-                <div className="flex gap-3">
-                  <button type="button" onClick={() => setStep(1)} className="px-5 py-3.5 border border-gray-200 rounded-xl text-[0.78rem] font-semibold uppercase tracking-[1.5px] text-gray-600 cursor-pointer transition-all duration-300 hover:border-gold hover:text-gold bg-white">
-                    Back
-                  </button>
-                  <button type="submit" className="flex-1 flex items-center justify-center gap-2 bg-black text-white py-3.5 text-[0.78rem] font-semibold uppercase tracking-[2px] rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-gold disabled:opacity-50 disabled:cursor-not-allowed" disabled={submitting}>
-                    {submitting ? 'Confirming...' : <>Confirm Booking <FiArrowRight size={14} /></>}
-                  </button>
-                </div>
-              </form>
+                  {/* Contact row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label htmlFor="email" className={labelBase}>
+                        <span className="inline-block w-1 h-1 rounded-full bg-gold mr-1.5" />Email *
+                      </label>
+                      <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required placeholder="your@email.com" className={inputBase} />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className={labelBase}>
+                        <span className="inline-block w-1 h-1 rounded-full bg-gold mr-1.5" />Phone *
+                      </label>
+                      <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange} required placeholder="+250 7XX XXX XXX" className={inputBase} />
+                    </div>
+                  </div>
+
+                  {/* Date + Time */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label htmlFor="date" className={labelBase}>
+                        <span className="inline-block w-1 h-1 rounded-full bg-gold mr-1.5" />Preferred Date *
+                      </label>
+                      <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} required min={getMinDate()} className={`${inputBase} appearance-none`} />
+                    </div>
+                    <div>
+                      <label htmlFor="time" className={labelBase}>
+                        <span className="inline-block w-1 h-1 rounded-full bg-gold mr-1.5" />Preferred Time *
+                      </label>
+                      <div className="relative">
+                        <select id="time" name="time" value={formData.time} onChange={handleChange} required className={`${inputBase} appearance-none pr-10`}>
+                          <option value="">Select time...</option>
+                          {timeSlots.map((slot) => (
+                            <option key={slot} value={slot}>{slot}</option>
+                          ))}
+                        </select>
+                        <FiChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Notes */}
+                  <div className="mb-6">
+                    <label htmlFor="message" className={labelBase}>
+                      <span className="inline-block w-1 h-1 rounded-full bg-gold mr-1.5" />Additional Notes
+                    </label>
+                    <textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Any special requests or notes..." rows="3" className={`${inputBase} resize-y min-h-[80px]`} />
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3">
+                    <button type="button" onClick={() => setStep(1)} className="px-5 py-3.5 border border-gray-200 rounded-xl text-[0.78rem] font-semibold uppercase tracking-[1.5px] text-gray-600 cursor-pointer transition-all duration-300 hover:border-gold hover:text-gold bg-white">
+                      Back
+                    </button>
+                    <button type="submit" className="flex-1 flex items-center justify-center gap-2 bg-black text-white py-3.5 text-[0.78rem] font-semibold uppercase tracking-[2px] rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-gold disabled:opacity-50 disabled:cursor-not-allowed" disabled={submitting}>
+                      {submitting ? 'Confirming...' : <>Confirm Booking <FiArrowRight size={14} /></>}
+                    </button>
+                  </div>
+                </form>
+              </div>
             </div>
           )}
 
