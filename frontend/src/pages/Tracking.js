@@ -14,18 +14,23 @@ const statusConfig = {
 };
 
 async function safeFetch(url) {
+  console.log('[Tracking] API_URL:', API_URL);
+  console.log('[Tracking] Request URL:', url);
   const response = await fetch(url);
+  console.log('[Tracking] Response status:', response.status);
+  console.log('[Tracking] Content-Type:', response.headers.get('content-type'));
   const contentType = response.headers.get('content-type');
   if (!contentType || !contentType.includes('application/json')) {
     const text = await response.text();
-    console.error('Expected JSON but received:', text.substring(0, 200));
+    console.error('[Tracking] Non-JSON response (first 300 chars):', text.substring(0, 300));
     throw new Error('The tracking service is currently unavailable. Please try again later.');
   }
-  const data = await response.json();
+  const json = await response.json();
+  console.log('[Tracking] Response body:', json);
   if (!response.ok) {
-    throw new Error(data.message || 'Unable to track this booking.');
+    throw new Error(json.message || 'Unable to track this booking.');
   }
-  return data;
+  return json.data !== undefined ? json.data : json;
 }
 
 const Tracking = () => {
@@ -36,6 +41,8 @@ const Tracking = () => {
   const [singleBooking, setSingleBooking] = useState(null);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+
+  console.log('[Tracking] API_URL:', API_URL);
 
   const handlePhoneSearch = async (e) => {
     e.preventDefault();

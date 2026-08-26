@@ -15,11 +15,11 @@ async function safePost(url, body) {
     console.error('Expected JSON but received non-JSON response');
     throw new Error('The server is currently unavailable. Please try again later.');
   }
-  const data = await response.json();
+  const json = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || 'Request failed.');
+    throw new Error(json.message || 'Request failed.');
   }
-  return data;
+  return json.data !== undefined ? json.data : json;
 }
 
 const Contact = () => {
