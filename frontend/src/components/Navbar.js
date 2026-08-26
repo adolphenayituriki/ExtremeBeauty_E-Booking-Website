@@ -235,9 +235,9 @@ const Navbar = () => {
 
           {/* Mobile: search + menu */}
           <div className="flex lg:hidden items-center gap-2">
-            <Link to="/services" className="w-11 h-11 flex items-center justify-center text-gray-600 hover:text-black transition-colors">
+            <button onClick={() => { setMobileOpen(true); setTimeout(() => { const input = document.querySelector('.mobile-search-input'); if (input) input.focus(); }, 300); }} className="w-11 h-11 flex items-center justify-center text-gray-600 hover:text-black transition-colors bg-transparent border-none cursor-pointer p-0">
               <FiSearch size={20} />
-            </Link>
+            </button>
             <Link to="/booking" className="bg-black text-white !px-4 !py-2 text-[0.75rem] font-semibold uppercase tracking-wider rounded-lg">
               Book
             </Link>
@@ -279,7 +279,7 @@ const Navbar = () => {
         <div className={`absolute top-0 right-0 h-full w-full max-w-sm glass shadow-[-10px_0_40px_rgba(0,0,0,0.1)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="px-5 pt-20 pb-3">
             <form onSubmit={handleSearch} className="flex rounded-xl border border-gray-200/60 overflow-hidden bg-white/50">
-              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search services..." className="flex-1 px-4 py-2.5 text-[0.85rem] outline-none bg-transparent text-black placeholder:text-gray-400" />
+              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search services..." className="mobile-search-input flex-1 px-4 py-2.5 text-[0.85rem] outline-none bg-transparent text-black placeholder:text-gray-400" />
               <button type="submit" className="bg-gold text-white px-4"><FiSearch size={16} /></button>
             </form>
           </div>

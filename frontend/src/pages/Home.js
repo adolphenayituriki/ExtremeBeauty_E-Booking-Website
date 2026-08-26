@@ -200,12 +200,12 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1200px] mx-auto px-5">
             {categories.map((cat, index) => (
               <FadeIn key={index} delay={index * 0.1}>
-                <Link to={`/services?category=${cat.category}`} className="relative h-[200px] overflow-hidden cursor-pointer rounded-2xl group glass-card">
+                <Link to={`/services?category=${cat.category}`} className="relative h-[180px] overflow-hidden cursor-pointer rounded-2xl group glass-card">
                   <div className="w-full h-full overflow-hidden">
                     <img src={cat.image} alt={cat.name} loading="lazy" className="w-full h-full object-cover transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[30%] group-hover:grayscale-0 group-hover:scale-[1.12]" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
                     <div className="text-gold mb-2">{cat.icon}</div>
                     <h3 className="text-[1.15rem] text-white mb-1 group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
                     <p className="text-[0.68rem] uppercase tracking-[2px] text-gray-300">{cat.description}</p>
