@@ -11,6 +11,7 @@ import About from './pages/About';
 import Booking from './pages/Booking';
 import Contact from './pages/Contact';
 import Tracking from './pages/Tracking';
+import Teaching from './pages/Teaching';
 import { AuthProvider, useAuth } from './context/AdminAuthContext';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminLayout from './pages/admin/AdminLayout';
@@ -93,6 +94,7 @@ function App() {
               <Route path="/booking" element={<Booking />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/tracking" element={<Tracking />} />
+              <Route path="/teaching" element={<Teaching />} />
 
               {/* Admin routes */}
               <Route path="/admin/login" element={<AdminLogin />} />

@@ -298,41 +298,41 @@ const Home = () => {
       </section>
 
       {/* ===== 4. TEACHING ===== */}
-      <section className="py-20 px-5 bg-gray-950 text-white relative overflow-hidden">
+      <section className="py-14 px-5 bg-gray-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(184,149,106,0.06)_0%,transparent_60%)]" />
         <div className="absolute top-0 left-1/4 w-[400px] h-[300px] bg-gold/[0.04] rounded-full blur-[120px]" />
         <div className="max-w-[1200px] mx-auto relative">
           <FadeIn>
-            <div className="text-center mb-4">
-              <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Learn The Craft</p>
-              <h2 className="text-[2rem] mb-2 text-white font-cormorant font-semibold">How We Create Your Look</h2>
-              <p className="text-gray-400 text-[0.88rem] max-w-[520px] mx-auto">Behind every beautiful result is a careful, professional process. Here's how we train, prepare and perfect each treatment.</p>
+            <div className="text-center mb-8">
+              <p className="text-[0.65rem] tracking-[4px] uppercase text-gold mb-1.5 font-medium">Learn The Craft</p>
+              <h2 className="text-[1.7rem] mb-1.5 text-white font-cormorant font-semibold">How We Create Your Look</h2>
+              <p className="text-gray-400 text-[0.82rem] max-w-[520px] mx-auto">Here's how we train, prepare and perfect each treatment.</p>
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
-            {teachingSteps.map((step, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
+            {teachingSteps.slice(0, 3).map((step, index) => (
               <FadeIn key={index} delay={index * 0.08}>
-                <div className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] hover:border-gold/40 transition-all duration-500">
-                  <div className="relative h-[180px] overflow-hidden">
+                <div className="group relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] hover:border-gold/40 transition-all duration-500">
+                  <div className="relative h-28 sm:h-32 lg:h-36 overflow-hidden">
                     <img src={`/images/${step.image}`} alt={step.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent" />
-                    <span className="absolute top-3 right-3 w-9 h-9 rounded-full bg-gold text-black flex items-center justify-center text-[0.95rem] font-bold shadow-lg">
+                    <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-gold text-black flex items-center justify-center text-[0.75rem] font-bold shadow-lg">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
-                  <div className="p-5">
-                    <h3 className="text-[1.05rem] mb-1.5 text-white group-hover:text-gold transition-colors duration-300">{step.title}</h3>
-                    <p className="text-gray-400 text-[0.8rem] leading-[1.6]">{step.description}</p>
+                  <div className="p-3">
+                    <h3 className="text-[0.85rem] mb-0.5 text-white group-hover:text-gold transition-colors duration-300">{step.title}</h3>
+                    <p className="text-gray-400 text-[0.7rem] leading-[1.5]">{step.description}</p>
                   </div>
                 </div>
               </FadeIn>
             ))}
           </div>
 
-          <div className="text-center mt-10">
-            <Link to="/booking" className="inline-flex items-center gap-2 bg-gold text-black px-8 py-3 text-[0.75rem] font-semibold uppercase tracking-[2px] rounded-xl transition-all duration-300 hover:bg-gold-light hover:shadow-[0_8px_30px_rgba(184,149,106,0.3)]">
-              Experience It Yourself <FiArrowRight size={14} />
+          <div className="text-center mt-8">
+            <Link to="/teaching" className="inline-flex items-center gap-2 bg-gold text-black px-7 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[2px] rounded-lg transition-all duration-300 hover:bg-gold-light hover:shadow-[0_8px_30px_rgba(184,149,106,0.3)]">
+              See The Full Process <FiArrowRight size={13} />
             </Link>
           </div>
         </div>

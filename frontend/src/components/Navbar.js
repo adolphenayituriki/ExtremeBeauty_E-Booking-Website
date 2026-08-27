@@ -24,6 +24,7 @@ const categoryLinks = [
   { path: '/services', label: 'Brows', category: 'Brows' },
   { path: '/services', label: 'Lash Lift', category: 'Lash Lift' },
   { path: '/about', label: 'About Us' },
+  { path: '/teaching', label: 'Teaching' },
   { path: '/contact', label: 'Contact' },
 ];
 

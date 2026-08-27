@@ -107,6 +107,15 @@ export const services = [
     description:
       "Touch-up and refresh service for previously done microblading, microshading, or combination brows.",
   },
+  {
+    name: "Training Session",
+    price: 0,
+    priceFormatted: "On Request",
+    image: "/images/Teaching-1.jpeg",
+    category: "Training",
+    description:
+      "Learn the craft of lashes and brows. Certified training, hands-on practice on live models, and essential safety guidance included.",
+  },
 ];
 
 export const categories = [
@@ -114,6 +123,7 @@ export const categories = [
   { key: "Lash Lift", label: "Lash Lift & Perm" },
   { key: "Lashes", label: "Eyelash Extensions" },
   { key: "Retouch", label: "Touch-Ups & Retouch" },
+  { key: "Training", label: "Training Sessions" },
 ];
 
 export const getServiceByName = (name) => services.find((s) => s.name === name);
