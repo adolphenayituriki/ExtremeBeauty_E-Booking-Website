@@ -15,6 +15,7 @@ const services = [
   { name: 'Wispy Sets', price: 50000, priceFormatted: 'RWF 45,000 - 60,000', image: '/images/IMG-20260826-WA0013.jpg', category: 'Lashes', description: 'A trendy, textured style with varying lengths creating a doll-like effect.', featured: false, active: true, order: 9 },
   { name: 'Lash Removal', price: 5000, priceFormatted: 'RWF 5,000', image: '/images/IMG-20260826-WA0015.jpg', category: 'Lashes', description: 'Professional and safe removal of eyelash extensions protecting your natural lashes.', featured: false, active: true, order: 10 },
   { name: 'Eyebrows Retouch', price: 60000, priceFormatted: 'RWF 60,000', image: '/images/IMG-20260826-WA0016.jpg', category: 'Retouch', description: 'Touch-up and refresh service for previously done microblading, microshading, or combination brows.', featured: false, active: true, order: 11 },
+  { name: 'Training Session', price: 0, priceFormatted: 'On Request', image: '/images/Teaching-1.jpeg', category: 'Training', description: 'Learn the craft of lashes and brows with certified training, hands-on practice on live models, and essential safety guidance.', featured: false, active: true, order: 12 },
 ];
 
 const run = async () => {

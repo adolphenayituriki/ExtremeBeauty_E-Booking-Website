@@ -10,7 +10,7 @@ import { DEFAULT_CONTENT, DEFAULT_SITE } from '../../utils/content';
 
 const defaultSite = DEFAULT_SITE;
 
-const categoryOptions = ['Brows', 'Lash Lift', 'Lashes', 'Retouch'];
+const categoryOptions = ['Brows', 'Lash Lift', 'Lashes', 'Retouch', 'Training'];
 const featuredCategoryOptions = ['BROWS', 'LASHES', 'OTHER'];
 
 const inputBase =

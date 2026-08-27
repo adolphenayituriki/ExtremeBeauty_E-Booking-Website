@@ -7,7 +7,7 @@ import {
 import { adminFetch, getToken } from '../../utils/adminApi';
 import API_URL from '../../utils/adminApi';
 
-const categoryOptions = ['Brows', 'Lash Lift', 'Lashes', 'Retouch'];
+const categoryOptions = ['Brows', 'Lash Lift', 'Lashes', 'Retouch', 'Training'];
 
 const emptyForm = {
   name: '', price: '', priceFormatted: '', image: '', category: 'Brows',
