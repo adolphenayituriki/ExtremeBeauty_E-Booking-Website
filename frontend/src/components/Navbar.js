@@ -285,6 +285,13 @@ const Navbar = () => {
       <div className={`fixed inset-0 z-[55] lg:hidden transition-all duration-500 ${mobileOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         <div className={`absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-500 ${mobileOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setMobileOpen(false)} />
         <div className={`absolute top-0 right-0 h-full w-full max-w-sm glass shadow-[-10px_0_40px_rgba(0,0,0,0.1)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <button
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+            className="absolute top-4 right-4 p-2.5 rounded-xl bg-white/80 hover:bg-gold hover:text-white text-black border-none cursor-pointer transition-all duration-300 z-10 shadow-sm"
+          >
+            <FiX size={22} />
+          </button>
           <div className="px-5 pt-20 pb-3">
             <form onSubmit={handleSearch} className="flex rounded-xl border border-gray-200/60 overflow-hidden bg-white/50">
               <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search services..." className="mobile-search-input flex-1 px-4 py-2.5 text-[0.85rem] outline-none bg-transparent text-black placeholder:text-gray-400" />
