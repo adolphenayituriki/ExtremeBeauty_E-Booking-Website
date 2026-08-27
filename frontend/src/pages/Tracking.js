@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FiSearch, FiCalendar, FiClock, FiUser, FiCheckCircle, FiAlertCircle, FiLoader, FiPhone, FiHash } from 'react-icons/fi';
+import {
+  FiSearch, FiCalendar, FiClock, FiUser, FiCheckCircle, FiAlertCircle, FiLoader,
+  FiPhone, FiHash, FiLock, FiArrowRight, FiEye, FiEyeOff, FiArrowLeft, FiShield, FiX, FiChevronRight,
+} from 'react-icons/fi';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
+
+const CONTACTS = [
+  { label: 'Call us anytime', number: '+250 785 069 349', href: 'tel:+250785069349' },
+  { label: 'WhatsApp available', number: '+250 787 035 643', href: 'https://wa.me/250787035643' },
+];
 
 const statusConfig = {
   pending: { label: 'Pending', color: 'bg-amber-100 text-amber-700 border-amber-200' },
@@ -13,61 +21,107 @@ const statusConfig = {
   completed: { label: 'Completed', color: 'bg-indigo-100 text-indigo-700 border-indigo-200' },
 };
 
-async function safeFetch(url) {
-  console.log('[Tracking] API_URL:', API_URL);
-  console.log('[Tracking] Request URL:', url);
-  const response = await fetch(url);
-  console.log('[Tracking] Response status:', response.status);
-  console.log('[Tracking] Content-Type:', response.headers.get('content-type'));
+async function safeFetch(url, options = {}) {
+  const response = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+    body: options.body ? JSON.stringify(options.body) : undefined,
+  });
   const contentType = response.headers.get('content-type');
   if (!contentType || !contentType.includes('application/json')) {
-    const text = await response.text();
-    console.error('[Tracking] Non-JSON response (first 300 chars):', text.substring(0, 300));
-    throw new Error('The tracking service is currently unavailable. Please try again later.');
+    throw new Error('The tracking service could not complete your request. Please check your password and try again, or contact us for help.');
   }
   const json = await response.json();
-  console.log('[Tracking] Response body:', json);
   if (!response.ok) {
-    throw new Error(json.message || 'Unable to track this booking.');
+    const e = new Error(json.message || 'Unable to track this booking.');
+    e.status = response.status;
+    throw e;
   }
   return json.data !== undefined ? json.data : json;
 }
 
 const Tracking = () => {
-  const [activeTab, setActiveTab] = useState('phone');
+  const [activeTab, setActiveTab] = useState('ref');
   const [phone, setPhone] = useState('');
   const [refCode, setRefCode] = useState('');
-  const [bookings, setBookings] = useState([]);
-  const [singleBooking, setSingleBooking] = useState(null);
+  const [pin, setPin] = useState('');
+  const [showPin, setShowPin] = useState(false);
+  const [showForgot, setShowForgot] = useState(false);
+
+  // stage: 'input' | 'found' | 'verified'
+  const [stage, setStage] = useState('input');
+  const [foundInfo, setFoundInfo] = useState(null); // { count } for phone, { ref } for ref
+  const [verifiedBooking, setVerifiedBooking] = useState(null);
+  const [verifiedBookings, setVerifiedBookings] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searched, setSearched] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [verifying, setVerifying] = useState(false);
 
-  console.log('[Tracking] API_URL:', API_URL);
-
-  const handlePhoneSearch = async (e) => {
-    e.preventDefault();
-    const cleanPhone = phone.replace(/\s/g, '');
-    if (!cleanPhone) { toast.warning('Please enter your phone number'); return; }
-    setLoading(true); setBookings([]); setSingleBooking(null);
-    try {
-      const data = await safeFetch(`${API_URL}/api/bookings/track/phone/${encodeURIComponent(cleanPhone)}`);
-      setBookings(data); setSearched(true);
-      toast.success(`Found ${data.length} booking${data.length > 1 ? 's' : ''}`);
-    } catch (error) {
-      setSearched(true); toast.error(error.message || 'No bookings found for this number');
-    } finally { setLoading(false); }
+  const resetState = () => {
+    setStage('input'); setFoundInfo(null); setVerifiedBooking(null);
+    setVerifiedBookings([]); setErrorMsg(''); setPin(''); setShowForgot(false);
   };
 
-  const handleRefSearch = async (e) => {
+  const switchTab = (tab) => {
+    setActiveTab(tab); resetState();
+  };
+
+  const handleLookup = async (e) => {
     e.preventDefault();
-    if (!refCode.trim()) { toast.warning('Please enter your booking reference'); return; }
-    setLoading(true); setSingleBooking(null); setBookings([]);
+    setErrorMsg(''); setVerifiedBooking(null); setVerifiedBookings([]);
+    if (activeTab === 'ref') {
+      if (!refCode.trim()) { toast.warning('Please enter your booking reference'); return; }
+      setLoading(true);
+      try {
+        await safeFetch(`${API_URL}/api/bookings/track/${refCode.trim().toUpperCase()}`);
+        setFoundInfo({ ref: refCode.trim().toUpperCase() });
+        setStage('found');
+      } catch (error) {
+        setStage('input'); setErrorMsg(error.message || 'No booking found with this reference.');
+      } finally { setLoading(false); }
+    } else {
+      const cleanPhone = phone.replace(/\s/g, '');
+      if (!cleanPhone) { toast.warning('Please enter your phone number'); return; }
+      setLoading(true);
+      try {
+        const data = await safeFetch(`${API_URL}/api/bookings/track/phone/${encodeURIComponent(cleanPhone)}`);
+        setFoundInfo({ count: data.count });
+        setStage('found');
+      } catch (error) {
+        setStage('input'); setErrorMsg(error.message || 'No bookings found for this number.');
+      } finally { setLoading(false); }
+    }
+  };
+
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    if (!pin.trim()) { toast.warning('Please enter your tracking password'); return; }
+    setVerifying(true); setErrorMsg('');
     try {
-      const data = await safeFetch(`${API_URL}/api/bookings/track/${refCode.trim().toUpperCase()}`);
-      setSingleBooking(data); setSearched(true);
+      if (activeTab === 'ref') {
+        const data = await safeFetch(`${API_URL}/api/bookings/track/verify`, {
+          method: 'POST',
+          body: { ref: refCode.trim().toUpperCase(), trackingPin: pin.trim() },
+        });
+        setVerifiedBooking(data); setStage('verified');
+        toast.success('Booking verified successfully');
+      } else {
+        const cleanPhone = phone.replace(/\s/g, '');
+        const data = await safeFetch(`${API_URL}/api/bookings/track/verify-phone`, {
+          method: 'POST',
+          body: { phone: cleanPhone, trackingPin: pin.trim() },
+        });
+        setVerifiedBookings(data);
+        if (!data.length) {
+          setErrorMsg('No bookings were found with this phone number and password. Please check and try again.');
+        } else {
+          setStage('verified');
+          toast.success(`Verified ${data.length} booking${data.length > 1 ? 's' : ''}`);
+        }
+      }
     } catch (error) {
-      setSearched(true); toast.error(error.message || 'Booking not found');
-    } finally { setLoading(false); }
+      setErrorMsg(error.message || 'Verification failed. Please try again.');
+    } finally { setVerifying(false); }
   };
 
   const renderTimeline = (status) => {
@@ -75,11 +129,11 @@ const Tracking = () => {
     const statusMap = { pending: 0, approved: 1, confirmed: 1, completed: 2, cancelled: -1 };
     const currentIdx = statusMap[status] ?? -1;
     return (
-      <div className="flex items-center justify-between max-w-[360px] mx-auto my-5 px-2 relative">
-        <div className="absolute top-[9px] left-[12%] right-[12%] h-[2px] bg-gray-200" />
+      <div className="flex items-center justify-between max-w-[340px] mx-auto my-5 px-2 relative">
+        <div className="absolute top-[9px] left-[14%] right-[14%] h-[2px] bg-gray-200" />
         {steps.map((step, i) => (
           <div key={step} className="flex flex-col items-center relative z-10 flex-1">
-            <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${i <= currentIdx ? i === currentIdx ? 'bg-gold border-gold scale-125 shadow-[0_0_0_3px_rgba(184,149,106,0.2)]' : 'bg-black border-black' : 'bg-white border-gray-300'}`} />
+            <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${i <= currentIdx ? (i === currentIdx ? 'bg-gold border-gold scale-125 shadow-[0_0_0_3px_rgba(184,149,106,0.2)]' : 'bg-black border-black') : 'bg-white border-gray-300'}`} />
             <p className={`text-[0.65rem] mt-1.5 text-center font-medium capitalize ${i <= currentIdx ? 'text-black' : 'text-gray-400'}`}>{step}</p>
           </div>
         ))}
@@ -93,21 +147,23 @@ const Tracking = () => {
     );
   };
 
-  const renderBookingCard = (b, compact = false) => (
-    <div key={b._id || b.bookingRef} className="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-4 animate-fade-in-up">
-      <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+  const renderBookingCard = (b) => (
+    <div key={b._id || b.bookingRef} className="bg-white border border-gray-200 rounded-2xl overflow-hidden mb-4 animate-fade-in-up shadow-sm">
+      <div className="p-4 flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-black to-gray-900">
         <div>
-          <p className="text-[0.65rem] uppercase tracking-[1.5px] text-gray-400 mb-0.5">Reference</p>
-          <p className="text-[1rem] font-cormorant font-bold text-black">{b.bookingRef}</p>
+          <p className="text-[0.6rem] uppercase tracking-[2px] text-gray-400 mb-0.5">Reference</p>
+          <p className="text-[1.05rem] font-cormorant font-bold text-white tracking-wide">{b.bookingRef}</p>
         </div>
-        <span className={`inline-flex items-center gap-1 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wider rounded-full border ${statusConfig[b.status]?.color || statusConfig.approved.color}`}>
+        <span className={`inline-flex items-center gap-1.5 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-wider rounded-full ${statusConfig[b.status]?.color || statusConfig.approved.color}`}>
           {statusConfig[b.status]?.label || 'Approved'}
         </span>
       </div>
 
-      {renderTimeline(b.status)}
+      <div className="px-4 pt-2">
+        {renderTimeline(b.status)}
+      </div>
 
-      <div className="p-4">
+      <div className="p-4 pt-0">
         <div className="grid grid-cols-2 gap-2.5">
           {[
             { icon: <FiUser size={13} />, label: 'Client', value: `${b.firstName} ${b.lastName}` },
@@ -115,140 +171,223 @@ const Tracking = () => {
             { icon: <FiClock size={13} />, label: 'Time', value: b.time },
             { icon: <FiCheckCircle size={13} />, label: 'Service', value: b.service },
           ].map((item, i) => (
-            <div key={i} className="p-3 bg-gray-50 rounded-xl">
+            <div key={i} className="p-3 bg-gray-50 rounded-xl border border-gray-100">
               <div className="flex items-center gap-1.5 mb-1">
                 <span className="text-gold">{item.icon}</span>
                 <span className="text-[0.6rem] uppercase tracking-[1.5px] text-gray-400 font-medium">{item.label}</span>
               </div>
-              <p className="text-[0.8rem] text-black font-medium">{item.value}</p>
+              <p className="text-[0.8rem] text-black font-medium capitalize-first">{item.value}</p>
             </div>
           ))}
         </div>
-      </div>
 
-      {!compact && (
-        <div className="px-4 pb-4">
-          <div className="flex gap-2">
-            <Link to="/booking" className="flex-1 text-center bg-black text-white py-2.5 text-[0.7rem] font-semibold uppercase tracking-[1.5px] rounded-xl transition-all duration-300 hover:bg-gold no-underline">Book New</Link>
-            <Link to="/contact" className="flex-1 text-center bg-white text-black py-2.5 text-[0.7rem] font-semibold uppercase tracking-[1.5px] border border-gray-200 rounded-xl transition-all duration-300 hover:border-gold hover:text-gold no-underline">Contact Us</Link>
-          </div>
+        <div className="flex gap-2 mt-4">
+          <Link to="/booking" className="flex-1 text-center bg-black text-white py-2.5 text-[0.7rem] font-semibold uppercase tracking-[1.5px] rounded-xl transition-all duration-300 hover:bg-gold no-underline">Book New</Link>
+          <Link to="/contact" className="flex-1 text-center bg-white text-black py-2.5 text-[0.7rem] font-semibold uppercase tracking-[1.5px] border border-gray-200 rounded-xl transition-all duration-300 hover:border-gold hover:text-gold no-underline">Contact Us</Link>
         </div>
-      )}
+      </div>
     </div>
   );
 
+  const renderForgotHelp = () => (
+    <div className="mt-3 rounded-xl border border-gray-200 bg-gray-50 overflow-hidden animate-fade-in-up">
+      <div className="px-4 py-3 border-b border-gray-200 bg-white flex items-center justify-between">
+        <p className="text-[0.68rem] font-semibold uppercase tracking-[1.5px] text-gray-500">Need help with your password?</p>
+        <button type="button" onClick={() => setShowForgot(false)} className="text-gray-400 hover:text-black bg-transparent border-none cursor-pointer" aria-label="Close">
+          <FiX size={14} />
+        </button>
+      </div>
+      <div className="p-2">
+        {CONTACTS.map((c) => (
+          <a key={c.number} href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gold/5 transition-colors duration-150 no-underline">
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-white border border-gray-200 text-gold shrink-0">
+              <FiPhone size={13} />
+            </span>
+            <span className="flex-1 min-w-0">
+              <span className="block text-[0.6rem] uppercase tracking-[1px] text-gray-400">{c.label}</span>
+              <span className="block text-[0.8rem] font-semibold text-black">{c.number}</span>
+            </span>
+            <FiChevronRight size={14} className="text-gray-300 shrink-0" />
+          </a>
+        ))}
+      </div>
+      <p className="px-4 pb-2.5 text-[0.66rem] text-gray-400">Contact us and we'll help verify your booking securely.</p>
+    </div>
+  );
+
+  const inputWrap = "flex items-center bg-white border border-gray-200 rounded-xl overflow-hidden focus-within:border-gold/60 focus-within:ring-2 focus-within:ring-gold/10 transition-all duration-200";
+
   return (
     <>
-      <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
+      <div className="pt-[104px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">
-          <p className="text-[0.75rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Check Status</p>
+          <p className="text-[0.72rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Check Status</p>
           <h1 className="text-[1.75rem] sm:text-[2.2rem] lg:text-[2.5rem] mb-2 font-cormorant font-semibold text-white">Track Your Booking</h1>
-          <p className="text-gray-400 text-[0.88rem]">Find your appointment using phone number or reference</p>
+          <p className="text-gray-400 text-[0.88rem]">Verify securely with your booking reference &amp; tracking password</p>
+          <div className="flex items-center justify-center gap-2 mt-5 text-gray-400 text-[0.72rem]">
+            <FiShield size={14} className="text-gold" />
+            <span>Your details are protected — a password is required to view them.</span>
+          </div>
         </div>
       </div>
 
       <section className="py-10 px-5">
-        <div className="max-w-[520px] mx-auto">
+        <div className="max-w-[540px] mx-auto">
 
           {/* Tabs */}
-          <div className="flex bg-gray-100 rounded-xl p-1 mb-6">
+          <div className="flex bg-gray-100 rounded-xl p-1 mb-5">
             <button
-              onClick={() => { setActiveTab('phone'); setSearched(false); setBookings([]); setSingleBooking(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 text-[0.75rem] font-semibold uppercase tracking-[1.5px] rounded-lg transition-all duration-300 border-none cursor-pointer ${activeTab === 'phone' ? 'bg-black text-white shadow-md' : 'bg-transparent text-gray-500 hover:text-black'}`}
+              onClick={() => switchTab('ref')}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] rounded-lg transition-all duration-300 border-none cursor-pointer ${activeTab === 'ref' ? 'bg-black text-white shadow-md' : 'bg-transparent text-gray-500 hover:text-black'}`}
             >
-              <FiPhone size={14} /> Phone Number
+              <FiHash size={13} /> Booking Ref
             </button>
             <button
-              onClick={() => { setActiveTab('ref'); setSearched(false); setBookings([]); setSingleBooking(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 text-[0.75rem] font-semibold uppercase tracking-[1.5px] rounded-lg transition-all duration-300 border-none cursor-pointer ${activeTab === 'ref' ? 'bg-black text-white shadow-md' : 'bg-transparent text-gray-500 hover:text-black'}`}
+              onClick={() => switchTab('phone')}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] rounded-lg transition-all duration-300 border-none cursor-pointer ${activeTab === 'phone' ? 'bg-black text-white shadow-md' : 'bg-transparent text-gray-500 hover:text-black'}`}
             >
-              <FiHash size={14} /> Booking Ref
+              <FiPhone size={13} /> Phone Number
             </button>
           </div>
 
-          {/* Phone Search */}
-          {activeTab === 'phone' && (
-            <form onSubmit={handlePhoneSearch} className="mb-6 animate-fade-in-up">
-              <p className="text-[0.78rem] text-gray-500 mb-3 text-center">Enter the phone number you used when booking</p>
-              <div className="flex gap-2">
-                <div className="flex items-center flex-1 bg-white border border-gray-200 rounded-xl overflow-hidden">
-                  <FiPhone size={16} className="ml-4 text-gray-400 shrink-0" />
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+250 7XX XXX XXX"
-                    className="flex-1 px-3 py-3.5 border-none font-body text-[0.88rem] bg-transparent text-black outline-none"
-                  />
-                </div>
-                <button type="submit" disabled={loading} className="bg-black text-white px-5 py-3.5 text-[0.75rem] font-semibold uppercase tracking-[1.5px] border-none cursor-pointer transition-all duration-300 hover:bg-gold disabled:bg-gray-300 disabled:cursor-not-allowed rounded-xl flex items-center gap-2 shrink-0">
-                  {loading ? <FiLoader size={14} className="animate-spin" /> : <FiSearch size={14} />}
-                </button>
-              </div>
-            </form>
-          )}
-
-          {/* Reference Search */}
-          {activeTab === 'ref' && (
-            <form onSubmit={handleRefSearch} className="mb-6 animate-fade-in-up">
-              <p className="text-[0.78rem] text-gray-500 mb-3 text-center">Enter your booking reference (e.g. EB-A1B2C3)</p>
-              <div className="flex gap-2">
-                <div className="flex items-center flex-1 bg-white border border-gray-200 rounded-xl overflow-hidden">
-                  <FiHash size={16} className="ml-4 text-gray-400 shrink-0" />
-                  <input
-                    type="text"
-                    value={refCode}
-                    onChange={(e) => setRefCode(e.target.value.toUpperCase())}
-                    placeholder="EB-000000"
-                    className="flex-1 px-3 py-3.5 border-none font-body text-[0.88rem] bg-transparent text-black outline-none uppercase"
-                    maxLength={9}
-                  />
-                </div>
-                <button type="submit" disabled={loading} className="bg-black text-white px-5 py-3.5 text-[0.75rem] font-semibold uppercase tracking-[1.5px] border-none cursor-pointer transition-all duration-300 hover:bg-gold disabled:bg-gray-300 disabled:cursor-not-allowed rounded-xl flex items-center gap-2 shrink-0">
-                  {loading ? <FiLoader size={14} className="animate-spin" /> : <FiSearch size={14} />}
-                </button>
-              </div>
-            </form>
-          )}
-
-          {/* Loading */}
-          {loading && (
-            <div className="text-center py-12">
-              <div className="w-8 h-8 border-2 border-gray-200 border-t-gold rounded-full animate-spin mx-auto mb-3" />
-              <p className="text-gray-500 text-[0.85rem]">Looking up your booking...</p>
-            </div>
-          )}
-
-          {/* Not Found */}
-          {searched && !loading && !bookings.length && !singleBooking && (
-            <div className="text-center py-12 animate-fade-in-up">
-              <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-                <FiAlertCircle size={28} className="text-gray-300" />
-              </div>
-              <h3 className="text-[1.1rem] font-cormorant font-semibold mb-2">No Bookings Found</h3>
-              <p className="text-gray-500 text-[0.82rem] max-w-[300px] mx-auto">
-                We couldn't find any bookings matching your {activeTab === 'phone' ? 'phone number' : 'reference'}. Please check and try again.
+          {/* STEP 1: Lookup */}
+          {stage === 'input' && (
+            <form onSubmit={handleLookup} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm animate-fade-in-up">
+              <p className="text-[0.8rem] text-gray-600 mb-4">
+                {activeTab === 'ref'
+                  ? 'Enter your booking reference to get started.'
+                  : 'Enter the phone number you used when booking.'}
               </p>
+
+              {activeTab === 'ref' ? (
+                <>
+                  <label className="block text-[0.6rem] font-semibold uppercase tracking-[1.5px] text-gray-400 mb-1.5">Booking Reference</label>
+                  <div className={inputWrap}>
+                    <FiHash size={15} className="ml-3.5 text-gray-400 shrink-0" />
+                    <input
+                      type="text"
+                      value={refCode}
+                      onChange={(e) => setRefCode(e.target.value.toUpperCase())}
+                      placeholder="e.g. EB-A1B2C3"
+                      maxLength={9}
+                      className="flex-1 px-3 py-2.5 border-none font-body text-[0.85rem] bg-transparent text-black outline-none uppercase placeholder:normal-case"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <label className="block text-[0.6rem] font-semibold uppercase tracking-[1.5px] text-gray-400 mb-1.5">Phone Number</label>
+                  <div className={inputWrap}>
+                    <FiPhone size={15} className="ml-3.5 text-gray-400 shrink-0" />
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="+250 7XX XXX XXX"
+                      className="flex-1 px-3 py-2.5 border-none font-body text-[0.85rem] bg-transparent text-black outline-none"
+                    />
+                  </div>
+                </>
+              )}
+
+              <button type="submit" disabled={loading} className="w-full mt-3.5 flex items-center justify-center gap-2 bg-black text-white py-2.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] rounded-lg border-none cursor-pointer transition-all duration-300 hover:bg-gold disabled:bg-gray-300 disabled:cursor-not-allowed">
+                {loading ? <FiLoader size={13} className="animate-spin" /> : <FiSearch size={13} />}
+                {loading ? 'Checking...' : 'Find Booking'}
+              </button>
+
+              {errorMsg && (
+                <div className="mt-3.5 flex items-start gap-2.5 p-3 rounded-lg bg-red-50 border border-red-100 animate-fade-in-up">
+                  <FiAlertCircle size={15} className="text-red-500 shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[0.78rem] text-red-600 font-medium">{errorMsg}</p>
+                    <p className="text-[0.7rem] text-gray-500 mt-2 flex items-center gap-1.5"><FiPhone size={11} className="text-gold" /> Need help? <span className="text-gray-400">Call</span> <a href={CONTACTS[0].href} className="text-gold font-medium hover:underline">{CONTACTS[0].number}</a> <span className="text-gray-300">or</span> <a href={CONTACTS[1].href} target="_blank" rel="noopener noreferrer" className="text-gold font-medium hover:underline">WhatsApp</a></p>
+                  </div>
+                </div>
+              )}
+            </form>
+          )}
+
+          {/* STEP 2: PIN prompt */}
+          {stage === 'found' && (
+            <div className="animate-fade-in-up">
+              <button onClick={resetState} className="flex items-center gap-1.5 text-[0.72rem] text-gray-500 hover:text-gold bg-transparent border-none cursor-pointer mb-3.5">
+                <FiArrowLeft size={13} /> Back
+              </button>
+
+              <div className="bg-white border border-gray-200 rounded-2xl p-5 md:p-6 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-black">
+                    <FiLock size={15} className="text-gold" />
+                  </div>
+                  <div>
+                    <h3 className="text-[0.95rem] font-cormorant font-semibold leading-tight">Enter Tracking Password</h3>
+                    <p className="text-[0.72rem] text-gray-500 mt-0.5">
+                      {activeTab === 'ref'
+                        ? <>Booking <span className="font-semibold text-black">{foundInfo?.ref}</span> found</>
+                        : <>{foundInfo?.count} booking{foundInfo?.count > 1 ? 's' : ''} found for this number</>}
+                    </p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleVerify}>
+                  <label className="block text-[0.6rem] font-semibold uppercase tracking-[1.5px] text-gray-400 mb-1.5">Tracking Password</label>
+                  <div className={inputWrap}>
+                    <FiLock size={15} className="ml-3.5 text-gray-400 shrink-0" />
+                    <input
+                      type={showPin ? 'text' : 'password'}
+                      value={pin}
+                      onChange={(e) => setPin(e.target.value)}
+                      placeholder="Enter your password"
+                      className="flex-1 px-3 py-2.5 border-none font-body text-[0.85rem] bg-transparent text-black outline-none"
+                      autoFocus
+                    />
+                    <button type="button" onClick={() => setShowPin((s) => !s)} className="px-3 text-gray-400 hover:text-black bg-transparent border-none cursor-pointer shrink-0" aria-label="Toggle password visibility">
+                      {showPin ? <FiEyeOff size={15} /> : <FiEye size={15} />}
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-2 mb-0">
+                    <button type="button" onClick={() => setShowForgot(true)} className={`text-[0.7rem] text-gold hover:underline bg-transparent border-none cursor-pointer ${showForgot ? 'hidden' : ''}`}>
+                      Forgot password?
+                    </button>
+                    <button type="submit" disabled={verifying} className="ml-auto flex items-center justify-center gap-1.5 bg-black text-white px-6 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] rounded-lg border-none cursor-pointer transition-all duration-300 hover:bg-gold disabled:bg-gray-300 disabled:cursor-not-allowed">
+                      {verifying ? <FiLoader size={13} className="animate-spin" /> : <FiShield size={13} />}
+                      {verifying ? 'Verifying...' : 'View Booking'}
+                    </button>
+                  </div>
+
+                  {showForgot && renderForgotHelp()}
+                </form>
+
+                {errorMsg && (
+                  <div className="mt-3.5 flex items-start gap-2.5 p-3 rounded-lg bg-red-50 border border-red-100 animate-fade-in-up">
+                    <FiAlertCircle size={15} className="text-red-500 shrink-0 mt-0.5" />
+                    <p className="text-[0.78rem] text-red-600 font-medium flex-1">{errorMsg}</p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
-          {/* Multiple Bookings (phone) */}
-          {bookings.length > 0 && !loading && (
-            <div>
-              <p className="text-[0.75rem] text-gray-500 mb-4 text-center">{bookings.length} booking{bookings.length > 1 ? 's' : ''} found</p>
-              {bookings.map((b) => renderBookingCard(b))}
-            </div>
-          )}
-
-          {/* Single Booking (ref) */}
-          {singleBooking && !loading && renderBookingCard(singleBooking)}
-
-          {/* Help Text */}
-          {!searched && !loading && (
-            <div className="text-center mt-8 py-8 border-t border-gray-100">
-              <p className="text-[0.78rem] text-gray-400 mb-2">Need help?</p>
-              <p className="text-[0.78rem] text-gray-500">Contact us at <a href="tel:+250785069349" className="text-gold font-medium hover:underline">+250 785 069 349</a></p>
+          {/* STEP 3: Verified */}
+          {stage === 'verified' && (
+            <div className="animate-fade-in-up">
+              {activeTab === 'ref' && verifiedBooking && renderBookingCard(verifiedBooking)}
+              {activeTab === 'phone' && (verifiedBookings.length ? (
+                <>
+                  <p className="text-[0.75rem] text-gray-500 mb-4 text-center">{verifiedBookings.length} verified booking{verifiedBookings.length > 1 ? 's' : ''}</p>
+                  {verifiedBookings.map(renderBookingCard)}
+                </>
+              ) : (
+                <div className="text-center py-12 bg-white border border-gray-200 rounded-2xl">
+                  <FiAlertCircle size={32} className="text-gray-300 mx-auto mb-3" />
+                  <p className="text-gray-500 text-[0.82rem]">No bookings matched this phone &amp; password.</p>
+                </div>
+              ))}
+              <button onClick={resetState} className="w-full mt-2 flex items-center justify-center gap-1.5 text-[0.75rem] text-gray-500 hover:text-gold bg-transparent border-none cursor-pointer">
+                <FiArrowLeft size={13} /> Search another booking
+              </button>
             </div>
           )}
         </div>

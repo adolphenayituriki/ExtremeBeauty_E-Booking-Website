@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiPhone, FiArrowUp } from 'react-icons/fi';
 
-const WHATSAPP_NUMBER = '250785069349';
+const WHATSAPP_NUMBER = '250787035643';
 const PHONE_NUMBER = '+250785069349';
 
 const FloatingButtons = () => {
@@ -24,7 +24,7 @@ const FloatingButtons = () => {
         <FiArrowUp size={18} />
       </button>
 
-      {/* Phone */}
+      {/* Phone (call) */}
       <a
         href={`tel:${PHONE_NUMBER}`}
         className="w-11 h-11 glass flex items-center justify-center rounded-xl cursor-pointer transition-all duration-300 hover:bg-gold hover:text-black hover:border-gold"

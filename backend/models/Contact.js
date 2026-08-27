@@ -25,6 +25,17 @@ const contactSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Message is required'],
   },
+  replied: {
+    type: Boolean,
+    default: false,
+  },
+  replies: [
+    {
+      subject: { type: String },
+      message: { type: String },
+      sentAt: { type: Date, default: Date.now },
+    },
+  ],
 }, {
   timestamps: true,
 });

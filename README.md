@@ -78,6 +78,47 @@ Extreme-website/
 | Contact     | `/contact`   | Contact form, info, Google Maps embed                  |
 | Tracking    | `/tracking`  | Track appointment status by booking reference          |
 
+## Admin Panel
+
+A protected admin dashboard is available at `/admin` for managing bookings, messages, services, and site content.
+
+### First-time setup (create an admin account)
+
+The admin registration endpoint is only accessible to create the first admin. Start the backend, then create an account:
+
+```bash
+curl -X POST http://localhost:5000/api/admin/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Your Name","email":"admin@extremebeauty.rw","password":"yourpassword"}'
+```
+
+> **Important**: For security, delete or restrict the `.env` `JWT_SECRET` and change the default admin password after setup. The registration endpoint currently has no gate, so keep it protected in production.
+
+Then visit `http://localhost:3000/admin/login` to sign in.
+
+### Admin routes
+
+| Route                | Description                            |
+|----------------------|----------------------------------------|
+| `/admin/login`       | Admin sign-in screen                   |
+| `/admin`             | Dashboard with stats & recent activity |
+| `/admin/bookings`    | View, update status, delete bookings   |
+| `/admin/contacts`    | Messages inbox                         |
+| `/admin/services`    | Add/edit/delete services & prices      |
+| `/admin/content`     | Edit site info, homepage, gallery      |
+
+### Admin API endpoints
+
+| Method   | Endpoint            | Description                        |
+|----------|---------------------|------------------------------------|
+| `POST`   | `/api/admin/register`| Create an admin account           |
+| `POST`   | `/api/admin/login`   | Sign in, returns JWT token        |
+| `GET`    | `/api/admin/me`      | Get current admin (auth)          |
+| `PUT`    | `/api/admin/me`      | Update admin profile/password     |
+| `GET`    | `/api/stats`         | Dashboard statistics (auth)       |
+| `GET/POST/PUT/DELETE` | `/api/services` | Service CRUD (write requires auth) |
+| `GET/PUT/DELETE` | `/api/content`   | Dynamic site content (write auth) |
+
 ## API Endpoints
 
 ### Bookings

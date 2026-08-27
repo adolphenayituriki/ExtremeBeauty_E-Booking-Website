@@ -349,15 +349,18 @@ MONGODB_URI=mongodb://<host>:<port>/<dbname>?authSource=admin
 |------------------------------------|------------|-----------------------------------------------------|
 | MongoDB DNS SRV resolution         | Workaround | Use standard `mongodb://` connection string         |
 | Map embed coordinates              | Placeholder | Update with exact coordinates from Google Maps     |
-| No authentication system          | Future     | Admin panel for managing bookings                  |
-| No email confirmation              | Future     | Nodemailer installed but not yet configured         |
-| Mobile responsive                  | Complete    | Hamburger nav, stacked grids, compact forms        |
+| No email confirmation          | Future     | Nodemailer installed but not yet configured         |
+| Admin authentication system    | Complete   | JWT-based admin login + protected dashboard         |
+| Mobile responsive              | Complete    | Hamburger nav, stacked grids, compact forms        |
 
 ---
 
 ## 13. Future Enhancements
 
-- [ ] Admin dashboard for booking management
+- [x] Admin dashboard for booking management
+- [x] Admin authentication (JWT) + protected dashboard
+- [x] Services & prices editor
+- [x] Dynamic site content editor (site info, homepage, gallery)
 - [ ] Email confirmation system (Nodemailer already installed)
 - [ ] Payment integration (mobile money / card)
 - [ ] Service pricing page

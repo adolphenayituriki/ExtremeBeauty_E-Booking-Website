@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FiPhone, FiMail, FiMapPin, FiClock, FiArrowRight, FiSend } from 'react-icons/fi';
+import { FiPhone, FiMail, FiMapPin, FiClock, FiArrowRight, FiSend, FiMessageSquare } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+import { useSiteInfo } from '../utils/content';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
@@ -23,6 +24,7 @@ async function safePost(url, body) {
 }
 
 const Contact = () => {
+  const { site } = useSiteInfo();
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
 
@@ -48,12 +50,14 @@ const Contact = () => {
 
   const inputBase = "w-full px-4 py-3 glass-input text-[0.85rem] text-black outline-none rounded-xl placeholder:text-gray-400";
   const labelBase = "block text-[0.7rem] font-semibold uppercase tracking-[1.5px] text-gray-500 mb-2";
+  const mapsEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(site.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 
   const contactInfo = [
-    { icon: <FiMapPin size={18} />, title: 'Location', value: '105 KG 9th Ave, Nyarutarama, Kigali', href: 'https://maps.app.goo.gl/JVeG4xNRdoP4Dt4dA' },
-    { icon: <FiPhone size={18} />, title: 'Phone', value: '+250 785 069 349', sub: '+250 787 035 643', href: 'tel:+250785069349' },
-    { icon: <FiMail size={18} />, title: 'Email', value: 'info@extremebeauty.rw', href: 'mailto:info@extremebeauty.rw' },
-    { icon: <FiClock size={18} />, title: 'Working Hours', value: 'Mon - Sat: 9:00 AM - 6:00 PM', sub: 'Sunday: Closed' },
+    { icon: <FiMapPin size={18} />, title: 'Location', value: site.address, href: site.mapsUrl },
+    { icon: <FiPhone size={18} />, title: 'Phone', value: site.phone1, sub: 'Call us anytime', href: `tel:${site.callRaw}` },
+    { icon: <FiMessageSquare size={18} />, title: 'WhatsApp', value: site.phone2, sub: 'Available', href: `https://wa.me/${site.whatsappRaw}` },
+    { icon: <FiMail size={18} />, title: 'Email', value: site.email, href: `mailto:${site.email}` },
+    { icon: <FiClock size={18} />, title: 'Working Hours', value: site.workingHours },
   ];
 
   return (
@@ -97,7 +101,7 @@ const Contact = () => {
               </div>
 
               <div className="rounded-2xl overflow-hidden border border-gray-200/60">
-                <iframe title="Extreme Beauty Location" src="https://maps.google.com/maps?q=105+KG+9th+Ave+Nyarutarama+Kigali+Rwanda&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="220" style={{ border: 0, display: 'block' }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+                <iframe title="Extreme Beauty Location" src={mapsEmbed} width="100%" height="220" style={{ border: 0, display: 'block' }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
               </div>
             </div>
 

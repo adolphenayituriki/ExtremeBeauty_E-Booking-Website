@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FiCheckCircle, FiSearch, FiCalendar, FiClock, FiUser, FiPhone, FiMail, FiMessageSquare, FiArrowRight, FiChevronDown, FiCheck, FiArrowLeft } from 'react-icons/fi';
+import { FiCheckCircle, FiSearch, FiCalendar, FiClock, FiUser, FiPhone, FiMail, FiMessageSquare, FiArrowRight, FiChevronDown, FiCheck, FiArrowLeft, FiEye, FiEyeOff } from 'react-icons/fi';
 import { services, categories, getServiceByName } from '../data/services';
 import Receipt from '../components/Receipt';
 
@@ -32,9 +32,10 @@ const Booking = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', phone: '',
-    service: '', date: '', time: '', message: '',
+    service: '', date: '', time: '', message: '', trackingPin: '',
   });
   const [submitting, setSubmitting] = useState(false);
+  const [showPin, setShowPin] = useState(false);
   const [bookingResult, setBookingResult] = useState(null);
 
   useEffect(() => {
@@ -73,6 +74,9 @@ const Booking = () => {
     if (!formData.phone.trim()) { toast.warning('Please enter your phone number'); return; }
     if (!formData.date) { toast.warning('Please select a preferred date'); return; }
     if (!formData.time) { toast.warning('Please select a preferred time'); return; }
+    if (!formData.trackingPin || String(formData.trackingPin).trim().length < 4) {
+      toast.warning('Please create a tracking password (at least 4 characters)'); return;
+    }
     setSubmitting(true);
     try {
       const data = await safePost(`${API_URL}/api/bookings`, formData);
@@ -179,23 +183,23 @@ const Booking = () => {
             </div>
 
             {/* ── Action Buttons ── */}
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               <Link
                 to="/tracking"
-                className="flex items-center justify-center gap-2 w-full bg-black text-white py-3.5 text-[0.75rem] font-semibold uppercase tracking-[2px] rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-gold text-center"
+                className="flex items-center justify-center gap-2 w-full bg-black text-white py-2.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] rounded-lg border-none cursor-pointer transition-all duration-300 hover:bg-gold text-center"
               >
-                <FiSearch size={14} /> Track Your Booking
+                <FiSearch size={13} /> Track Your Booking
               </Link>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2.5">
                 <Link
                   to="/"
-                  className="flex items-center justify-center gap-2 py-3.5 text-[0.75rem] font-semibold uppercase tracking-[2px] text-black border border-gray-200 rounded-xl cursor-pointer transition-all duration-300 hover:border-gold hover:text-gold bg-white text-center"
+                  className="flex items-center justify-center gap-2 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black border border-gray-200 rounded-lg cursor-pointer transition-all duration-300 hover:border-gold hover:text-gold bg-white text-center"
                 >
                   Home
                 </Link>
                 <Link
                   to="/services"
-                  className="flex items-center justify-center gap-2 py-3.5 text-[0.75rem] font-semibold uppercase tracking-[2px] text-black border border-gray-200 rounded-xl cursor-pointer transition-all duration-300 hover:border-gold hover:text-gold bg-white text-center"
+                  className="flex items-center justify-center gap-2 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black border border-gray-200 rounded-lg cursor-pointer transition-all duration-300 hover:border-gold hover:text-gold bg-white text-center"
                 >
                   Services
                 </Link>
@@ -446,13 +450,45 @@ const Booking = () => {
                     <textarea id="message" name="message" value={formData.message} onChange={handleChange} placeholder="Any special requests or notes..." rows="3" className={`${inputBase} resize-y min-h-[80px]`} />
                   </div>
 
+                  {/* Tracking Password */}
+                  <div className="mb-6">
+                    <label htmlFor="trackingPin" className={labelBase}>
+                      <span className="inline-block w-1 h-1 rounded-full bg-gold mr-1.5" />Tracking Password *
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPin ? 'text' : 'password'}
+                        id="trackingPin"
+                        name="trackingPin"
+                        value={formData.trackingPin}
+                        onChange={handleChange}
+                        required
+                        minLength={4}
+                        maxLength={12}
+                        placeholder="Create a password (min 4 characters)"
+                        className={inputBase + " pr-11"}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPin((s) => !s)}
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-black bg-transparent border-none cursor-pointer transition-colors duration-200"
+                        aria-label={showPin ? 'Hide password' : 'Show password'}
+                      >
+                        {showPin ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                      </button>
+                    </div>
+                    <p className="text-[0.68rem] text-gray-400 mt-1.5">
+                      You'll use this password together with your booking reference to track your appointment.
+                    </p>
+                  </div>
+
                   {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <button type="button" onClick={() => setStep(1)} className="px-5 py-3.5 border border-gray-200 rounded-xl text-[0.78rem] font-semibold uppercase tracking-[1.5px] text-gray-600 cursor-pointer transition-all duration-300 hover:border-gold hover:text-gold bg-white">
+                  <div className="flex gap-2.5">
+                    <button type="button" onClick={() => setStep(1)} className="px-5 py-2.5 border border-gray-200 rounded-xl text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-gray-600 cursor-pointer transition-all duration-300 hover:border-gold hover:text-gold bg-white">
                       Back
                     </button>
-                    <button type="submit" className="flex-1 flex items-center justify-center gap-2 bg-black text-white py-3.5 text-[0.78rem] font-semibold uppercase tracking-[2px] rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-gold disabled:opacity-50 disabled:cursor-not-allowed" disabled={submitting}>
-                      {submitting ? 'Confirming...' : <>Confirm Booking <FiArrowRight size={14} /></>}
+                    <button type="submit" className="flex-1 flex items-center justify-center gap-2 bg-black text-white py-2.5 text-[0.72rem] font-semibold uppercase tracking-[2px] rounded-xl border-none cursor-pointer transition-all duration-300 hover:bg-gold disabled:opacity-50 disabled:cursor-not-allowed" disabled={submitting}>
+                      {submitting ? 'Confirming...' : <>Confirm Booking <FiArrowRight size={13} /></>}
                     </button>
                   </div>
                 </form>

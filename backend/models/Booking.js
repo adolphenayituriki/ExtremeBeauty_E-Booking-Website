@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const bcrypt = require('bcryptjs');
 
 const bookingSchema = new mongoose.Schema({
   bookingRef: {
@@ -63,15 +64,28 @@ const bookingSchema = new mongoose.Schema({
     enum: ['pending', 'approved', 'confirmed', 'cancelled', 'completed'],
     default: 'approved',
   },
+  trackingPin: {
+    type: String,
+    select: false,
+  },
 }, {
   timestamps: true,
 });
 
-bookingSchema.pre('save', function (next) {
+bookingSchema.pre('save', async function (next) {
   if (!this.bookingRef) {
     this.bookingRef = 'EB-' + crypto.randomBytes(3).toString('hex').toUpperCase();
   }
+  if (this.isModified('trackingPin') && this.trackingPin) {
+    const salt = await bcrypt.genSalt(10);
+    this.trackingPin = await bcrypt.hash(this.trackingPin, salt);
+  }
   next();
 });
+
+bookingSchema.methods.matchTrackingPin = async function (enteredPin) {
+  if (!this.trackingPin) return false;
+  return await bcrypt.compare(enteredPin, this.trackingPin);
+};
 
 module.exports = mongoose.model('Booking', bookingSchema);

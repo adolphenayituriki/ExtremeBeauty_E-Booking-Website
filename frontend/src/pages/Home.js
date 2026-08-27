@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiChevronLeft, FiChevronRight, FiStar, FiEye, FiPlay, FiCalendar, FiCheck, FiX } from 'react-icons/fi';
 import { motion, useInView } from 'framer-motion';
+import { useSiteContent } from '../utils/content';
 
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
@@ -19,7 +20,7 @@ const FadeIn = ({ children, delay = 0, className = '' }) => {
   );
 };
 
-const heroSlides = [
+const defaultHeroSlides = [
   { type: 'image', src: '/images/Hero-bg-Image-1.jpg', title: 'Where Beauty Meets Artistry', subtitle: 'Extreme Beauty Lashes & Brows' },
   { type: 'video', src: '/videos/VID-20260826-WA0028.mp4', title: 'Precision & Perfection', subtitle: 'Extreme Beauty Lashes & Brows' },
   { type: 'image', src: '/images/Hero-bg-Image-2.jpg', title: 'Your Transformation Starts Here', subtitle: 'Extreme Beauty Lashes & Brows' },
@@ -27,7 +28,7 @@ const heroSlides = [
   { type: 'image', src: '/images/Hero-bg-Image-3.jpg', title: 'Experience the Art of Beauty', subtitle: 'Extreme Beauty Lashes & Brows' },
 ];
 
-const carouselImages = [
+const defaultCarouselImages = [
   '/images/IMG-20260826-WA0010.jpg',
   '/images/IMG-20260826-WA0012.jpg',
   '/images/IMG-20260826-WA0013.jpg',
@@ -51,6 +52,58 @@ const Home = () => {
   const [carouselPaused, setCarouselPaused] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [videoIndex, setVideoIndex] = useState(0);
+
+  const { content } = useSiteContent();
+
+  const defaultCategories = [
+    { name: 'Brows', description: '4 Services', image: '/images/IMG-20260826-WA0006.jpg', icon: <FiEye size={18} />, category: 'Brows' },
+    { name: 'Lash Lift', description: 'Premium Service', image: '/images/IMG-20260826-WA0007.jpg', icon: <FiStar size={18} />, category: 'Lash Lift' },
+    { name: 'Eyelash Extensions', description: '6 Styles Available', image: '/images/IMG-20260826-WA0008.jpg', icon: <FiEye size={18} />, category: 'Lashes' },
+    { name: 'Eyebrows Retouch', description: 'Touch-Up Service', image: '/images/IMG-20260826-WA0009.jpg', icon: <FiCheck size={18} />, category: 'Retouch' },
+  ];
+
+  const defaultFeaturedServices = [
+    { category: 'BROWS', title: 'Microblading Eyebrows', description: 'Semi-permanent tattooing technique that creates natural-looking, fuller eyebrows with hair-like strokes.', image: '/images/IMG-20260826-WA0010.jpg' },
+    { category: 'LASHES', title: 'Volume Set', description: 'Multiple lightweight extensions per natural lash creating a full, dramatic look perfect for special occasions.', image: '/images/IMG-20260826-WA0012.jpg' },
+    { category: 'LASHES', title: 'Wispy Sets', description: 'Trendy, textured lash style with varying lengths for a natural yet eye-catching wispy effect.', image: '/images/IMG-20260826-WA0013.jpg' },
+    { category: 'BROWS', title: 'Brows Lamination', description: 'Semi-permanent treatment that reshapes and sets brow hairs for a sleek, brushed-up look.', image: '/images/IMG-20260826-WA0015.jpg' },
+    { category: 'LASHES', title: 'Lash Lift', description: 'Perm treatment that curls your natural lashes upward, giving a longer, more lifted appearance.', image: '/images/IMG-20260826-WA0016.jpg' },
+    { category: 'BROWS', title: 'Microshading Eyebrows', description: 'Soft, powdered effect eyebrow technique using tiny dots for a filled-in, makeup-like finish.', image: '/images/IMG-20260826-WA0017.jpg' },
+  ];
+
+  const teachingSteps = [
+    { title: 'Consultation', image: 'Teaching-1.jpeg', description: 'We begin by understanding your natural features and the look you want to achieve.' },
+    { title: 'Design & Mapping', image: 'Teaching-2.jpg', description: 'Your lash line and brows are carefully mapped for perfect proportion and symmetry.' },
+    { title: 'Preparation', image: 'Teaching-3.jpg', description: 'Your skin and lashes are gently cleansed and prepped for a flawless application.' },
+    { title: 'Application', image: 'Teaching-4.jpg', description: 'Precision placement, lash by lash, technique by technique, for a seamless finish.' },
+    { title: 'Refinement', image: 'Teaching-5.jpg', description: 'We perfect every detail, balancing shape and symmetry for a natural result.' },
+    { title: 'Aftercare & Guidance', image: 'Teaching-6.jpg', description: 'You leave with clear aftercare guidance to keep your look beautiful for longer.' },
+  ];
+
+  const heroSlides = content?.heroSlides || defaultHeroSlides;
+  const carouselImages = content?.gallery || defaultCarouselImages;
+  const categories = content?.categories || defaultCategories;
+  const featuredServices = content?.featuredServices || defaultFeaturedServices;
+  const heroStats = content?.heroStats || [
+    { value: '500+', label: 'Happy Clients' },
+    { value: '12+', label: 'Services' },
+    { value: '5★', label: 'Rating' },
+  ];
+  const pageVideos = content?.videos || [
+    { src: '/videos/VID-20260826-WA0028.mp4', poster: '/images/IMG-20260826-WA0018.jpg' },
+    { src: '/videos/VID-20260826-WA0032.mp4', poster: '/images/IMG-20260826-WA0019.jpg' },
+    { src: '/videos/VID-20260826-WA0034.mp4', poster: '/images/IMG-20260826-WA0021.jpg' },
+    { src: '/videos/VID-20260826-WA0037.mp4', poster: '/images/IMG-20260826-WA0022.jpg' },
+    { src: '/videos/VID-20260826-WA0039.mp4', poster: '/images/IMG-20260826-WA0023.jpg' },
+    { src: '/videos/VID-20260826-WA0042.mp4', poster: '/images/IMG-20260826-WA0024.jpg' },
+    { src: '/videos/VID-20260826-WA0046.mp4', poster: '/images/IMG-20260826-WA0027.jpg' },
+    { src: '/videos/VID-20260826-WA0047.mp4', poster: '/images/IMG-20260826-WA0048.jpg' },
+    { src: '/videos/VID-20260826-WA0049.mp4', poster: '/images/IMG-20260826-WA0003.jpg' },
+    { src: '/videos/VID-20260826-WA0050.mp4', poster: '/images/IMG-20260826-WA0005.jpg' },
+    { src: '/videos/VID-20260826-WA0051.mp4', poster: '/images/IMG-20260826-WA0006.jpg' },
+    { src: '/videos/VID-20260826-WA0052.mp4', poster: '/images/IMG-20260826-WA0007.jpg' },
+    { src: '/videos/VID-20260826-WA0053.mp4', poster: '/images/IMG-20260826-WA0008.jpg' },
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -80,22 +133,6 @@ const Home = () => {
       return prev >= carouselImages.length - 3 ? 0 : prev + 1;
     });
   }, []);
-
-  const categories = [
-    { name: 'Brows', description: '4 Services', image: '/images/IMG-20260826-WA0006.jpg', icon: <FiEye size={18} />, category: 'Brows' },
-    { name: 'Lash Lift', description: 'Premium Service', image: '/images/IMG-20260826-WA0007.jpg', icon: <FiStar size={18} />, category: 'Lash Lift' },
-    { name: 'Eyelash Extensions', description: '6 Styles Available', image: '/images/IMG-20260826-WA0008.jpg', icon: <FiEye size={18} />, category: 'Lashes' },
-    { name: 'Eyebrows Retouch', description: 'Touch-Up Service', image: '/images/IMG-20260826-WA0009.jpg', icon: <FiCheck size={18} />, category: 'Retouch' },
-  ];
-
-  const featuredServices = [
-    { category: 'BROWS', title: 'Microblading Eyebrows', description: 'Semi-permanent tattooing technique that creates natural-looking, fuller eyebrows with hair-like strokes.', image: '/images/IMG-20260826-WA0010.jpg' },
-    { category: 'LASHES', title: 'Volume Set', description: 'Multiple lightweight extensions per natural lash creating a full, dramatic look perfect for special occasions.', image: '/images/IMG-20260826-WA0012.jpg' },
-    { category: 'LASHES', title: 'Wispy Sets', description: 'Trendy, textured lash style with varying lengths for a natural yet eye-catching wispy effect.', image: '/images/IMG-20260826-WA0013.jpg' },
-    { category: 'BROWS', title: 'Brows Lamination', description: 'Semi-permanent treatment that reshapes and sets brow hairs for a sleek, brushed-up look.', image: '/images/IMG-20260826-WA0015.jpg' },
-    { category: 'LASHES', title: 'Lash Lift', description: 'Perm treatment that curls your natural lashes upward, giving a longer, more lifted appearance.', image: '/images/IMG-20260826-WA0016.jpg' },
-    { category: 'BROWS', title: 'Microshading Eyebrows', description: 'Soft, powdered effect eyebrow technique using tiny dots for a filled-in, makeup-like finish.', image: '/images/IMG-20260826-WA0017.jpg' },
-  ];
 
   const slide = heroSlides[currentHero];
 
@@ -135,11 +172,7 @@ const Home = () => {
                 <Link to="/services" className="btn-secondary border-white/20 text-white hover:border-gold hover:text-gold hover:bg-gold/5">Our Services</Link>
               </div>
               <div className="flex flex-wrap gap-5 sm:gap-7 lg:gap-10">
-                {[
-                  { value: '500+', label: 'Happy Clients' },
-                  { value: '12+', label: 'Services' },
-                  { value: '5\u2605', label: 'Rating' },
-                ].map((stat, i) => (
+                {heroStats.map((stat, i) => (
                   <div key={i} className="relative">
                     <h3 className="text-[1.7rem] font-cormorant font-bold text-gold">{stat.value}</h3>
                     <p className="text-[0.65rem] uppercase tracking-[2px] text-gray-400">{stat.label}</p>
@@ -264,7 +297,48 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== 4. GALLERY ===== */}
+      {/* ===== 4. TEACHING ===== */}
+      <section className="py-20 px-5 bg-gray-950 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(184,149,106,0.06)_0%,transparent_60%)]" />
+        <div className="absolute top-0 left-1/4 w-[400px] h-[300px] bg-gold/[0.04] rounded-full blur-[120px]" />
+        <div className="max-w-[1200px] mx-auto relative">
+          <FadeIn>
+            <div className="text-center mb-4">
+              <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Learn The Craft</p>
+              <h2 className="text-[2rem] mb-2 text-white font-cormorant font-semibold">How We Create Your Look</h2>
+              <p className="text-gray-400 text-[0.88rem] max-w-[520px] mx-auto">Behind every beautiful result is a careful, professional process. Here's how we train, prepare and perfect each treatment.</p>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-6">
+            {teachingSteps.map((step, index) => (
+              <FadeIn key={index} delay={index * 0.08}>
+                <div className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] hover:border-gold/40 transition-all duration-500">
+                  <div className="relative h-[180px] overflow-hidden">
+                    <img src={`/images/${step.image}`} alt={step.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent" />
+                    <span className="absolute top-3 right-3 w-9 h-9 rounded-full bg-gold text-black flex items-center justify-center text-[0.95rem] font-bold shadow-lg">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="text-[1.05rem] mb-1.5 text-white group-hover:text-gold transition-colors duration-300">{step.title}</h3>
+                    <p className="text-gray-400 text-[0.8rem] leading-[1.6]">{step.description}</p>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+
+          <div className="text-center mt-10">
+            <Link to="/booking" className="inline-flex items-center gap-2 bg-gold text-black px-8 py-3 text-[0.75rem] font-semibold uppercase tracking-[2px] rounded-xl transition-all duration-300 hover:bg-gold-light hover:shadow-[0_8px_30px_rgba(184,149,106,0.3)]">
+              Experience It Yourself <FiArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== 5. GALLERY ===== */}
       <section className="py-20 px-5 bg-white relative">
         <div className="max-w-[1200px] mx-auto relative">
           <FadeIn>
@@ -337,21 +411,7 @@ const Home = () => {
           <div className="relative">
             <div className="overflow-hidden">
               <div className="flex transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]" style={{ transform: `translateX(-${videoIndex * 33.333}%)` }}>
-                {[
-                  { src: '/videos/VID-20260826-WA0028.mp4', poster: '/images/IMG-20260826-WA0018.jpg' },
-                  { src: '/videos/VID-20260826-WA0032.mp4', poster: '/images/IMG-20260826-WA0019.jpg' },
-                  { src: '/videos/VID-20260826-WA0034.mp4', poster: '/images/IMG-20260826-WA0021.jpg' },
-                  { src: '/videos/VID-20260826-WA0037.mp4', poster: '/images/IMG-20260826-WA0022.jpg' },
-                  { src: '/videos/VID-20260826-WA0039.mp4', poster: '/images/IMG-20260826-WA0023.jpg' },
-                  { src: '/videos/VID-20260826-WA0042.mp4', poster: '/images/IMG-20260826-WA0024.jpg' },
-                  { src: '/videos/VID-20260826-WA0046.mp4', poster: '/images/IMG-20260826-WA0027.jpg' },
-                  { src: '/videos/VID-20260826-WA0047.mp4', poster: '/images/IMG-20260826-WA0048.jpg' },
-                  { src: '/videos/VID-20260826-WA0049.mp4', poster: '/images/IMG-20260826-WA0003.jpg' },
-                  { src: '/videos/VID-20260826-WA0050.mp4', poster: '/images/IMG-20260826-WA0005.jpg' },
-                  { src: '/videos/VID-20260826-WA0051.mp4', poster: '/images/IMG-20260826-WA0006.jpg' },
-                  { src: '/videos/VID-20260826-WA0052.mp4', poster: '/images/IMG-20260826-WA0007.jpg' },
-                  { src: '/videos/VID-20260826-WA0053.mp4', poster: '/images/IMG-20260826-WA0008.jpg' },
-                ].map((video, i) => (
+                {pageVideos.map((video, i) => (
                   <div key={i} className="flex-shrink-0 min-w-[50%] sm:min-w-[33.333%] px-2.5">
                     <div className="relative overflow-hidden rounded-2xl cursor-pointer group">
                       <video src={video.src} controls muted poster={video.poster} className="w-full h-[180px] sm:h-[220px] lg:h-[260px] object-cover block transition-all duration-500 group-hover:scale-105" />
@@ -397,7 +457,7 @@ const Home = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
               <Link to="/booking" className="btn-primary">Book Appointment</Link>
-              <a href="https://wa.me/250785069349" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-9 py-3.5 text-xs font-semibold uppercase tracking-[2px] border-2 border-white/20 rounded-xl cursor-pointer transition-all duration-[400ms] hover:border-gold hover:text-gold hover:bg-gold/5">
+              <a href="https://wa.me/250787035643" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 bg-transparent text-white px-9 py-3.5 text-xs font-semibold uppercase tracking-[2px] border-2 border-white/20 rounded-xl cursor-pointer transition-all duration-[400ms] hover:border-gold hover:text-gold hover:bg-gold/5">
                 Chat on WhatsApp
               </a>
             </div>

@@ -1,10 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiInstagram, FiPhone, FiMail, FiMapPin, FiArrowUpRight } from 'react-icons/fi';
+import { useSiteInfo } from '../utils/content';
 
-const WHATSAPP_NUMBER = '250785069349';
+const WHATSAPP_NUMBER = '250787035643';
 
 const Footer = () => {
+  const { site } = useSiteInfo();
+  const instagramUrl = site.instagram.startsWith('@')
+    ? `https://instagram.com/${site.instagram.slice(1)}`
+    : site.instagram;
+  const instagramHandle = site.instagram.replace('@', '');
+
   return (
     <footer className="bg-gray-950 text-white relative overflow-hidden">
       <div className="h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
@@ -19,7 +26,7 @@ const Footer = () => {
               <h3 className="text-[1.1rem] mb-1 font-cormorant font-semibold">Stay Connected</h3>
               <p className="text-gray-500 text-[0.8rem]">Follow us on Instagram for the latest updates and offers.</p>
             </div>
-            <a href="https://instagram.com/extreme_beauty.rw" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold text-black text-[0.72rem] font-semibold uppercase tracking-[1.5px] rounded-xl transition-all duration-300 hover:bg-gold-light shrink-0">
+            <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold text-black text-[0.72rem] font-semibold uppercase tracking-[1.5px] rounded-xl transition-all duration-300 hover:bg-gold-light shrink-0">
               <FiInstagram size={14} /> Follow Us
             </a>
           </div>
@@ -40,9 +47,9 @@ const Footer = () => {
             </p>
             <div className="flex gap-2">
               {[
-                { icon: <FiInstagram size={15} />, href: 'https://instagram.com/extreme_beauty.rw', label: 'Instagram', external: true },
-                { icon: <FiPhone size={15} />, href: 'tel:+250785069349', label: 'Phone' },
-                { icon: <FiMail size={15} />, href: 'mailto:info@extremebeauty.rw', label: 'Email' },
+                { icon: <FiInstagram size={15} />, href: instagramUrl, label: 'Instagram', external: true },
+                { icon: <FiPhone size={15} />, href: `tel:${site.callRaw}`, label: 'Call' },
+                { icon: <FiMail size={15} />, href: `mailto:${site.email}`, label: 'Email' },
                 { icon: <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>, href: `https://wa.me/${WHATSAPP_NUMBER}`, label: 'WhatsApp', external: true },
               ].map((item) => (
                 <a
@@ -104,10 +111,10 @@ const Footer = () => {
             <h4 className="text-[0.65rem] font-semibold uppercase tracking-[2px] text-white mb-4">Contact</h4>
             <ul className="space-y-3">
               {[
-                { icon: <FiPhone size={12} />, value: '+250 785 069 349', sub: 'Call us anytime', href: 'tel:+250785069349' },
-                { icon: <FiPhone size={12} />, value: '+250 787 035 643', sub: 'WhatsApp available', href: 'tel:+250787035643' },
-                { icon: <FiMapPin size={12} />, value: '105 KG 9th Ave', sub: 'Nyarutarama, Kigali', href: 'https://maps.app.goo.gl/JVeG4xNRdoP4Dt4dA', external: true },
-                { icon: <FiMail size={12} />, value: 'info@extremebeauty.rw', sub: 'Email us', href: 'mailto:info@extremebeauty.rw' },
+                { icon: <FiPhone size={12} />, value: site.phone1, sub: 'Call us anytime', href: `tel:${site.callRaw}` },
+                { icon: <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>, value: site.phone2, sub: 'WhatsApp available', href: `https://wa.me/${site.whatsappRaw}`, external: true },
+                { icon: <FiMapPin size={12} />, value: site.address.split(',')[0] || site.address, sub: site.address, href: site.mapsUrl, external: true },
+                { icon: <FiMail size={12} />, value: site.email, sub: 'Email us', href: `mailto:${site.email}` },
               ].map((item, i) => (
                 <li key={i}>
                   <a href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined} className="text-gray-500 text-[0.78rem] hover:text-gold transition-colors duration-200 flex items-start gap-2.5">
@@ -128,7 +135,7 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="mt-10 pt-5 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-gray-600 text-[0.68rem] tracking-wide">
-            &copy; {new Date().getFullYear()} Extreme Beauty Lashes & Brows. All rights reserved.
+            &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-5">
             <Link to="/tracking" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
@@ -136,6 +143,9 @@ const Footer = () => {
             </Link>
             <Link to="/contact" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
               <FiArrowUpRight size={9} /> Contact
+            </Link>
+            <Link to="/admin" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
+              <FiArrowUpRight size={9} /> Admin
             </Link>
           </div>
         </div>
