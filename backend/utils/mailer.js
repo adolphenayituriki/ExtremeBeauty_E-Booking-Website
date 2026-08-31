@@ -79,6 +79,38 @@ function getTransporter() {
   return transporter;
 }
 
+const SERVICE_PRICES = {
+  'Microblading Eyebrows': 'RWF 100,000',
+  'Microshading Eyebrows': 'RWF 100,000',
+  'Hybrid / Combination Brows': 'RWF 100,000',
+  'Brows Lamination': 'RWF 30,000',
+  'Lash Lift': 'RWF 30,000',
+  'Classic Set': 'RWF 45,000',
+  'Hybrid Set': 'RWF 50,000',
+  'Volume Set': 'RWF 55,000',
+  'Mega Volume Set': 'RWF 60,000',
+  'Wispy Sets': 'RWF 45,000 - 60,000',
+  'Lash Removal': 'RWF 5,000',
+  'Eyebrows Retouch': 'RWF 60,000',
+  'Training Session': 'On Request',
+};
+
+const COMPANY = {
+  name: 'Extreme Beauty Lashes & Brows',
+  address: '105 KG 9th Ave, Nyarutarama, Kigali, Rwanda',
+  phone1: '+250 785 069 349',
+  phone2: '+250 787 035 643',
+  email: 'info@extremebeauty.rw',
+  hours: 'Mon - Sat, 9:00AM - 6:00PM',
+  maps: 'https://maps.app.goo.gl/JVeG4xNRdoP4Dt4dA',
+  instagram: '@extreme_beauty.rw',
+};
+
+function getTrackUrl() {
+  const base = (process.env.SITE_URL || '').replace(/\/$/, '');
+  return base ? `${base}/tracking` : 'https://extremebeauty-e-booking-website.onrender.com/tracking';
+}
+
 async function sendBookingConfirmation(to, { name, service, date, time, bookingRef, phone }) {
   const t = getTransporter();
   const fromName = 'Extreme Beauty';
@@ -88,59 +120,94 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
     return { delivered: false };
   }
 
+  const price = SERVICE_PRICES[service] || 'On Request';
   const subject = `Booking Confirmed — ${bookingRef}`;
   const html = `
-    <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
-      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:38px 28px; text-align:center;">
-        <p style="font-size:24px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+    <div style="font-family:Arial, Helvetica, sans-serif; max-width:620px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:40px 28px; text-align:center;">
+        <p style="font-size:26px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
         <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
-        <p style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Booking Confirmation</p>
+        <p style="font-size:12px; letter-spacing:4px; color:rgba(255,255,255,0.9); margin:0; font-weight:600; text-transform:uppercase;">Booking Confirmation</p>
       </div>
-      <div style="padding:34px 36px;">
-        <div style="text-align:center; margin-bottom:26px;">
+      <div style="padding:36px 38px;">
+        <div style="text-align:center; margin-bottom:28px;">
           <div style="width:64px; height:64px; background:#b8956a; border-radius:50%; margin:0 auto 16px; line-height:64px; font-size:30px; color:#ffffff;">&#10003;</div>
-          <h2 style="font-size:22px; font-weight:700; color:#111111; margin:0 0 6px;">Hi ${name || 'Valued Client'},</h2>
+          <h2 style="font-size:23px; font-weight:700; color:#111111; margin:0 0 6px;">Hi ${name || 'Valued Client'},</h2>
           <p style="font-size:15px; color:#555555; line-height:1.7; margin:0;">Your appointment has been <strong style="color:#b8956a;">confirmed</strong>!<br>Here are your booking details:</p>
         </div>
-        <div style="border:1px solid #f0e9dd; border-radius:12px; overflow:hidden;">
-          <div style="background:#faf6ee; padding:16px 22px; border-bottom:1px solid #f0e9dd;">
-            <p style="font-size:11px; letter-spacing:2px; color:#b99b55; margin:0; font-weight:700; text-transform:uppercase;">Booking Reference</p>
-            <p style="font-size:22px; font-weight:700; color:#b8956a; letter-spacing:2px; margin:6px 0 0;">${bookingRef}</p>
+
+        <div style="border:1px solid #f0e9dd; border-radius:12px; overflow:hidden; margin-bottom:22px;">
+          <div style="background:#faf6ee; padding:14px 22px; border-bottom:1px solid #f0e9dd; text-align:center;">
+            <p style="font-size:11px; letter-spacing:2px; color:#b99b55; margin:0 0 4px; font-weight:700; text-transform:uppercase;">Booking Reference</p>
+            <p style="font-size:24px; font-weight:700; color:#b8956a; letter-spacing:2px; margin:0;">${bookingRef}</p>
           </div>
           <table style="width:100%; border-collapse:collapse;">
             <tr>
-              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; width:38%; font-weight:600;">Service</td>
-              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111; font-weight:600;">${service}</td>
+              <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; width:38%; font-weight:600;">Service</td>
+              <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111; font-weight:600;">${service}</td>
             </tr>
             <tr>
-              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; font-weight:600;">Date</td>
-              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111;">${date}</td>
+              <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; font-weight:600;">Price</td>
+              <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:16px; color:#b8956a; font-weight:700;">${price}</td>
             </tr>
             <tr>
-              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; font-weight:600;">Time</td>
-              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111;">${time}</td>
+              <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; font-weight:600;">Date</td>
+              <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111;">${date}</td>
+            </tr>
+            <tr>
+              <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; font-weight:600;">Time</td>
+              <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111;">${time}</td>
             </tr>
             ${phone ? `<tr>
-              <td style="padding:15px 22px; font-size:13px; color:#8a8272; font-weight:600;">Phone</td>
-              <td style="padding:15px 22px; font-size:15px; color:#111111;">${phone}</td>
+              <td style="padding:14px 22px; font-size:13px; color:#8a8272; font-weight:600;">Phone</td>
+              <td style="padding:14px 22px; font-size:15px; color:#111111;">${phone}</td>
             </tr>` : ''}
           </table>
         </div>
-        <p style="font-size:13px; color:#777777; line-height:1.7; margin:22px 0 0; text-align:center;">You can <strong>track your booking status</strong> anytime using your booking reference code on our website.</p>
-        <div style="text-align:center; margin-top:24px;">
-          <a href="#track" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track My Booking</a>
+
+        <p style="font-size:13px; color:#777777; line-height:1.7; margin:0 0 20px; text-align:center;">You can <strong>track your booking status</strong> anytime using your booking reference code on our website.</p>
+        <div style="text-align:center; margin-bottom:26px;">
+          <a href="${getTrackUrl()}" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track My Booking</a>
         </div>
-        <div style="text-align:center; margin-top:26px; padding-top:22px; border-top:1px solid #f3ede2;">
-          <p style="font-size:13px; color:#333333; margin:0 0 4px; font-family:Georgia, serif; font-style:italic;">We look forward to seeing you!</p>
+
+        <div style="background:#faf6ee; border:1px solid #f0e9dd; border-radius:12px; padding:22px 24px; margin-bottom:26px;">
+          <p style="font-size:13px; font-weight:700; color:#b8956a; text-transform:uppercase; letter-spacing:2px; margin:0 0 14px; text-align:center;">Get in Touch</p>
+          <table style="width:100%; border-collapse:collapse;">
+            <tr>
+              <td style="padding:7px 0; font-size:12px; color:#8a8272; width:34%; font-weight:600;">Location</td>
+              <td style="padding:7px 0; font-size:13px; color:#111111;"><a href="${COMPANY.maps}" style="color:#111111; text-decoration:underline;">${COMPANY.address}</a></td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0; font-size:12px; color:#8a8272; font-weight:600;">Phone</td>
+              <td style="padding:7px 0; font-size:13px; color:#111111;">${COMPANY.phone1} &nbsp;|&nbsp; ${COMPANY.phone2}</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0; font-size:12px; color:#8a8272; font-weight:600;">Email</td>
+              <td style="padding:7px 0; font-size:13px; color:#111111;">${COMPANY.email}</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0; font-size:12px; color:#8a8272; font-weight:600;">Working Hours</td>
+              <td style="padding:7px 0; font-size:13px; color:#111111;">${COMPANY.hours}</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 0; font-size:12px; color:#8a8272; font-weight:600;">Instagram</td>
+              <td style="padding:7px 0; font-size:13px; color:#111111;">${COMPANY.instagram}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="text-align:center; padding-top:18px; border-top:1px solid #f3ede2;">
+          <p style="font-size:14px; color:#333333; margin:0; font-family:Georgia, serif; font-style:italic;">We look forward to seeing you!</p>
         </div>
       </div>
       <div style="background:#111111; padding:26px 24px; text-align:center;">
-        <p style="font-size:13px; color:#d4af62; margin:0 0 4px; font-weight:700; letter-spacing:2px;">EXTREME BEAUTY LASHES &amp; BROWS</p>
-        <p style="font-size:11px; color:#9a8b6f; margin:0;">105 KG 9th Ave, Nyarutarama, Kigali</p>
+        <p style="font-size:13px; color:#d4af62; margin:0 0 6px; font-weight:700; letter-spacing:2px;">${COMPANY.name}</p>
+        <p style="font-size:11px; color:#9a8b6f; margin:0;">${COMPANY.address}</p>
+        <p style="font-size:11px; color:#9a8b6f; margin:4px 0 0;">${COMPANY.phone1} \u00B7 ${COMPANY.email}</p>
       </div>
     </div>
   `;
-  const text = `Hi ${name || 'there'},\n\nYour booking is confirmed!\n\nRef: ${bookingRef}\nService: ${service}\nDate: ${date}\nTime: ${time}\n\nTrack your booking on our website.`;
+  const text = `Hi ${name || 'there'},\n\nYour booking is confirmed!\n\nRef: ${bookingRef}\nService: ${service}\nPrice: ${price}\nDate: ${date}\nTime: ${time}\n\nYou can track your booking on our website using your reference code.\n\n${COMPANY.name}\n${COMPANY.address}\nPhone: ${COMPANY.phone1} / ${COMPANY.phone2}\nEmail: ${COMPANY.email}\nHours: ${COMPANY.hours}`;
 
   try {
     if (t.isBrevoApi) {
@@ -204,7 +271,7 @@ async function sendBookingStatusUpdate(to, { name, bookingRef, status }) {
           <p style="font-size:13px; color:#777777; line-height:1.7; margin:0;">To view the full details or check for any further updates, please visit our website and track your booking with your reference code.</p>
         </div>
         <div style="text-align:center; margin-top:24px;">
-          <a href="#track" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track Booking</a>
+          <a href="${getTrackUrl()}" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track Booking</a>
         </div>
         <p style="font-size:13px; color:#888888; line-height:1.7; margin:22px 0 0;">If you have any questions, please contact us. We're happy to help!</p>
       </div>
@@ -433,6 +500,7 @@ async function sendAdminNewBooking({ name, service, date, time, bookingRef, emai
     console.log('[Booking] Email not configured. Skipping admin new-booking notification.');
     return { delivered: false };
   }
+  const price = SERVICE_PRICES[service] || 'On Request';
   const subject = `New Booking Received — ${bookingRef}`;
   const html = `
     <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
@@ -456,6 +524,10 @@ async function sendAdminNewBooking({ name, service, date, time, bookingRef, emai
           <tr>
             <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Service</td>
             <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111;">${service}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Price</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#b8956a; font-weight:700;">${price}</td>
           </tr>
           <tr>
             <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Date</td>
