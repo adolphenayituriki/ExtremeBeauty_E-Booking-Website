@@ -83,6 +83,17 @@ const Footer = () => {
                   </Link>
                 </li>
               ))}
+              <li>
+                <a
+                  href="https://adolpheict.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 text-[0.78rem] hover:text-gold transition-colors duration-200 flex items-center gap-1.5 group"
+                >
+                  <FiArrowUpRight size={10} className="text-gray-700 group-hover:text-gold transition-colors" />
+                  Developer Portfolio
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -150,7 +161,7 @@ const Footer = () => {
               </Link>
             </div>
             <a
-              href="https://adolpheict.vercel.app/"
+              href="https://www.bitscoding.com"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Developed by BitsCoding Company"
