@@ -100,7 +100,7 @@ const COMPANY = {
   address: '105 KG 9th Ave, Nyarutarama, Kigali, Rwanda',
   phone1: '+250 785 069 349',
   phone2: '+250 787 035 643',
-  email: 'info@extremebeauty.rw',
+  email: 'extremebeautyrw.com@gmail.com',
   hours: 'Mon - Sat, 9:00AM - 6:00PM',
   maps: 'https://maps.app.goo.gl/JVeG4xNRdoP4Dt4dA',
   instagram: '@extreme_beauty.rw',

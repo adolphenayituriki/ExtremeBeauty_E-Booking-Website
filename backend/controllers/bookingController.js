@@ -27,9 +27,9 @@ const trackBooking = async (req, res) => {
     if (!ref) {
       return res.status(400).json({ success: false, message: 'Booking reference is required' });
     }
-    const booking = await Booking.findOne({ bookingRef: ref }).select('bookingRef status');
+    const booking = await Booking.findOne({ bookingRef: ref }).select('-trackingPin');
     if (!booking) return res.status(404).json({ success: false, message: 'No booking found with this reference.' });
-    res.json({ success: true, data: { exists: true } });
+    res.json({ success: true, data: booking });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -41,50 +41,9 @@ const trackByPhone = async (req, res) => {
     if (!phone) {
       return res.status(400).json({ success: false, message: 'Phone number is required' });
     }
-    const count = await Booking.countDocuments({ phone });
-    if (!count) return res.status(404).json({ success: false, message: 'No bookings found for this phone number.' });
-    res.json({ success: true, data: { count } });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-const verifyTracking = async (req, res) => {
-  try {
-    const ref = (req.body.ref || '').trim().toUpperCase();
-    const pin = String(req.body.trackingPin || '');
-    if (!ref) return res.status(400).json({ success: false, message: 'Booking reference is required.' });
-    if (!pin) return res.status(400).json({ success: false, message: 'Please enter your tracking password.' });
-    const booking = await Booking.findOne({ bookingRef: ref }).select('+trackingPin');
-    if (!booking) return res.status(404).json({ success: false, message: 'No booking found with this reference.' });
-    if (!booking.trackingPin) {
-      return res.status(403).json({ success: false, message: 'This booking has no tracking password set. Please contact us to verify your booking.' });
-    }
-    const ok = await booking.matchTrackingPin(pin);
-    if (!ok) return res.status(403).json({ success: false, message: 'Incorrect tracking password. Please try again.' });
-    const { trackingPin: _pin, ...safe } = booking.toObject();
-    res.json({ success: true, data: safe });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-const verifyPhoneTracking = async (req, res) => {
-  try {
-    const phone = (req.body.phone || '').trim();
-    const pin = String(req.body.trackingPin || '');
-    if (!phone) return res.status(400).json({ success: false, message: 'Phone number is required.' });
-    if (!pin) return res.status(400).json({ success: false, message: 'Please enter your tracking password.' });
-    const bookings = await Booking.find({ phone }).sort({ createdAt: -1 }).select('+trackingPin');
+    const bookings = await Booking.find({ phone }).sort({ createdAt: -1 }).select('-trackingPin');
     if (!bookings.length) return res.status(404).json({ success: false, message: 'No bookings found for this phone number.' });
-    const matched = [];
-    for (const b of bookings) {
-      if (b.trackingPin && (await b.matchTrackingPin(pin))) {
-        const { trackingPin: _pin, ...safe } = b.toObject();
-        matched.push(safe);
-      }
-    }
-    res.json({ success: true, data: matched });
+    res.json({ success: true, data: bookings });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -93,13 +52,9 @@ const verifyPhoneTracking = async (req, res) => {
 const createBooking = async (req, res) => {
   try {
     const { trackingPin, ...rest } = req.body;
-    if (!trackingPin || String(trackingPin).length < 4) {
-      return res.status(400).json({ success: false, message: 'A tracking password (at least 4 characters) is required to track your booking.' });
-    }
     const booking = new Booking(rest);
     booking.bookingRef = 'EB-' + require('crypto').randomBytes(3).toString('hex').toUpperCase();
     booking.status = 'approved';
-    booking.trackingPin = String(trackingPin);
     const saved = await booking.save();
     const { trackingPin: _pin, ...safe } = saved.toObject();
     const d = saved.date ? new Date(saved.date) : null;
@@ -194,4 +149,4 @@ const deleteBooking = async (req, res) => {
   }
 };
 
-module.exports = { getBookings, getBooking, trackBooking, trackByPhone, verifyTracking, verifyPhoneTracking, createBooking, updateBooking, deleteBooking };
+module.exports = { getBookings, getBooking, trackBooking, trackByPhone, createBooking, updateBooking, deleteBooking };

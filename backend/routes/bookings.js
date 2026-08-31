@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
-const { getBookings, getBooking, trackBooking, trackByPhone, verifyTracking, verifyPhoneTracking, createBooking, updateBooking, deleteBooking } = require('../controllers/bookingController');
+const { getBookings, getBooking, trackBooking, trackByPhone, createBooking, updateBooking, deleteBooking } = require('../controllers/bookingController');
 
 router.get('/track/:ref', trackBooking);
 router.get('/track/phone/:phone', trackByPhone);
-router.post('/track/verify', verifyTracking);
-router.post('/track/verify-phone', verifyPhoneTracking);
 router.get('/', getBookings);
 router.get('/:id', getBooking);
 router.post('/', createBooking);
