@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import {
   FiCalendar, FiClock, FiCheckCircle, FiXCircle, FiInbox, FiLayers, FiArrowRight,
   FiUser, FiMail, FiPhone, FiX, FiMessageSquare, FiTrash2, FiChevronRight, FiLoader,
-  FiSend, FiCheck,
+  FiSend, FiCheck, FiLock, FiShield,
 } from 'react-icons/fi';
 import { adminFetch } from '../../utils/adminApi';
 
@@ -33,6 +33,12 @@ const Dashboard = () => {
   const [replySubject, setReplySubject] = useState('');
   const [replyMessage, setReplyMessage] = useState('');
   const [sendingContactReply, setSendingContactReply] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [pwStep, setPwStep] = useState(1);
+  const [pwCurrent, setPwCurrent] = useState('');
+  const [pwOtp, setPwOtp] = useState('');
+  const [pwNew, setPwNew] = useState('');
+  const [pwLoading, setPwLoading] = useState(false);
 
   useEffect(() => {
     const load = async () => {
@@ -126,6 +132,57 @@ const Dashboard = () => {
     }
   };
 
+  const requestPasswordOtp = async () => {
+    if (!pwCurrent.trim()) {
+      toast.error('Enter your current password');
+      return;
+    }
+    setPwLoading(true);
+    try {
+      await adminFetch('/api/admin/change-password/request', {
+        method: 'POST',
+        body: JSON.stringify({ currentPassword: pwCurrent }),
+      });
+      toast.success('Verification code sent to your email');
+      setPwStep(2);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setPwLoading(false);
+    }
+  };
+
+  const confirmPasswordChange = async () => {
+    if (!pwOtp.trim() || !pwNew.trim()) {
+      toast.error('Enter the verification code and your new password');
+      return;
+    }
+    if (pwNew.length < 6) {
+      toast.error('New password must be at least 6 characters');
+      return;
+    }
+    setPwLoading(true);
+    try {
+      const res = await adminFetch('/api/admin/change-password/confirm', {
+        method: 'POST',
+        body: JSON.stringify({ code: pwOtp, newPassword: pwNew }),
+      });
+      if (res.token) {
+        localStorage.setItem('eb_admin_token', res.token);
+      }
+      toast.success('Password changed successfully');
+      setShowChangePassword(false);
+      setPwStep(1);
+      setPwCurrent('');
+      setPwOtp('');
+      setPwNew('');
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setPwLoading(false);
+    }
+  };
+
   const activeBooking = selectedBooking ? stats.recentBookings.find((b) => b._id === selectedBooking) : null;
   const activeContact = selectedContact ? stats.recentContacts.find((c) => c._id === selectedContact) : null;
 
@@ -176,6 +233,16 @@ const Dashboard = () => {
             <p className="text-[0.52rem] text-gray-500 uppercase tracking-[1.3px] font-medium leading-none">{card.label}</p>
           </Link>
         ))}
+      </div>
+
+      {/* Change Password button */}
+      <div className="flex justify-end">
+        <button
+          onClick={() => { setShowChangePassword(true); setPwStep(1); setPwCurrent(''); setPwOtp(''); setPwNew(''); }}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-black/10 bg-white text-[0.72rem] font-semibold uppercase tracking-[1px] text-gray-600 hover:text-gold hover:border-gold/40 cursor-pointer transition-all duration-300"
+        >
+          <FiLock size={13} /> Change Password
+        </button>
       </div>
 
       {/* Recent bookings + messages */}
@@ -438,6 +505,88 @@ const Dashboard = () => {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Change Password modal */}
+      {showChangePassword && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" role="dialog" aria-modal="true">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowChangePassword(false)} />
+          <div className="relative w-full sm:max-w-[400px] bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up">
+            <div className="bg-gray-950 text-white px-5 py-3.5 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center"><FiShield size={15} /></span>
+                <h3 className="text-[1rem] font-cormorant font-semibold">Change Password</h3>
+              </div>
+              <button onClick={() => setShowChangePassword(false)} className="text-gray-400 hover:text-white bg-transparent border-none cursor-pointer" aria-label="Close">
+                <FiX size={19} />
+              </button>
+            </div>
+
+            <div className="px-5 py-4">
+              {pwStep === 1 ? (
+                <div className="space-y-3.5">
+                  <p className="text-[0.78rem] text-gray-500">Enter your current password to receive a verification code.</p>
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[1.5px] text-gray-400 mb-1 block font-medium">Current Password</label>
+                    <input
+                      type="password"
+                      value={pwCurrent}
+                      onChange={(e) => setPwCurrent(e.target.value)}
+                      placeholder="Enter current password"
+                      className="w-full px-3 py-2.5 glass-input border border-black/10 text-[0.82rem] text-black outline-none rounded-lg placeholder:text-gray-400 focus:border-gold/50"
+                    />
+                  </div>
+                  <button
+                    onClick={requestPasswordOtp}
+                    disabled={pwLoading}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-black text-white text-[0.72rem] font-semibold uppercase tracking-[1.5px] hover:bg-gold cursor-pointer disabled:opacity-50 transition-all duration-300 border-none"
+                  >
+                    {pwLoading ? <><FiLoader size={14} className="animate-spin" /> Sending...</> : <>Send Verification Code <FiArrowRight size={13} /></>}
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3.5">
+                  <p className="text-[0.78rem] text-gray-500">Enter the 6-digit code sent to your email and your new password.</p>
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[1.5px] text-gray-400 mb-1 block font-medium">Verification Code</label>
+                    <input
+                      type="text"
+                      value={pwOtp}
+                      onChange={(e) => setPwOtp(e.target.value)}
+                      placeholder="000000"
+                      maxLength={6}
+                      className="w-full px-3 py-2.5 glass-input border border-black/10 text-[0.82rem] text-black outline-none rounded-lg placeholder:text-gray-400 focus:border-gold/50 text-center tracking-[6px] font-mono"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[1.5px] text-gray-400 mb-1 block font-medium">New Password</label>
+                    <input
+                      type="password"
+                      value={pwNew}
+                      onChange={(e) => setPwNew(e.target.value)}
+                      placeholder="Min. 6 characters"
+                      className="w-full px-3 py-2.5 glass-input border border-black/10 text-[0.82rem] text-black outline-none rounded-lg placeholder:text-gray-400 focus:border-gold/50"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setPwStep(1)}
+                      className="flex-1 py-2.5 rounded-lg border border-gray-200 bg-white text-[0.72rem] font-semibold uppercase tracking-[1px] text-gray-600 hover:text-black hover:border-black/30 cursor-pointer transition-all"
+                    >
+                      Back
+                    </button>
+                    <button
+                      onClick={confirmPasswordChange}
+                      disabled={pwLoading}
+                      className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-black text-white text-[0.72rem] font-semibold uppercase tracking-[1.5px] hover:bg-gold cursor-pointer disabled:opacity-50 transition-all duration-300 border-none"
+                    >
+                      {pwLoading ? <><FiLoader size={14} className="animate-spin" /> Saving...</> : <>Change Password <FiCheck size={13} /></>}
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
