@@ -92,7 +92,7 @@ const Home = () => {
   });
   const featuredServices = content?.featuredServices || defaultFeaturedServices;
   const heroStats = content?.heroStats || [
-    { value: '500+', label: 'Happy Clients' },
+    { value: '2000+', label: 'Happy Clients' },
     { value: '12+', label: 'Services' },
     { value: '5★', label: 'Rating' },
   ];

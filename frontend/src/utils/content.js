@@ -7,7 +7,7 @@ export const DEFAULT_SITE = {
   phone2: '+250 785 069 349',
   email: 'info@extremebeauty.rw',
   address: '105 KG 9th Ave, Nyarutarama, Kigali',
-  mapsUrl: 'https://maps.app.goo.gl/JVeG4xNRdoP4Dt4dA',
+  mapsUrl: 'https://maps.app.goo.gl/sCWWKFUmaUV8fXHY7?g_st=iwb',
   instagram: '@extreme_beauty.rw',
   workingHours: 'Mon – Sat, 9AM – 6PM',
 };
@@ -21,7 +21,7 @@ export const DEFAULT_CONTENT = {
     { type: 'image', src: '/images/Hero-bg-Image-3.jpg', title: 'Experience the Art of Beauty', subtitle: 'Extreme Beauty Lashes & Brows' },
   ],
   heroStats: [
-    { value: '500+', label: 'Happy Clients' },
+    { value: '2000+', label: 'Happy Clients' },
     { value: '12+', label: 'Services' },
     { value: '5★', label: 'Rating' },
   ],
