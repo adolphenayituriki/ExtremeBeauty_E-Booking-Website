@@ -176,7 +176,7 @@ const Footer = () => {
               </Link>
             </div>
             <a
-              href="https://www.bitscoding.com"
+              href="https://bitscodingrw.com"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Developed by BitsCoding Company"
