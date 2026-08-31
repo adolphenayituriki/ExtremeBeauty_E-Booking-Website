@@ -58,7 +58,7 @@ const Home = () => {
 
   const defaultCategories = [
     { name: 'Brows', description: '4 Services', image: '/images/IMG-20260826-WA0006.jpg', icon: <FiEye size={18} />, category: 'Brows' },
-    { name: 'Lash Lift', description: 'Premium Service', image: '/images/IMG-20260826-WA0007.jpg', icon: <FiStar size={18} />, category: 'Lash Lift' },
+    { name: 'Lash Lift', description: 'Premium Service', image: '/images/Lash-Lift.jpg', icon: <FiStar size={18} />, category: 'Lash Lift' },
     { name: 'Eyelash Extensions', description: '6 Styles Available', image: '/images/IMG-20260826-WA0008.jpg', icon: <FiEye size={18} />, category: 'Lashes' },
     { name: 'Eyebrows Retouch', description: 'Touch-Up Service', image: '/images/IMG-20260826-WA0009.jpg', icon: <FiCheck size={18} />, category: 'Retouch' },
   ];
