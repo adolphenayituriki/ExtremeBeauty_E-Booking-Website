@@ -1,5 +1,6 @@
 const Booking = require('../models/Booking');
 const { logChange } = require('../utils/audit');
+const { sendBookingConfirmation, sendBookingStatusUpdate } = require('../utils/mailer');
 
 const getBookings = async (req, res) => {
   try {
@@ -101,6 +102,23 @@ const createBooking = async (req, res) => {
     booking.trackingPin = String(trackingPin);
     const saved = await booking.save();
     const { trackingPin: _pin, ...safe } = saved.toObject();
+    if (saved.email) {
+      try {
+        const d = saved.date ? new Date(saved.date) : null;
+        const dateStr = d
+          ? d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+          : '';
+        await sendBookingConfirmation(saved.email, {
+          name: `${saved.firstName || ''} ${saved.lastName || ''}`.trim(),
+          service: saved.service || 'Salon service',
+          date: dateStr,
+          time: saved.time || '',
+          bookingRef: saved.bookingRef,
+        });
+      } catch (e) {
+        console.log(`[Booking] Confirmation email error: ${e.message}`);
+      }
+    }
     res.status(201).json({ success: true, data: safe });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -119,6 +137,17 @@ const updateBooking = async (req, res) => {
       status: req.body.status,
       name: `${req.body.firstName || ''} ${req.body.lastName || ''}`.trim() || undefined,
     });
+    if (req.body.status && booking.email && req.body.status !== 'approved') {
+      try {
+        await sendBookingStatusUpdate(booking.email, {
+          name: `${booking.firstName || ''} ${booking.lastName || ''}`.trim(),
+          bookingRef: booking.bookingRef,
+          status: req.body.status,
+        });
+      } catch (e) {
+        console.log(`[Booking] Status update email error: ${e.message}`);
+      }
+    }
     res.json({ success: true, data: booking });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
