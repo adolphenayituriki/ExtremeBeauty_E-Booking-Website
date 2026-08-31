@@ -166,7 +166,7 @@ const Footer = () => {
                 alt="BitsCoding Company"
                 loading="lazy"
                 decoding="async"
-                className="h-5 w-auto object-contain rounded-sm group-hover:opacity-90 transition-opacity duration-200"
+                className="h-6 w-6 object-cover rounded-full ring-1 ring-white/20 group-hover:ring-gold/60 transition-all duration-200"
               />
               <span className="font-medium group-hover:text-gold">BitsCoding Company</span>
             </a>
