@@ -32,9 +32,9 @@ export const allCategories = [
     label: 'Eyelash Extensions',
     icon: <FiEye size={20} />,
     services: [
-      { name: 'Classic Set', description: 'One extension applied to each natural lash for a subtle, natural enhancement.', image: '/images/IMG-20260826-WA0008.jpg', price: 'RWF 45,000', pos: 'center' },
+      { name: 'Classic Set', description: 'One extension applied to each natural lash for a subtle, natural enhancement.', image: '/images/IMG-20260826-WA0008-card.jpg', price: 'RWF 45,000' },
       { name: 'Hybrid Set', description: 'A mix of classic and volume techniques creating a textured, wispy look.', image: '/images/IMG-20260826-WA0009.jpg', price: 'RWF 50,000' },
-      { name: 'Volume Set', description: 'Multiple lightweight fans applied to each natural lash for a full, dramatic appearance.', image: '/images/IMG-20260826-WA0010.jpg', price: 'RWF 55,000' },
+      { name: 'Volume Set', description: 'Multiple lightweight fans applied to each natural lash for a full, dramatic appearance.', image: '/images/IMG-20260826-WA0010-card.jpg', price: 'RWF 55,000' },
       { name: 'Mega Volume Set', description: 'Ultra-dramatic look using the finest fans of 6-16 lashes per natural lash.', image: '/images/IMG-20260826-WA0012.jpg', price: 'RWF 60,000' },
       { name: 'Wispy Sets', description: 'A trendy, textured style with varying lengths creating a doll-like effect.', image: '/images/IMG-20260826-WA0013.jpg', price: 'RWF 45,000 – 60,000' },
       { name: 'Lash Removal', description: 'Professional and safe removal of eyelash extensions protecting your natural lashes.', image: '/images/IMG-20260826-WA0015.jpg', price: 'RWF 5,000' },
