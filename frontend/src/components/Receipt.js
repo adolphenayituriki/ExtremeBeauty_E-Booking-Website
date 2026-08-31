@@ -2,6 +2,22 @@ import React, { useRef } from 'react';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
+const SERVICE_PRICES = {
+  'Microblading Eyebrows': 'RWF 100,000',
+  'Microshading Eyebrows': 'RWF 100,000',
+  'Hybrid / Combination Brows': 'RWF 100,000',
+  'Brows Lamination': 'RWF 30,000',
+  'Lash Lift': 'RWF 30,000',
+  'Classic Set': 'RWF 45,000',
+  'Hybrid Set': 'RWF 50,000',
+  'Volume Set': 'RWF 55,000',
+  'Mega Volume Set': 'RWF 60,000',
+  'Wispy Sets': 'RWF 45,000 - 60,000',
+  'Lash Removal': 'RWF 5,000',
+  'Eyebrows Retouch': 'RWF 60,000',
+  'Training Session': 'On Request',
+};
+
 const Receipt = ({ booking }) => {
   const receiptRef = useRef(null);
 
@@ -12,6 +28,7 @@ const Receipt = ({ booking }) => {
     year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
   });
   const receiptId = booking.bookingRef || 'EB-000000';
+  const price = SERVICE_PRICES[booking.service] || 'On Request';
 
   const downloadImage = async () => {
     const el = receiptRef.current;
@@ -102,7 +119,7 @@ const Receipt = ({ booking }) => {
 
         {/* Body — single compact card */}
         <div style={{ padding: '16px 20px' }}>
-          <div style={{ background: '#fafafa', borderRadius: '10px', padding: '12px 16px', border: '1px solid #f0f0f0' }}>
+          <div style={{ background: '#ffffff', borderRadius: '10px', padding: '12px 16px', border: '1px solid #f0f0f0' }}>
             {row('Service', booking.service)}
             {row('Date', dateStr)}
             {row('Time', booking.time)}
@@ -112,35 +129,64 @@ const Receipt = ({ booking }) => {
             {booking.message && row('Notes', booking.message, true)}
           </div>
 
+          {/* Amount / price */}
+          <div style={{
+            marginTop: '12px',
+            padding: '12px 16px',
+            background: 'linear-gradient(135deg, #faf6ee, #fffdf8)',
+            border: '1px solid #efe5d2',
+            borderRadius: '10px',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '10px', color: '#8a8272', fontWeight: 600 }}>Service Fee</span>
+              <span style={{ fontSize: '13px', fontWeight: 800, color: '#b8956a', fontFamily: "'Montserrat', sans-serif" }}>{price}</span>
+            </div>
+            <div style={{ height: '1px', background: '#efe5d2', margin: '8px 0' }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '11px', color: '#111', fontWeight: 800 }}>Subtotal</span>
+              <span style={{ fontSize: '11px', fontWeight: 800, color: '#111' }}>{price}</span>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+              <span style={{ fontSize: '9px', color: '#8a8272', fontWeight: 700, letterSpacing: '0.5px', textTransform: 'uppercase' }}>Status</span>
+              <span style={{
+                fontSize: '9px', fontWeight: 700, color: '#059669', textTransform: 'uppercase', letterSpacing: '1px',
+                padding: '2px 8px', borderRadius: '12px', background: '#ecfdf5', border: '1px solid #a7f3d0',
+              }}>Paid on site</span>
+            </div>
+          </div>
+
           {/* Tracking ref */}
           <div style={{
-            marginTop: '14px',
+            marginTop: '12px',
             padding: '10px 16px',
-            background: '#fafafa',
+            background: '#111111',
             borderRadius: '10px',
-            border: '1px solid #f0f0f0',
             textAlign: 'center',
           }}>
+            <p style={{ fontSize: '7px', color: '#b8956a', margin: '0 0 4px', letterSpacing: '2px', textTransform: 'uppercase' }}>Scan / Track your booking</p>
             <div style={{
               fontFamily: "'Montserrat', monospace",
-              fontSize: '13px',
+              fontSize: '14px',
               fontWeight: 800,
-              color: '#111',
+              color: '#d4af62',
               letterSpacing: '3px',
             }}>
               {receiptId}
             </div>
-            <p style={{ fontSize: '8px', color: '#bbb', margin: '4px 0 0', letterSpacing: '0.5px' }}>
-              extreme-beauty.vercel.app/tracking
+            <p style={{ fontSize: '8px', color: '#8a8272', margin: '6px 0 0', letterSpacing: '0.5px' }}>
+              extremebeauty.vercel.app/tracking
             </p>
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ padding: '10px 20px', background: '#fafafa', borderTop: '1px solid #f0f0f0', textAlign: 'center' }}>
+        <div style={{ padding: '12px 20px', background: '#fafafa', borderTop: '1px solid #f0f0f0', textAlign: 'center' }}>
           <p style={{ fontSize: '9px', color: '#999', margin: '0 0 4px' }}>Booked on {createdStr}</p>
           <p style={{ fontSize: '10px', color: '#888', margin: 0, fontStyle: 'italic' }}>
             Thank you for choosing Extreme Beauty!
+          </p>
+          <p style={{ fontSize: '8px', color: '#bbb', margin: '8px 0 0', letterSpacing: '0.5px' }}>
+            105 KG 9th Ave, Nyarutarama, Kigali &nbsp;·&nbsp; 0785 069 349 (WhatsApp)
           </p>
         </div>
 
