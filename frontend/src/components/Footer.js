@@ -150,7 +150,7 @@ const Footer = () => {
               </Link>
             </div>
             <a
-              href="https://www.bitscoding.com"
+              href="https://adolpheict.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Developed by BitsCoding Company"
