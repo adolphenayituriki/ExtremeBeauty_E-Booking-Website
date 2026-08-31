@@ -241,22 +241,21 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[1200px] mx-auto px-5">
             {categoriesWithServices.map((cat, index) => (
               <FadeIn key={index} delay={index * 0.1}>
-                <div className="group relative h-[420px] sm:h-[300px] overflow-hidden rounded-2xl bg-black">
-                  <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center opacity-70 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[20%] group-hover:opacity-60 group-hover:scale-110 group-hover:grayscale-0" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10" />
+                <Link to={`/services?category=${encodeURIComponent(cat.category || cat.name)}`} className="group block overflow-hidden rounded-2xl bg-black transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)] hover:-translate-y-1">
+                  <div className="relative h-[150px] overflow-hidden">
+                    <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110" />
+                    <span className="absolute top-2.5 right-2.5 text-[0.55rem] font-bold uppercase tracking-[1px] text-gold bg-black/60 backdrop-blur border border-gold/30 px-2 py-0.5 rounded-full">
+                      {cat.services.length}
+                    </span>
+                  </div>
 
-                  <div className="absolute inset-x-0 bottom-0 p-4">
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-gold shrink-0">{cat.icon}</span>
-                        <h3 className="text-[1rem] text-white font-semibold group-hover:text-gold transition-colors duration-300 truncate">{cat.name}</h3>
-                      </div>
-                      <span className="text-[0.55rem] font-bold uppercase tracking-[1px] text-gold bg-gold/10 border border-gold/30 px-1.5 py-0.5 rounded-full shrink-0">
-                        {cat.services.length}
-                      </span>
+                  <div className="p-4 bg-black">
+                    <div className="flex items-center gap-2 mb-2.5">
+                      <span className="text-gold shrink-0">{cat.icon}</span>
+                      <h3 className="text-[1rem] text-white font-semibold group-hover:text-gold transition-colors duration-300 truncate">{cat.name}</h3>
                     </div>
 
-                    <ul className="space-y-1 mb-3">
+                    <ul className="space-y-1.5 mb-3.5">
                       {cat.services.map((s) => (
                         <li key={s.name} className="flex items-center justify-between gap-2 text-[0.68rem] leading-[1.2]">
                           <span className="text-gray-200 flex items-center min-w-0">
@@ -268,14 +267,11 @@ const Home = () => {
                       ))}
                     </ul>
 
-                    <Link
-                      to={`/services?category=${encodeURIComponent(cat.category || cat.name)}`}
-                      className="flex items-center justify-center gap-1.5 w-full py-2 text-[0.63rem] font-semibold uppercase tracking-[2px] text-black bg-gold rounded-lg transition-all duration-300 hover:bg-gold-light"
-                    >
+                    <span className="flex items-center justify-center gap-1.5 w-full py-2 text-[0.63rem] font-semibold uppercase tracking-[2px] text-black bg-gold rounded-lg transition-all duration-300 group-hover:bg-gold-light">
                       View All <FiArrowRight size={12} />
-                    </Link>
+                    </span>
                   </div>
-                </div>
+                </Link>
               </FadeIn>
             ))}
           </div>
