@@ -52,12 +52,15 @@ export async function fetchJson(path, options = {}) {
 
   const response = await fetch(`${API_URL}${path}`, { ...options, headers });
 
+  const json = await parseJson(response, path);
+
   if (response.status === 401) {
+    if (json && json.message) {
+      throw new Error(json.message);
+    }
     clearAuth();
     throw new Error('Session expired. Please log in again.');
   }
-
-  const json = await parseJson(response, path);
 
   if (!response.ok) {
     throw new Error(json.message || 'Request failed');
