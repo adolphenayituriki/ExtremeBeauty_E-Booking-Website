@@ -16,9 +16,12 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const codeRef = useRef(null);
+  const digitRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
 
   useEffect(() => {
-    if (step === 'otp' && codeRef.current) codeRef.current.focus();
+    if (step === 'otp' && digitRefs[0].current) {
+      setTimeout(() => digitRefs[0].current?.focus(), 100);
+    }
   }, [step]);
 
   useEffect(() => {
@@ -168,37 +171,71 @@ const AdminLogin = () => {
                   <span className="text-[0.64rem] font-medium text-gray-500">6-digit code</span>
                 </div>
 
-                <div className="bg-white/[0.04] border border-white/10 rounded-2xl transition-all duration-200 focus-within:border-gold/50 focus-within:bg-white/[0.06]">
-                  <div className="relative h-16 px-4">
-                    {/* Fixed label (never overlaps the input) */}
+                <div className="bg-white/[0.04] border border-white/10 rounded-2xl transition-all duration-200 focus-within:border-gold/50 focus-within:bg-white/[0.06] p-4">
                     <label
                       htmlFor="otp-input"
-                      className="block pt-1.5 text-[0.6rem] uppercase tracking-[1.5px] text-gold pointer-events-none"
+                      className="block pb-2 text-[0.6rem] uppercase tracking-[1.5px] text-gold pointer-events-none"
                     >
                       Verification code
                     </label>
-                    <input
-                      id="otp-input"
-                      ref={codeRef}
-                      type="text"
-                      value={code}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/\D/g, '').slice(0, 6);
-                        setCode(v);
-                        if (v.length === 6) handleVerify(v);
-                      }}
-                      onPaste={(e) => {
-                        const v = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
-                        if (v.length === 6) handleVerify(v);
-                      }}
-                      autoComplete="one-time-code"
-                      inputMode="numeric"
-                      maxLength={6}
-                      placeholder="Enter the 6-digit code"
-                      className="peer h-[38px] w-full bg-transparent text-white text-[1.05rem] tracking-[0.6em] outline-none placeholder:text-gray-500 placeholder:tracking-normal placeholder:text-[0.82rem]"
-                    />
+                    <div className="flex items-center justify-between gap-2" id="otp-input">
+                      {[0,1,2,3,4,5].map((i) => (
+                        <input
+                          key={i}
+                          ref={digitRefs[i]}
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={2}
+                          value={code[i] || ''}
+                          onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, '');
+                            if (val.length === 2) {
+                              const next = code.slice(0, i) + val[0] + val[1];
+                              const v = next.slice(0, 6);
+                              setCode(v);
+                              if (v.length === 6) handleVerify(v);
+                              else if (i + 2 < 6) digitRefs[i + 2].current?.focus();
+                            } else if (val.length === 1) {
+                              const v = code.slice(0, i) + val + code.slice(i + 1);
+                              setCode(v);
+                              if (i + 1 < 6) digitRefs[i + 1].current?.focus();
+                            } else {
+                              const v = code.slice(0, i) + code.slice(i + 1);
+                              setCode(v);
+                            }
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Backspace' && !code[i] && i > 0) {
+                              const v = code.slice(0, i - 1) + code.slice(i + 1);
+                              setCode(v);
+                              digitRefs[i - 1].current?.focus();
+                            }
+                            if (e.key === 'ArrowLeft' && i > 0) {
+                              e.preventDefault();
+                              digitRefs[i - 1].current?.focus();
+                            }
+                            if (e.key === 'ArrowRight' && i < 5) {
+                              e.preventDefault();
+                              digitRefs[i + 1].current?.focus();
+                            }
+                          }}
+                          onPaste={(e) => {
+                            e.preventDefault();
+                            const v = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6);
+                            setCode(v);
+                            if (v.length === 6) {
+                              handleVerify(v);
+                            } else {
+                              const idx = Math.min(v.length, 5);
+                              digitRefs[idx].current?.focus();
+                            }
+                          }}
+                          className="w-[46px] h-[52px] bg-white/[0.06] border border-white/15 rounded-xl text-center text-white text-[1.2rem] font-mono outline-none focus:border-gold/60 focus:bg-white/[0.08] transition-all duration-200 caret-transparent"
+                          autoFocus={i === 0}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
 
                 <button
                   type="submit"
