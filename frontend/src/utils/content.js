@@ -28,7 +28,7 @@ export const DEFAULT_CONTENT = {
   categories: [
     { name: 'Brows', description: '4 Services', image: '/images/IMG-20260826-WA0006.jpg', category: 'Brows' },
     { name: 'Lash Lift', description: 'Premium Service', image: '/images/Lash-Lift.jpg', category: 'Lash Lift' },
-    { name: 'Eyelash Extensions', description: '6 Styles Available', image: '/images/IMG-20260826-WA0008.jpg', category: 'Lashes' },
+    { name: 'Eyelash Extensions', description: '6 Styles Available', image: '/images/IMG-20260826-WA0010.jpg', category: 'Lashes' },
     { name: 'Eyebrows Retouch', description: 'Touch-Up Service', image: '/images/IMG-20260826-WA0009.jpg', category: 'Retouch' },
   ],
   featuredServices: [

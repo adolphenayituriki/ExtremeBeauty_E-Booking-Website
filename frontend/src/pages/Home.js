@@ -59,7 +59,7 @@ const Home = () => {
   const defaultCategories = [
     { name: 'Brows', description: '4 Services', image: '/images/IMG-20260826-WA0006.jpg', icon: <FiEye size={18} />, category: 'Brows' },
     { name: 'Lash Lift', description: 'Premium Service', image: '/images/Lash-Lift.jpg', icon: <FiStar size={18} />, category: 'Lash Lift' },
-    { name: 'Eyelash Extensions', description: '6 Styles Available', image: '/images/IMG-20260826-WA0008.jpg', icon: <FiEye size={18} />, category: 'Lashes' },
+    { name: 'Eyelash Extensions', description: '6 Styles Available', image: '/images/IMG-20260826-WA0010.jpg', icon: <FiEye size={18} />, category: 'Lashes' },
     { name: 'Eyebrows Retouch', description: 'Touch-Up Service', image: '/images/IMG-20260826-WA0009.jpg', icon: <FiCheck size={18} />, category: 'Retouch' },
   ];
 
@@ -299,7 +299,7 @@ const Home = () => {
               <FadeIn key={index} delay={index * 0.08}>
                 <div className="group glass-card rounded-2xl overflow-hidden cursor-pointer" onClick={() => setSelectedService(service)}>
                   <div className="relative h-[220px] overflow-hidden">
-                    <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <span className="absolute top-3 left-3 glass text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-gold px-2.5 py-1 rounded-full">{service.category}</span>
                   </div>
