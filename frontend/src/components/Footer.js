@@ -133,20 +133,43 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 pt-5 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-gray-600 text-[0.68rem] tracking-wide">
-            &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
-          </p>
-          <div className="flex items-center gap-5">
-            <Link to="/tracking" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
-              <FiArrowUpRight size={9} /> Track Booking
-            </Link>
-            <Link to="/contact" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
-              <FiArrowUpRight size={9} /> Contact
-            </Link>
-            <Link to="/admin" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
-              <FiArrowUpRight size={9} /> Admin
-            </Link>
+        <div className="mt-10 pt-5 border-t border-white/[0.06]">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-gray-600 text-[0.68rem] tracking-wide">
+              &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
+            </p>
+            <div className="flex items-center gap-5">
+              <Link to="/tracking" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
+                <FiArrowUpRight size={9} /> Track Booking
+              </Link>
+              <Link to="/contact" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
+                <FiArrowUpRight size={9} /> Contact
+              </Link>
+              <Link to="/admin" className="text-gray-600 text-[0.68rem] hover:text-gold transition-colors flex items-center gap-1">
+                <FiArrowUpRight size={9} /> Admin
+              </Link>
+            </div>
+          </div>
+
+          {/* Developer credit */}
+          <div className="mt-4 pt-4 border-t border-white/[0.04] flex items-center justify-center">
+            <a
+              href="https://www.bitscoding.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Developed by BitsCoding Company"
+              className="group flex items-center gap-2 text-gray-500 text-[0.68rem] hover:text-gold transition-colors duration-200"
+            >
+              <span>Developed by</span>
+              <img
+                src="/images/BitsCoding.jpeg"
+                alt="BitsCoding Company"
+                loading="lazy"
+                decoding="async"
+                className="h-5 w-auto object-contain rounded-sm group-hover:opacity-90 transition-opacity duration-200"
+              />
+              <span className="font-medium group-hover:text-gold">BitsCoding Company</span>
+            </a>
           </div>
         </div>
       </div>
