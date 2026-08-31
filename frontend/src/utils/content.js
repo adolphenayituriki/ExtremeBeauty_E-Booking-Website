@@ -3,8 +3,8 @@ import API_URL from './apiConfig';
 
 export const DEFAULT_SITE = {
   name: 'Extreme Beauty Lashes & Brows',
-  phone1: '+250 785 069 349',
-  phone2: '+250 787 035 643',
+  phone1: '+250 787 035 643',
+  phone2: '+250 785 069 349',
   email: 'info@extremebeauty.rw',
   address: '105 KG 9th Ave, Nyarutarama, Kigali',
   mapsUrl: 'https://maps.app.goo.gl/JVeG4xNRdoP4Dt4dA',

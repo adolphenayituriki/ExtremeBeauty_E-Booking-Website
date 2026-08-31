@@ -9,8 +9,8 @@ import {
 const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
 const CONTACTS = [
-  { label: 'Call us anytime', number: '+250 785 069 349', href: 'tel:+250785069349' },
-  { label: 'WhatsApp available', number: '+250 787 035 643', href: 'https://wa.me/250787035643' },
+  { label: 'Call us anytime', number: '+250 787 035 643', href: 'tel:+250787035643' },
+  { label: 'WhatsApp available', number: '+250 785 069 349', href: 'https://wa.me/250785069349' },
 ];
 
 const statusConfig = {
