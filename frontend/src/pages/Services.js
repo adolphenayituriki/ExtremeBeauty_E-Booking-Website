@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiArrowRight, FiEye, FiStar, FiCheckCircle, FiSearch, FiX } from 'react-icons/fi';
+import Seo from '../utils/Seo';
 
 export const allCategories = [
   {
@@ -84,6 +85,11 @@ const Services = () => {
 
   return (
     <>
+      <Seo
+        title="Services & Prices | Extreme Beauty Lashes & Brows"
+        description="Explore lash & brow services and prices at Extreme Beauty Lashes & Brows, Kigali: microblading, eyelash extensions, lash lift, brow lamination and more."
+        path="/services"
+      />
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">

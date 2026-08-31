@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FiPhone, FiMail, FiMapPin, FiClock, FiArrowRight, FiSend, FiMessageSquare } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { useSiteInfo } from '../utils/content';
+import Seo from '../utils/Seo';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
@@ -62,6 +63,11 @@ const Contact = () => {
 
   return (
     <>
+      <Seo
+        title="Contact Us | Extreme Beauty Lashes & Brows"
+        description="Get in touch with Extreme Beauty Lashes & Brows in Kigali, Rwanda. Call, WhatsApp or send us a message to book your lash and brow appointment."
+        path="/contact"
+      />
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">

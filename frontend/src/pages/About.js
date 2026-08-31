@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiCheck, FiArrowRight } from 'react-icons/fi';
+import Seo from '../utils/Seo';
 
 const About = () => {
   const features = [
@@ -12,6 +13,11 @@ const About = () => {
 
   return (
     <>
+      <Seo
+        title="About Us | Extreme Beauty Lashes & Brows"
+        description="Learn about Extreme Beauty Lashes & Brows, Kigali's trusted lash and brow studio — expert technicians, premium products and personalized care."
+        path="/about"
+      />
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">

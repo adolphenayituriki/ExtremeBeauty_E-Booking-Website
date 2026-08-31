@@ -24,14 +24,6 @@ async function parseJson(response, context = 'request') {
   const contentType = response.headers.get('content-type');
   const text = await response.text();
 
-  // TEMP DEBUG LOGS — remove after verifying
-  console.groupCollapsed(`[api-debug] ${context} -> ${response.url}`);
-  console.log('Request URL:', response.url);
-  console.log('Response status:', response.status);
-  console.log('Content-Type:', contentType);
-  console.log('Response body:', text.slice(0, 500));
-  console.groupEnd();
-
   if (!contentType || !contentType.includes('application/json')) {
     console.error(`[api] Expected JSON but received content-type "${contentType}". Body (first 300 chars):`, text.slice(0, 300));
     throw new Error('Server returned an invalid response. Please check the API endpoint and try again.');

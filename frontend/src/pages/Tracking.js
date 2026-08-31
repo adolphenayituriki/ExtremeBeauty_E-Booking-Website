@@ -5,6 +5,7 @@ import {
   FiSearch, FiCalendar, FiClock, FiUser, FiCheckCircle, FiAlertCircle, FiLoader,
   FiPhone, FiHash, FiArrowRight, FiArrowLeft, FiShield,
 } from 'react-icons/fi';
+import Seo from '../utils/Seo';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
@@ -156,6 +157,11 @@ const Tracking = () => {
 
   return (
     <>
+      <Seo
+        title="Track Your Booking | Extreme Beauty Lashes & Brows"
+        description="Check the status of your appointment with Extreme Beauty Lashes & Brows, Kigali. Enter your booking reference to track it online."
+        path="/tracking"
+      />
       <div className="pt-[104px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">

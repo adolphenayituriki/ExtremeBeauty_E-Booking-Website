@@ -4,6 +4,7 @@ import { FiArrowRight, FiChevronLeft, FiChevronRight, FiStar, FiEye, FiPlay, FiC
 import { motion, useInView } from 'framer-motion';
 import { useSiteContent } from '../utils/content';
 import { allCategories as serviceCategories } from './Services';
+import Seo from '../utils/Seo';
 
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
@@ -144,13 +145,22 @@ const Home = () => {
 
   return (
     <>
+      <Seo
+        title="Extreme Beauty Lashes & Brows | Beauty Salon in Kigali, Rwanda"
+        description="Extreme Beauty Lashes & Brows — Kigali's trusted lash & brow studio. Microblading, eyelash extensions, lash lift and brow lamination. Book your appointment today."
+        path="/"
+      />
       {/* ===== 1. HERO ===== */}
       <section className="relative min-h-[90vh] flex items-center bg-gray-950 text-white overflow-hidden pt-[70px] lg:pt-[80px]">
         <div className="absolute inset-0 z-0">
           {heroSlides.map((s, i) => (
             <div key={i} className={`hero-bg-slide ${i === currentHero ? 'active' : ''} ${heroAnimating && i === currentHero ? 'exiting' : ''}`}>
               {s.type === 'video' ? (
-                <video src={s.src} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+                i === currentHero ? (
+                  <video src={s.src} autoPlay muted loop playsInline preload="metadata" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: 'url(/images/Hero-bg-Image-1.jpg)' }} />
+                )
               ) : (
                 <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url(${s.src})` }} />
               )}
@@ -243,7 +253,7 @@ const Home = () => {
                 <Link to={`/services?category=${encodeURIComponent(cat.category || cat.name)}`} className="group block overflow-hidden rounded-2xl bg-black transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)] hover:-translate-y-1">
                   <div className="relative p-2 pb-0">
                     <div className="relative h-[150px] overflow-hidden rounded-t-xl border border-white/10">
-                      <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110" />
+                      <img src={cat.image} alt={cat.name} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                     </div>
                     <span className="absolute top-4 right-4 text-[0.55rem] font-bold uppercase tracking-[1px] text-gold bg-black/60 backdrop-blur border border-gold/30 px-2 py-0.5 rounded-full">
@@ -299,7 +309,7 @@ const Home = () => {
               <FadeIn key={index} delay={index * 0.08}>
                 <div className="group glass-card rounded-2xl overflow-hidden cursor-pointer" onClick={() => setSelectedService(service)}>
                   <div className="relative h-[220px] overflow-hidden">
-                    <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]" />
+                    <img src={service.image} alt={service.title} loading="lazy" decoding="async" className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <span className="absolute top-3 left-3 glass text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-gold px-2.5 py-1 rounded-full">{service.category}</span>
                   </div>
@@ -346,7 +356,7 @@ const Home = () => {
               <FadeIn key={index} delay={index * 0.08}>
                 <div className="group relative overflow-hidden rounded-lg border border-white/10 bg-white/[0.04] hover:border-gold/40 transition-all duration-500">
                   <div className="relative h-28 sm:h-32 lg:h-36 overflow-hidden">
-                    <img src={`/images/${step.image}`} alt={step.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img src={`/images/${step.image}`} alt={step.title} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent" />
                     <span className="absolute top-2 right-2 w-7 h-7 rounded-full bg-gold text-black flex items-center justify-center text-[0.75rem] font-bold shadow-lg">
                       {String(index + 1).padStart(2, '0')}
@@ -387,7 +397,7 @@ const Home = () => {
                     {carouselImages.map((img, i) => (
                       <div key={i} className="flex-shrink-0 w-1/3 px-1.5">
                         <div className="h-[280px] overflow-hidden rounded-2xl glass-card hover:transform-none">
-                          <img src={img} alt={`Gallery ${i + 1}`} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
+                          <img src={img} alt={`Gallery ${i + 1}`} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
                         </div>
                       </div>
                     ))}
@@ -445,7 +455,7 @@ const Home = () => {
                 {pageVideos.map((video, i) => (
                   <div key={i} className="flex-shrink-0 min-w-[50%] sm:min-w-[33.333%] px-2.5">
                     <div className="relative overflow-hidden rounded-2xl cursor-pointer group">
-                      <video src={video.src} controls muted poster={video.poster} className="w-full h-[180px] sm:h-[220px] lg:h-[260px] object-cover block transition-all duration-500 group-hover:scale-105" />
+                      <video src={video.src} controls muted playsInline preload="none" poster={video.poster} className="w-full h-[180px] sm:h-[220px] lg:h-[260px] object-cover block transition-all duration-500 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center pointer-events-none">
                         <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100">
                           <FiPlay size={18} className="text-white ml-0.5" />
