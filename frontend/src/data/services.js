@@ -3,7 +3,7 @@ export const services = [
     name: "Microblading Eyebrows",
     price: 100000,
     priceFormatted: "RWF 100,000",
-    image: "/images/IMG-20260826-WA0023.jpg",
+    image: "/images/Microblading.jpg",
     category: "Brows",
     description:
       "A semi-permanent tattooing technique that creates natural-looking, fuller eyebrows using fine, hair-like strokes.",
@@ -12,7 +12,7 @@ export const services = [
     name: "Microshading Eyebrows",
     price: 100000,
     priceFormatted: "RWF 100,000",
-    image: "/images/IMG-20260826-WA0024.jpg",
+    image: "/images/Microshading.jpg",
     category: "Brows",
     description:
       "A soft, powdered effect technique using tiny dots to create a filled-in, makeup-like finish.",
@@ -21,7 +21,7 @@ export const services = [
     name: "Hybrid / Combination Brows",
     price: 100000,
     priceFormatted: "RWF 100,000",
-    image: "/images/IMG-20260826-WA0027.jpg",
+    image: "/images/Ombr%C3%A9.jpg",
     category: "Brows",
     description:
       "The best of both worlds. Combines microblading strokes at the front with microshading at the tail.",
@@ -30,7 +30,7 @@ export const services = [
     name: "Brows Lamination",
     price: 30000,
     priceFormatted: "RWF 30,000",
-    image: "/images/IMG-20260826-WA0048.jpg",
+    image: "/images/Brow%20lamination.jpg",
     category: "Brows",
     description:
       "A semi-permanent treatment that reshapes and sets brow hairs into place for a sleek look.",
@@ -39,7 +39,7 @@ export const services = [
     name: "Lash Lift",
     price: 30000,
     priceFormatted: "RWF 30,000",
-    image: "/images/Lash-Lift.jpg",
+    image: "/images/Lash%20lift.jpg",
     category: "Lash Lift",
     description:
       "A semi-permanent perm treatment that curls your natural lashes upward for a longer, lifted appearance.",
@@ -48,7 +48,7 @@ export const services = [
     name: "Classic Set",
     price: 45000,
     priceFormatted: "RWF 45,000",
-    image: "/images/IMG-20260826-WA0008.jpg",
+    image: "/images/Brows%20Category.jpg",
     category: "Lashes",
     description:
       "One extension applied to each natural lash for a subtle, natural enhancement.",
@@ -66,7 +66,7 @@ export const services = [
     name: "Volume Set",
     price: 55000,
     priceFormatted: "RWF 55,000",
-    image: "/images/IMG-20260826-WA0010.jpg",
+    image: "/images/Volume%20lashes%20set.jpg",
     category: "Lashes",
     description:
       "Multiple lightweight fans applied to each natural lash for a full, dramatic appearance.",
@@ -75,7 +75,7 @@ export const services = [
     name: "Mega Volume Set",
     price: 60000,
     priceFormatted: "RWF 60,000",
-    image: "/images/IMG-20260826-WA0012.jpg",
+    image: "/images/Volume%20lashes%20set%20(2).jpg",
     category: "Lashes",
     description:
       "Ultra-dramatic look using the finest fans of 6-16 lashes per natural lash.",
@@ -84,7 +84,7 @@ export const services = [
     name: "Wispy Sets",
     price: 50000,
     priceFormatted: "RWF 45,000 - 60,000",
-    image: "/images/IMG-20260826-WA0013.jpg",
+    image: "/images/Whisper%20set.jpg",
     category: "Lashes",
     description:
       "A trendy, textured style with varying lengths creating a doll-like effect.",
@@ -102,7 +102,7 @@ export const services = [
     name: "Eyebrows Retouch",
     price: 60000,
     priceFormatted: "RWF 60,000",
-    image: "/images/IMG-20260826-WA0016.jpg",
+    image: "/images/Eyebrows.jpg",
     category: "Retouch",
     description:
       "Touch-up and refresh service for previously done microblading, microshading, or combination brows.",
