@@ -12,9 +12,9 @@ export const allCategories = [
     icon: <FiEye size={20} />,
     services: [
       { name: 'Microblading Eyebrows', description: 'A semi-permanent tattooing technique that creates natural-looking, fuller eyebrows using fine, hair-like strokes.', image: '/images/IMG-20260826-WA0023.jpg', price: 'RWF 100,000' },
-      { name: 'Microshading Eyebrows', description: 'A soft, powdered effect technique using tiny dots to create a filled-in, makeup-like finish.', image: '/images/IMG-20260826-WA0024.jpg', price: 'RWF 100,000' },
+      { name: 'Microshading Eyebrows', description: 'A soft, powdered effect technique using tiny dots to create a filled-in, makeup-like finish.', image: '/images/IMG-20260826-WA0024.jpg', price: 'RWF 100,000', pos: 'center' },
       { name: 'Hybrid / Combination Brows', description: 'The best of both worlds. Combines microblading strokes at the front with microshading at the tail.', image: '/images/IMG-20260826-WA0027.jpg', price: 'RWF 100,000' },
-      { name: 'Brows Lamination', description: 'A semi-permanent treatment that reshapes and sets brow hairs into place for a sleek look.', image: '/images/IMG-20260826-WA0048.jpg', price: 'RWF 30,000' },
+      { name: 'Brows Lamination', description: 'A semi-permanent treatment that reshapes and sets brow hairs into place for a sleek look.', image: '/images/IMG-20260826-WA0048.jpg', price: 'RWF 30,000', pos: 'center' },
     ],
   },
   {
@@ -32,7 +32,7 @@ export const allCategories = [
     label: 'Eyelash Extensions',
     icon: <FiEye size={20} />,
     services: [
-      { name: 'Classic Set', description: 'One extension applied to each natural lash for a subtle, natural enhancement.', image: '/images/IMG-20260826-WA0008.jpg', price: 'RWF 45,000' },
+      { name: 'Classic Set', description: 'One extension applied to each natural lash for a subtle, natural enhancement.', image: '/images/IMG-20260826-WA0008.jpg', price: 'RWF 45,000', pos: 'center' },
       { name: 'Hybrid Set', description: 'A mix of classic and volume techniques creating a textured, wispy look.', image: '/images/IMG-20260826-WA0009.jpg', price: 'RWF 50,000' },
       { name: 'Volume Set', description: 'Multiple lightweight fans applied to each natural lash for a full, dramatic appearance.', image: '/images/IMG-20260826-WA0010.jpg', price: 'RWF 55,000' },
       { name: 'Mega Volume Set', description: 'Ultra-dramatic look using the finest fans of 6-16 lashes per natural lash.', image: '/images/IMG-20260826-WA0012.jpg', price: 'RWF 60,000' },
@@ -152,7 +152,7 @@ const Services = () => {
                   {category.services.map((service) => (
                     <div key={service.name} className="glass-card rounded-2xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:border-gold/30 group">
                       <div className="h-[180px] overflow-hidden">
-                        <img src={service.image} alt={service.name} className="w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-[1.02]" />
+                        <img src={service.image} alt={service.name} className={`w-full h-full object-cover ${service.pos === 'center' ? 'object-center' : 'object-top'} transition-all duration-500 group-hover:scale-[1.02]`} />
                       </div>
                       <div className="p-5">
                         <h3 className="text-[0.95rem] font-semibold transition-colors duration-300 group-hover:text-gold mb-1.5">{service.name}</h3>

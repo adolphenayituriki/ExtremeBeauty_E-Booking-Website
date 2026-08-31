@@ -170,7 +170,7 @@ const Tracking = () => {
           <p className="text-gray-400 text-[0.88rem]">Check your booking status using your reference or phone number</p>
           <div className="flex items-center justify-center gap-2 mt-5 text-gray-400 text-[0.72rem]">
             <FiShield size={14} className="text-gold" />
-            <span>Your booking details are shown instantly — no password needed.</span>
+            <span>Your booking details are shown instantly. Start Now.</span>
           </div>
         </div>
       </div>
