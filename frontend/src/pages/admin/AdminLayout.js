@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate, useLocation, Link } from 'react-router-do
 import { toast } from 'react-toastify';
 import {
   FiGrid, FiCalendar, FiInbox, FiLayers, FiFileText, FiLogOut, FiUsers,
-  FiMenu, FiX, FiExternalLink, FiBell, FiCheckCircle, FiArrowRight, FiClock,
+  FiMenu, FiX, FiExternalLink, FiBell, FiCheckCircle, FiArrowRight, FiClock, FiLock, FiLoader,
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AdminAuthContext';
 import { adminFetch } from '../../utils/adminApi';
@@ -46,6 +46,12 @@ const AdminLayout = () => {
   const [notifs, setNotifs] = useState([]);
   const [notifOpen, setNotifOpen] = useState(false);
   const notifRef = useRef(null);
+  const [showPw, setShowPw] = useState(false);
+  const [pwStep, setPwStep] = useState(1);
+  const [pwCurrent, setPwCurrent] = useState('');
+  const [pwOtp, setPwOtp] = useState('');
+  const [pwNew, setPwNew] = useState('');
+  const [pwLoading, setPwLoading] = useState(false);
 
   const lastSeen = () => {
     const v = localStorage.getItem(SEEN_KEY);
@@ -87,6 +93,44 @@ const AdminLayout = () => {
     toast.info('Logged out');
     navigate('/admin/login');
   };
+
+  const requestPasswordOtp = async () => {
+    if (!pwCurrent.trim()) { toast.error('Enter your current password'); return; }
+    setPwLoading(true);
+    try {
+      await adminFetch('/api/admin/change-password/request', {
+        method: 'POST',
+        body: JSON.stringify({ currentPassword: pwCurrent }),
+      });
+      toast.success('Verification code sent to your email');
+      setPwStep(2);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setPwLoading(false);
+    }
+  };
+
+  const confirmPasswordChange = async () => {
+    if (!pwOtp.trim() || !pwNew.trim()) { toast.error('Enter the code and your new password'); return; }
+    if (pwNew.length < 6) { toast.error('New password must be at least 6 characters'); return; }
+    setPwLoading(true);
+    try {
+      const res = await adminFetch('/api/admin/change-password/confirm', {
+        method: 'POST',
+        body: JSON.stringify({ code: pwOtp, newPassword: pwNew }),
+      });
+      if (res.token) localStorage.setItem('eb_admin_token', res.token);
+      toast.success('Password changed successfully');
+      setShowPw(false); setPwStep(1); setPwCurrent(''); setPwOtp(''); setPwNew('');
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setPwLoading(false);
+    }
+  };
+
+  const openPw = () => { setShowPw(true); setPwStep(1); setPwCurrent(''); setPwOtp(''); setPwNew(''); };
 
   const current = NAV.find((n) => (n.end ? location.pathname === n.to : location.pathname.startsWith(n.to)));
 
@@ -154,6 +198,12 @@ const AdminLayout = () => {
               <p className="text-[0.6rem] text-gray-400 truncate">{admin?.role || 'Administrator'}</p>
             </div>
           </div>
+          <button
+            onClick={openPw}
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[0.72rem] font-semibold uppercase tracking-[1.5px] border border-gold/25 text-gold hover:text-black hover:bg-gold cursor-pointer transition-all duration-200 bg-transparent mb-2"
+          >
+            <FiLock size={14} /> Change Password
+          </button>
           <button
             onClick={handleLogout}
             className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[0.72rem] font-semibold uppercase tracking-[1.5px] border border-white/10 text-gray-300 hover:text-white hover:border-white/30 hover:bg-white/10 cursor-pointer transition-all duration-200 bg-transparent"
@@ -293,6 +343,54 @@ const AdminLayout = () => {
           <Outlet />
         </main>
       </div>
+
+      {/* Change Password modal */}
+      {showPw && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" role="dialog" aria-modal="true">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowPw(false)} />
+          <div className="relative w-full sm:max-w-[400px] bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up">
+            <div className="bg-gray-950 text-white px-5 py-3.5 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center"><FiLock size={15} /></span>
+                <h3 className="text-[1rem] font-cormorant font-semibold">Change Password</h3>
+              </div>
+              <button onClick={() => setShowPw(false)} className="text-gray-400 hover:text-white bg-transparent border-none cursor-pointer" aria-label="Close"><FiX size={19} /></button>
+            </div>
+            <div className="px-5 py-4">
+              {pwStep === 1 ? (
+                <div className="space-y-3.5">
+                  <p className="text-[0.78rem] text-gray-500">Enter your current password to receive a verification code.</p>
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[1.5px] text-gray-400 mb-1 block font-medium">Current Password</label>
+                    <input type="password" value={pwCurrent} onChange={(e) => setPwCurrent(e.target.value)} placeholder="Enter current password" className="w-full px-3 py-2.5 glass-input border border-black/10 text-[0.82rem] text-black outline-none rounded-lg placeholder:text-gray-400 focus:border-gold/50" />
+                  </div>
+                  <button onClick={requestPasswordOtp} disabled={pwLoading} className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-black text-white text-[0.72rem] font-semibold uppercase tracking-[1.5px] hover:bg-gold cursor-pointer disabled:opacity-50 transition-all duration-300 border-none">
+                    {pwLoading ? <><FiLoader size={14} className="animate-spin" /> Sending...</> : <>Send Verification Code <FiArrowRight size={13} /></>}
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-3.5">
+                  <p className="text-[0.78rem] text-gray-500">Enter the 6-digit code sent to your email and your new password.</p>
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[1.5px] text-gray-400 mb-1 block font-medium">Verification Code</label>
+                    <input type="text" value={pwOtp} onChange={(e) => setPwOtp(e.target.value)} placeholder="000000" maxLength={6} className="w-full px-3 py-2.5 glass-input border border-black/10 text-[0.82rem] text-black outline-none rounded-lg placeholder:text-gray-400 focus:border-gold/50 text-center tracking-[6px] font-mono" />
+                  </div>
+                  <div>
+                    <label className="text-[0.6rem] uppercase tracking-[1.5px] text-gray-400 mb-1 block font-medium">New Password</label>
+                    <input type="password" value={pwNew} onChange={(e) => setPwNew(e.target.value)} placeholder="Min. 6 characters" className="w-full px-3 py-2.5 glass-input border border-black/10 text-[0.82rem] text-black outline-none rounded-lg placeholder:text-gray-400 focus:border-gold/50" />
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={() => setPwStep(1)} className="flex-1 py-2.5 rounded-lg border border-gray-200 bg-white text-[0.72rem] font-semibold uppercase tracking-[1px] text-gray-600 hover:text-black hover:border-black/30 cursor-pointer transition-all">Back</button>
+                    <button onClick={confirmPasswordChange} disabled={pwLoading} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-black text-white text-[0.72rem] font-semibold uppercase tracking-[1.5px] hover:bg-gold cursor-pointer disabled:opacity-50 transition-all duration-300 border-none">
+                      {pwLoading ? <><FiLoader size={14} className="animate-spin" /> Saving...</> : <>Change Password <FiCheckCircle size={13} /></>}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
