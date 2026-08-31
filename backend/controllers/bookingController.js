@@ -1,6 +1,6 @@
 const Booking = require('../models/Booking');
 const { logChange } = require('../utils/audit');
-const { sendBookingConfirmation, sendBookingStatusUpdate } = require('../utils/mailer');
+const { sendBookingConfirmation, sendBookingStatusUpdate, sendAdminNewBooking, sendAdminStatusUpdate } = require('../utils/mailer');
 
 const getBookings = async (req, res) => {
   try {
@@ -102,22 +102,37 @@ const createBooking = async (req, res) => {
     booking.trackingPin = String(trackingPin);
     const saved = await booking.save();
     const { trackingPin: _pin, ...safe } = saved.toObject();
+    const d = saved.date ? new Date(saved.date) : null;
+    const dateStr = d
+      ? d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+      : '';
+    const notify = {
+      name: `${saved.firstName || ''} ${saved.lastName || ''}`.trim(),
+      service: saved.service || 'Salon service',
+      date: dateStr,
+      time: saved.time || '',
+      bookingRef: saved.bookingRef,
+      phone: saved.phone || '',
+    };
     if (saved.email) {
       try {
-        const d = saved.date ? new Date(saved.date) : null;
-        const dateStr = d
-          ? d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-          : '';
-        await sendBookingConfirmation(saved.email, {
-          name: `${saved.firstName || ''} ${saved.lastName || ''}`.trim(),
-          service: saved.service || 'Salon service',
-          date: dateStr,
-          time: saved.time || '',
-          bookingRef: saved.bookingRef,
-        });
+        await sendBookingConfirmation(saved.email, notify);
       } catch (e) {
         console.log(`[Booking] Confirmation email error: ${e.message}`);
       }
+    }
+    try {
+      await sendAdminNewBooking({
+        name: notify.name,
+        service: notify.service,
+        date: notify.date,
+        time: notify.time,
+        bookingRef: notify.bookingRef,
+        email: saved.email || '',
+        phone: saved.phone || '',
+      });
+    } catch (e) {
+      console.log(`[Booking] Admin notification error: ${e.message}`);
     }
     res.status(201).json({ success: true, data: safe });
   } catch (error) {
@@ -146,6 +161,20 @@ const updateBooking = async (req, res) => {
         });
       } catch (e) {
         console.log(`[Booking] Status update email error: ${e.message}`);
+      }
+    }
+    if (req.body.status && req.body.status !== 'approved') {
+      try {
+        const adminName = `${booking.firstName || ''} ${booking.lastName || ''}`.trim();
+        await sendAdminStatusUpdate({
+          name: adminName,
+          bookingRef: booking.bookingRef,
+          status: req.body.status,
+          email: booking.email || '',
+          phone: booking.phone || '',
+        });
+      } catch (e) {
+        console.log(`[Booking] Admin status notification error: ${e.message}`);
       }
     }
     res.json({ success: true, data: booking });

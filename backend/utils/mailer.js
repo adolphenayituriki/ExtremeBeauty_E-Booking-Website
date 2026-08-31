@@ -79,7 +79,7 @@ function getTransporter() {
   return transporter;
 }
 
-async function sendBookingConfirmation(to, { name, service, date, time, bookingRef }) {
+async function sendBookingConfirmation(to, { name, service, date, time, bookingRef, phone }) {
   const t = getTransporter();
   const fromName = 'Extreme Beauty';
 
@@ -90,26 +90,53 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
 
   const subject = `Booking Confirmed — ${bookingRef}`;
   const html = `
-    <div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px;">
-      <div style="text-align:center;padding-bottom:20px;border-bottom:1px solid #f0f0f0;">
-        <p style="font-size:12px;letter-spacing:3px;color:#b8956a;margin:0 0 4px;">EXTREME BEAUTY</p>
-        <p style="font-size:18px;font-weight:600;color:#111;margin:0;">Booking Confirmation</p>
+    <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:38px 28px; text-align:center;">
+        <p style="font-size:24px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+        <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
+        <p style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Booking Confirmation</p>
       </div>
-      <div style="padding:24px 8px;">
-        <p style="font-size:14px;color:#333;line-height:1.6;">Hi ${name || 'there'},</p>
-        <p style="font-size:14px;color:#333;line-height:1.6;">Your appointment has been confirmed! Here are the details:</p>
-        <div style="background:#f7f5f2;border-radius:10px;padding:18px;margin:18px 0;">
-          <table style="width:100%;font-size:14px;color:#333;border-collapse:collapse;">
-            <tr><td style="padding:6px 0;font-weight:600;color:#555;">Booking Ref</td><td style="padding:6px 0;text-align:right;font-weight:700;color:#b8956a;">${bookingRef}</td></tr>
-            <tr><td style="padding:6px 0;font-weight:600;color:#555;">Service</td><td style="padding:6px 0;text-align:right;">${service}</td></tr>
-            <tr><td style="padding:6px 0;font-weight:600;color:#555;">Date</td><td style="padding:6px 0;text-align:right;">${date}</td></tr>
-            <tr><td style="padding:6px 0;font-weight:600;color:#555;">Time</td><td style="padding:6px 0;text-align:right;">${time}</td></tr>
+      <div style="padding:34px 36px;">
+        <div style="text-align:center; margin-bottom:26px;">
+          <div style="width:64px; height:64px; background:#b8956a; border-radius:50%; margin:0 auto 16px; line-height:64px; font-size:30px; color:#ffffff;">&#10003;</div>
+          <h2 style="font-size:22px; font-weight:700; color:#111111; margin:0 0 6px;">Hi ${name || 'Valued Client'},</h2>
+          <p style="font-size:15px; color:#555555; line-height:1.7; margin:0;">Your appointment has been <strong style="color:#b8956a;">confirmed</strong>!<br>Here are your booking details:</p>
+        </div>
+        <div style="border:1px solid #f0e9dd; border-radius:12px; overflow:hidden;">
+          <div style="background:#faf6ee; padding:16px 22px; border-bottom:1px solid #f0e9dd;">
+            <p style="font-size:11px; letter-spacing:2px; color:#b99b55; margin:0; font-weight:700; text-transform:uppercase;">Booking Reference</p>
+            <p style="font-size:22px; font-weight:700; color:#b8956a; letter-spacing:2px; margin:6px 0 0;">${bookingRef}</p>
+          </div>
+          <table style="width:100%; border-collapse:collapse;">
+            <tr>
+              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; width:38%; font-weight:600;">Service</td>
+              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111; font-weight:600;">${service}</td>
+            </tr>
+            <tr>
+              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; font-weight:600;">Date</td>
+              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111;">${date}</td>
+            </tr>
+            <tr>
+              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; font-weight:600;">Time</td>
+              <td style="padding:15px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111;">${time}</td>
+            </tr>
+            ${phone ? `<tr>
+              <td style="padding:15px 22px; font-size:13px; color:#8a8272; font-weight:600;">Phone</td>
+              <td style="padding:15px 22px; font-size:15px; color:#111111;">${phone}</td>
+            </tr>` : ''}
           </table>
         </div>
-        <p style="font-size:13px;color:#777;line-height:1.6;">You can track your booking status anytime using your reference code on our website.</p>
+        <p style="font-size:13px; color:#777777; line-height:1.7; margin:22px 0 0; text-align:center;">You can <strong>track your booking status</strong> anytime using your booking reference code on our website.</p>
+        <div style="text-align:center; margin-top:24px;">
+          <a href="#track" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track My Booking</a>
+        </div>
+        <div style="text-align:center; margin-top:26px; padding-top:22px; border-top:1px solid #f3ede2;">
+          <p style="font-size:13px; color:#333333; margin:0 0 4px; font-family:Georgia, serif; font-style:italic;">We look forward to seeing you!</p>
+        </div>
       </div>
-      <div style="border-top:1px solid #f0f0f0;padding-top:14px;text-align:center;">
-        <p style="font-size:11px;color:#bbb;margin:0;">Extreme Beauty Lashes &amp; Brows · Nyarutarama, Kigali</p>
+      <div style="background:#111111; padding:26px 24px; text-align:center;">
+        <p style="font-size:13px; color:#d4af62; margin:0 0 4px; font-weight:700; letter-spacing:2px;">EXTREME BEAUTY LASHES &amp; BROWS</p>
+        <p style="font-size:11px; color:#9a8b6f; margin:0;">105 KG 9th Ave, Nyarutarama, Kigali</p>
       </div>
     </div>
   `;
@@ -150,22 +177,40 @@ async function sendBookingStatusUpdate(to, { name, bookingRef, status }) {
     return { delivered: false };
   }
 
+  const statusColors = {
+    approved: '#2e7d32',
+    confirmed: '#b8956a',
+    cancelled: '#c62828',
+    completed: '#555555',
+    pending: '#ef9a2a',
+  };
+  const color = statusColors[status] || '#b8956a';
+
   const subject = `Booking ${status} — ${bookingRef}`;
   const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
   const html = `
-    <div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px;">
-      <div style="text-align:center;padding-bottom:20px;border-bottom:1px solid #f0f0f0;">
-        <p style="font-size:12px;letter-spacing:3px;color:#b8956a;margin:0 0 4px;">EXTREME BEAUTY</p>
-        <p style="font-size:18px;font-weight:600;color:#111;margin:0;">Booking Update</p>
+    <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:32px 28px; text-align:center;">
+        <p style="font-size:22px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+        <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
+        <p style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Booking Update</p>
       </div>
-      <div style="padding:24px 8px;text-align:center;">
-        <p style="font-size:14px;color:#333;line-height:1.6;">Hi ${name || 'there'},</p>
-        <div style="display:inline-block;background:#f7f5f2;border:1px solid #b8956a;border-radius:10px;padding:14px 32px;font-size:16px;font-weight:700;color:#b8956a;margin:16px 0;">${statusLabel}</div>
-        <p style="font-size:13px;color:#777;line-height:1.6;">Your booking <strong>${bookingRef}</strong> has been <strong>${statusLabel.toLowerCase()}</strong>.</p>
-        <p style="font-size:13px;color:#777;line-height:1.6;">Contact us if you have any questions.</p>
+      <div style="padding:34px 36px; text-align:center;">
+        <h2 style="font-size:22px; font-weight:700; color:#111111; margin:0 0 8px;">Hi ${name || 'there'},</h2>
+        <p style="font-size:14px; color:#555555; line-height:1.7; margin:0 0 20px;">Your booking status has been updated.</p>
+        <div style="display:inline-block; background:${color}; color:#ffffff; border-radius:30px; padding:12px 34px; font-size:16px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px;">${statusLabel}</div>
+        <p style="font-size:14px; color:#333333; line-height:1.7; margin:0;">Booking Reference: <strong style="color:#b8956a; letter-spacing:1px;">${bookingRef}</strong></p>
+        <div style="background:#faf6ee; border:1px solid #f0e9dd; border-radius:10px; padding:18px; margin:24px 0 0;">
+          <p style="font-size:13px; color:#777777; line-height:1.7; margin:0;">To view the full details or check for any further updates, please visit our website and track your booking with your reference code.</p>
+        </div>
+        <div style="text-align:center; margin-top:24px;">
+          <a href="#track" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track Booking</a>
+        </div>
+        <p style="font-size:13px; color:#888888; line-height:1.7; margin:22px 0 0;">If you have any questions, please contact us. We're happy to help!</p>
       </div>
-      <div style="border-top:1px solid #f0f0f0;padding-top:14px;text-align:center;">
-        <p style="font-size:11px;color:#bbb;margin:0;">Extreme Beauty Lashes &amp; Brows · Nyarutarama, Kigali</p>
+      <div style="background:#111111; padding:24px 24px; text-align:center;">
+        <p style="font-size:13px; color:#d4af62; margin:0 0 4px; font-weight:700; letter-spacing:2px;">EXTREME BEAUTY LASHES &amp; BROWS</p>
+        <p style="font-size:11px; color:#9a8b6f; margin:0;">105 KG 9th Ave, Nyarutarama, Kigali · +250 785 069 349</p>
       </div>
     </div>
   `;
@@ -377,10 +422,173 @@ async function sendReplyEmail(to, { subject, message, originalSubject }) {
   }
 }
 
+async function sendAdminNewBooking({ name, service, date, time, bookingRef, email, phone }) {
+  const to = process.env.ADMIN_EMAIL || process.env.SMTP_FROM || process.env.EMAIL_USER;
+  if (!to) {
+    console.log('[Booking] No admin email configured for new-booking notification.');
+    return { delivered: false };
+  }
+  const t = getTransporter();
+  if (!t) {
+    console.log('[Booking] Email not configured. Skipping admin new-booking notification.');
+    return { delivered: false };
+  }
+  const subject = `New Booking Received — ${bookingRef}`;
+  const html = `
+    <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:30px 28px; text-align:center;">
+        <p style="font-size:21px; letter-spacing:5px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+        <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
+        <p style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Studio Notification</p>
+      </div>
+      <div style="padding:30px 36px;">
+        <h2 style="font-size:20px; font-weight:700; color:#111111; margin:0 0 8px;">New Booking Request</h2>
+        <p style="font-size:14px; color:#555555; line-height:1.7; margin:0 0 22px;">A new appointment has just been placed. Here are the details:</p>
+        <table style="width:100%; border-collapse:collapse; border:1px solid #f0e9dd; border-radius:10px;">
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; width:38%; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Client</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111; font-weight:600;">${name || '—'}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Reference</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#b8956a; font-weight:700;">${bookingRef}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Service</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111;">${service}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Date</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111;">${date}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Time</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111;">${time}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Email</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111;">${email || '—'}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Phone</td>
+            <td style="padding:13px 20px; font-size:14px; color:#111111;">${phone || '—'}</td>
+          </tr>
+        </table>
+      </div>
+      <div style="background:#111111; padding:22px 24px; text-align:center;">
+        <p style="font-size:12px; color:#d4af62; margin:0; font-weight:600; letter-spacing:1px;">EXTREME BEAUTY LASHES &amp; BROWS</p>
+      </div>
+    </div>
+  `;
+  const text = `New booking received!\n\nClient: ${name}\nRef: ${bookingRef}\nService: ${service}\nDate: ${date}\nTime: ${time}\nEmail: ${email}\nPhone: ${phone}`;
+
+  try {
+    if (t && t.isBrevoApi) {
+      await sendViaBrevoApi({
+        to,
+        from: process.env.SMTP_FROM || process.env.EMAIL_USER || 'info@extremebeauty.com',
+        subject,
+        html,
+        text,
+      });
+    } else if (t) {
+      await t.sendMail({
+        from: getFromAddress(),
+        to,
+        subject,
+        html,
+        text,
+      });
+    } else {
+      throw new Error('Email not configured');
+    }
+    return { delivered: true };
+  } catch (e) {
+    console.log(`[Booking] Admin new-booking email failed: ${e.message}`);
+    return { delivered: false, error: e.message };
+  }
+}
+
+async function sendAdminStatusUpdate({ name, bookingRef, status, email, phone }) {
+  const to = process.env.ADMIN_EMAIL || process.env.SMTP_FROM || process.env.EMAIL_USER;
+  if (!to) {
+    console.log('[Booking] No admin email configured for status notification.');
+    return { delivered: false };
+  }
+  const t = getTransporter();
+  if (!t) {
+    console.log('[Booking] Email not configured. Skipping admin status notification.');
+    return { delivered: false };
+  }
+  const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
+  const subject = `Booking ${statusLabel} — ${bookingRef}`;
+  const html = `
+    <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:30px 28px; text-align:center;">
+        <p style="font-size:21px; letter-spacing:5px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+        <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
+        <p style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Booking Status Update</p>
+      </div>
+      <div style="padding:30px 36px;">
+        <h2 style="font-size:20px; font-weight:700; color:#111111; margin:0 0 8px;">Booking status changed</h2>
+        <p style="font-size:14px; color:#555555; line-height:1.7; margin:0 0 22px;">The status of the following booking was updated by the studio:</p>
+        <table style="width:100%; border-collapse:collapse; border:1px solid #f0e9dd; border-radius:10px;">
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; width:38%; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Client</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111; font-weight:600;">${name || '—'}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Reference</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#b8956a; font-weight:700;">${bookingRef}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">New Status</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111; font-weight:700;">${statusLabel}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Email</td>
+            <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111;">${email || '—'}</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 20px; background:#faf6ee; font-size:12px; color:#8a8272; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Phone</td>
+            <td style="padding:13px 20px; font-size:14px; color:#111111;">${phone || '—'}</td>
+          </tr>
+        </table>
+      </div>
+      <div style="background:#111111; padding:22px 24px; text-align:center;">
+        <p style="font-size:12px; color:#d4af62; margin:0; font-weight:600; letter-spacing:1px;">EXTREME BEAUTY LASHES &amp; BROWS</p>
+      </div>
+    </div>
+  `;
+  const text = `Booking ${bookingRef} for ${name} has been updated to: ${statusLabel}.\n\nEmail: ${email}\nPhone: ${phone}`;
+
+  try {
+    if (t.isBrevoApi) {
+      await sendViaBrevoApi({
+        to,
+        from: process.env.SMTP_FROM || process.env.EMAIL_USER || 'info@extremebeauty.com',
+        subject,
+        html,
+        text,
+      });
+    } else if (t) {
+      await t.sendMail({ from: getFromAddress(), to, subject, html, text });
+    } else {
+      throw new Error('Email not configured');
+    }
+    return { delivered: true };
+  } catch (e) {
+    console.log(`[Booking] Admin status email failed: ${e.message}`);
+    return { delivered: false, error: e.message };
+  }
+}
+
 module.exports = {
   sendOtpEmail,
   sendReplyEmail,
   sendBookingConfirmation,
   sendBookingStatusUpdate,
+  sendAdminNewBooking,
+  sendAdminStatusUpdate,
   getTransporter,
 };
