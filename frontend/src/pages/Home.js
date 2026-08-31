@@ -252,27 +252,30 @@ const Home = () => {
                     </span>
                   </div>
 
-                  <div className="p-4 bg-black">
-                    <div className="flex items-center gap-2 mb-2.5">
-                      <span className="text-gold shrink-0">{cat.icon}</span>
-                      <h3 className="text-[1rem] text-white font-semibold group-hover:text-gold transition-colors duration-300 truncate">{cat.name}</h3>
+                  <div className="relative mx-2 mb-2 mt-[-10px] rounded-b-xl overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/80" />
+                    <div className="relative p-4 backdrop-blur-xl bg-white/[0.03] border border-white/10 rounded-xl">
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <span className="text-gold shrink-0">{cat.icon}</span>
+                        <h3 className="text-[1rem] text-white font-semibold group-hover:text-gold transition-colors duration-300 truncate">{cat.name}</h3>
+                      </div>
+
+                      <ul className="space-y-1.5 mb-3.5">
+                        {cat.services.map((s) => (
+                          <li key={s.name} className="flex items-center justify-between gap-2 text-[0.68rem] leading-[1.2]">
+                            <span className="text-gray-100 flex items-center min-w-0">
+                              <span className="text-gold mr-1.5 shrink-0">•</span>
+                              <span className="truncate">{s.name}</span>
+                            </span>
+                            <span className="text-white font-semibold whitespace-nowrap shrink-0">{s.price}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <span className="flex items-center justify-center gap-1.5 w-full py-2 text-[0.63rem] font-semibold uppercase tracking-[2px] text-black bg-gold rounded-lg transition-all duration-300 group-hover:bg-gold-light">
+                        View All <FiArrowRight size={12} />
+                      </span>
                     </div>
-
-                    <ul className="space-y-1.5 mb-3.5">
-                      {cat.services.map((s) => (
-                        <li key={s.name} className="flex items-center justify-between gap-2 text-[0.68rem] leading-[1.2]">
-                          <span className="text-gray-200 flex items-center min-w-0">
-                            <span className="text-gold mr-1.5 shrink-0">•</span>
-                            <span className="truncate">{s.name}</span>
-                          </span>
-                          <span className="text-white font-semibold whitespace-nowrap shrink-0">{s.price}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <span className="flex items-center justify-center gap-1.5 w-full py-2 text-[0.63rem] font-semibold uppercase tracking-[2px] text-black bg-gold rounded-lg transition-all duration-300 group-hover:bg-gold-light">
-                      View All <FiArrowRight size={12} />
-                    </span>
                   </div>
                 </Link>
               </FadeIn>
