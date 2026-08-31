@@ -13,7 +13,7 @@ export const allCategories = [
     services: [
       { name: 'Microblading Eyebrows', description: 'A semi-permanent tattooing technique that creates natural-looking, fuller eyebrows using fine, hair-like strokes.', image: '/images/Microblading.jpg', price: 'RWF 100,000' },
       { name: 'Microshading Eyebrows', description: 'A soft, powdered effect technique using tiny dots to create a filled-in, makeup-like finish.', image: '/images/Microshading.jpg', price: 'RWF 100,000' },
-      { name: 'Hybrid / Combination Brows', description: 'The best of both worlds. Combines microblading strokes at the front with microshading at the tail.', image: '/images/Ombr%C3%A9.jpg', price: 'RWF 100,000', pos: 'center' },
+      { name: 'Hybrid / Combination Brows', description: 'The best of both worlds. Combines microblading strokes at the front with microshading at the tail.', image: '/images/Hybrid%20%20Combination%20Brows.jpg', price: 'RWF 100,000', pos: 'center' },
       { name: 'Brows Lamination', description: 'A semi-permanent treatment that reshapes and sets brow hairs into place for a sleek look.', image: '/images/Brow%20lamination.jpg', price: 'RWF 30,000' },
     ],
   },

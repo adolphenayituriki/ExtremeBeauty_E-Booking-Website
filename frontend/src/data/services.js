@@ -21,7 +21,7 @@ export const services = [
     name: "Hybrid / Combination Brows",
     price: 100000,
     priceFormatted: "RWF 100,000",
-    image: "/images/Ombr%C3%A9.jpg",
+    image: "/images/Hybrid%20%20Combination%20Brows.jpg",
     category: "Brows",
     description:
       "The best of both worlds. Combines microblading strokes at the front with microshading at the tail.",
