@@ -13,7 +13,7 @@ export const allCategories = [
     services: [
       { name: 'Microblading Eyebrows', description: 'A semi-permanent tattooing technique that creates natural-looking, fuller eyebrows using fine, hair-like strokes.', image: '/images/IMG-20260826-WA0023.jpg', price: 'RWF 100,000' },
       { name: 'Microshading Eyebrows', description: 'A soft, powdered effect technique using tiny dots to create a filled-in, makeup-like finish.', image: '/images/IMG-20260826-WA0024.jpg', price: 'RWF 100,000' },
-      { name: 'Hybrid / Combination Brows', description: 'The best of both worlds — combines microblading strokes at the front with microshading at the tail.', image: '/images/IMG-20260826-WA0027.jpg', price: 'RWF 100,000' },
+      { name: 'Hybrid / Combination Brows', description: 'The best of both worlds. Combines microblading strokes at the front with microshading at the tail.', image: '/images/IMG-20260826-WA0027.jpg', price: 'RWF 100,000' },
       { name: 'Brows Lamination', description: 'A semi-permanent treatment that reshapes and sets brow hairs into place for a sleek look.', image: '/images/IMG-20260826-WA0048.jpg', price: 'RWF 30,000' },
     ],
   },
@@ -46,7 +46,7 @@ export const allCategories = [
     label: 'Touch-Ups & Retouch',
     icon: <FiCheckCircle size={20} />,
     services: [
-      { name: 'Eyebrows Retouch', description: 'Touch-up and refresh service for previously done microblading, microshading, or combination brows.', image: '/images/IMG-20260826-WA0016.jpg', price: 'RWF 60,000' },
+      { name: 'Eyebrows Retouch', description: 'Touch-up and refresh service for previously done microblading, microshading, or combination brows.', image: '/images/IMG-20260826-WA0016-retouch.jpg', price: 'RWF 60,000' },
     ],
   },
 ];
