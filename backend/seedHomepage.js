@@ -11,7 +11,7 @@ const seed = {
     { type: 'image', src: '/images/Hero-bg-Image-3.jpg', title: 'Experience the Art of Beauty', subtitle: 'Extreme Beauty Lashes & Brows' },
   ],
   heroStats: [
-    { value: '500+', label: 'Happy Clients' },
+    { value: '2000+', label: 'Happy Clients' },
     { value: '12+', label: 'Services' },
     { value: '5★', label: 'Rating' },
   ],
