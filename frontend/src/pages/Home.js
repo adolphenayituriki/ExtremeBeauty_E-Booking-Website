@@ -241,22 +241,24 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[1200px] mx-auto px-5">
             {categoriesWithServices.map((cat, index) => (
               <FadeIn key={index} delay={index * 0.1}>
-                <div className="group relative h-[430px] overflow-hidden rounded-2xl bg-black">
-                  <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center opacity-40 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[20%] group-hover:opacity-30 group-hover:scale-110 group-hover:grayscale-0" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/10" />
+                <div className="group relative h-[420px] sm:h-[300px] overflow-hidden rounded-2xl bg-black">
+                  <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center opacity-70 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[20%] group-hover:opacity-60 group-hover:scale-110 group-hover:grayscale-0" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10" />
 
-                  <div className="absolute inset-x-0 bottom-0 p-5">
-                    <div className="text-gold mb-2 opacity-80 group-hover:opacity-100 transition-opacity">{cat.icon}</div>
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-[1.1rem] text-white font-semibold group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
-                      <span className="text-[0.6rem] font-bold uppercase tracking-[1px] text-gold bg-gold/10 border border-gold/30 px-2 py-0.5 rounded-full">
-                        {cat.services.length} Service{cat.services.length !== 1 ? 's' : ''}
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-gold shrink-0">{cat.icon}</span>
+                        <h3 className="text-[1rem] text-white font-semibold group-hover:text-gold transition-colors duration-300 truncate">{cat.name}</h3>
+                      </div>
+                      <span className="text-[0.55rem] font-bold uppercase tracking-[1px] text-gold bg-gold/10 border border-gold/30 px-1.5 py-0.5 rounded-full shrink-0">
+                        {cat.services.length}
                       </span>
                     </div>
 
-                    <ul className="space-y-1.5 mb-5 max-h-[170px] overflow-hidden">
+                    <ul className="space-y-1 mb-3">
                       {cat.services.map((s) => (
-                        <li key={s.name} className="flex items-center justify-between gap-2 text-[0.72rem] leading-[1.3]">
+                        <li key={s.name} className="flex items-center justify-between gap-2 text-[0.68rem] leading-[1.2]">
                           <span className="text-gray-200 flex items-center min-w-0">
                             <span className="text-gold mr-1.5 shrink-0">•</span>
                             <span className="truncate">{s.name}</span>
@@ -268,9 +270,9 @@ const Home = () => {
 
                     <Link
                       to={`/services?category=${encodeURIComponent(cat.category || cat.name)}`}
-                      className="flex items-center justify-center gap-2 w-full py-2.5 text-[0.68rem] font-semibold uppercase tracking-[2px] text-black bg-gold rounded-xl transition-all duration-300 hover:bg-gold-light hover:shadow-[0_8px_24px_rgba(184,149,106,0.4)]"
+                      className="flex items-center justify-center gap-1.5 w-full py-2 text-[0.63rem] font-semibold uppercase tracking-[2px] text-black bg-gold rounded-lg transition-all duration-300 hover:bg-gold-light"
                     >
-                      View All <FiArrowRight size={13} />
+                      View All <FiArrowRight size={12} />
                     </Link>
                   </div>
                 </div>
