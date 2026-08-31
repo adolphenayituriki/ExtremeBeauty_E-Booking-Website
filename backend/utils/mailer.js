@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 
 let transporter = null;
 
-const FROM_NAME = 'Extreme Beauty';
+const FROM_NAME = 'Extreme Beauty (Rw KGL)';
 
 function getFromAddress() {
   return `"${FROM_NAME}" <${process.env.SMTP_FROM || process.env.EMAIL_USER || 'info@extremebeauty.com'}>`;
@@ -100,6 +100,10 @@ const COMPANY = {
   address: '105 KG 9th Ave, Nyarutarama, Kigali, Rwanda',
   phone1: '+250 785 069 349',
   phone2: '+250 787 035 643',
+  whatsappNumber: '+250 785 069 349',
+  callNumber: '+250 787 035 643',
+  whatsappDigits: '250785069349',
+  callDigits: '250787035643',
   email: 'extremebeautyrw.com@gmail.com',
   hours: 'Mon - Sat, 9:00AM - 6:00PM',
   maps: 'https://maps.app.goo.gl/JVeG4xNRdoP4Dt4dA',
@@ -178,8 +182,21 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
               <td style="padding:7px 0; font-size:13px; color:#111111;"><a href="${COMPANY.maps}" style="color:#111111; text-decoration:underline;">${COMPANY.address}</a></td>
             </tr>
             <tr>
-              <td style="padding:7px 0; font-size:12px; color:#8a8272; font-weight:600;">Phone</td>
-              <td style="padding:7px 0; font-size:13px; color:#111111;">${COMPANY.phone1} &nbsp;|&nbsp; ${COMPANY.phone2}</td>
+              <td style="padding:7px 0; font-size:12px; color:#8a8272; font-weight:600;">Contact</td>
+              <td style="padding:7px 0;">
+                <table style="width:100%; border-collapse:separate; border-spacing:6px 0;">
+                  <tr>
+                    <td style="width:50%; border:1px solid #e6dcc8; border-radius:9px; padding:10px 12px; text-align:center; background:#ffffff;">
+                      <p style="margin:0 0 4px; font-size:11px; color:#8a8272; font-weight:700; letter-spacing:1px; text-transform:uppercase;">Call us</p>
+                      <a href="tel:${COMPANY.callDigits}" style="font-size:13px; color:#b8956a; font-weight:700; text-decoration:none; white-space:nowrap;">${COMPANY.callNumber}</a>
+                    </td>
+                    <td style="width:50%; border:1px solid #67c15e; border-radius:9px; padding:10px 12px; text-align:center; background:#f0fbe9;">
+                      <p style="margin:0 0 4px; font-size:11px; color:#3e8e3a; font-weight:700; letter-spacing:1px; text-transform:uppercase;">WhatsApp</p>
+                      <a href="https://wa.me/${COMPANY.whatsappDigits}" style="font-size:13px; color:#128C7E; font-weight:700; text-decoration:none; white-space:nowrap;">${COMPANY.whatsappNumber}</a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
             </tr>
             <tr>
               <td style="padding:7px 0; font-size:12px; color:#8a8272; font-weight:600;">Email</td>
@@ -203,11 +220,11 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
       <div style="background:#111111; padding:26px 24px; text-align:center;">
         <p style="font-size:13px; color:#d4af62; margin:0 0 6px; font-weight:700; letter-spacing:2px;">${COMPANY.name}</p>
         <p style="font-size:11px; color:#9a8b6f; margin:0;">${COMPANY.address}</p>
-        <p style="font-size:11px; color:#9a8b6f; margin:4px 0 0;">${COMPANY.phone1} \u00B7 ${COMPANY.email}</p>
+        <p style="font-size:11px; color:#9a8b6f; margin:4px 0 0;">${COMPANY.callNumber} \u00B7 ${COMPANY.email} \u00B7 WhatsApp ${COMPANY.whatsappNumber}</p>
       </div>
     </div>
   `;
-  const text = `Hi ${name || 'there'},\n\nYour booking is confirmed!\n\nRef: ${bookingRef}\nService: ${service}\nPrice: ${price}\nDate: ${date}\nTime: ${time}\n\nYou can track your booking on our website using your reference code.\n\n${COMPANY.name}\n${COMPANY.address}\nPhone: ${COMPANY.phone1} / ${COMPANY.phone2}\nEmail: ${COMPANY.email}\nHours: ${COMPANY.hours}`;
+  const text = `Hi ${name || 'there'},\n\nYour booking is confirmed!\n\nRef: ${bookingRef}\nService: ${service}\nPrice: ${price}\nDate: ${date}\nTime: ${time}\n\nYou can track your booking on our website using your reference code.\n\n${COMPANY.name}\n${COMPANY.address}\nPhone: ${COMPANY.phone1} / ${COMPANY.phone2}\nEmail: ${COMPANY.email}\nHours: ${COMPANY.hours}\nCall: ${COMPANY.callNumber}\nWhatsApp: ${COMPANY.whatsappNumber}`;
 
   try {
     if (t.isBrevoApi) {
