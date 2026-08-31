@@ -4,6 +4,56 @@ import { toast } from 'react-toastify';
 import { FiMail, FiArrowRight, FiArrowLeft, FiLoader, FiLock, FiEye, FiEyeOff, FiCheck } from 'react-icons/fi';
 import { useAuth } from '../../context/AdminAuthContext';
 
+const Field = ({
+  icon, type, value, onChange, showToggle, onToggle, show,
+  placeholder, autoComplete, onPaste, onInput, maxLength, inputMode,
+}) => {
+  const filled = String(value || '').length > 0;
+  return (
+    <div className="relative h-14">
+      {/* Leading icon */}
+      <span className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${filled ? 'text-gold' : 'text-gray-500'}`}>
+        {icon}
+      </span>
+
+      {/* Trailing toggle */}
+      {showToggle && (
+        <button
+          type="button"
+          onClick={onToggle}
+          className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 text-gray-500 hover:text-gold cursor-pointer bg-transparent border-none transition-colors"
+          aria-label="Toggle"
+        >
+          {show ? <FiEyeOff size={17} /> : <FiEye size={17} />}
+        </button>
+      )}
+
+      <input
+        type={type}
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        autoComplete={autoComplete}
+        onPaste={onPaste}
+        onInput={onInput}
+        maxLength={maxLength}
+        inputMode={inputMode}
+        className="peer h-full w-full bg-transparent text-white outline-none"
+        style={{ padding: '20px 40px 6px 44px' }}
+      />
+
+      {/* Floating label */}
+      <label
+        className={`absolute left-11 pointer-events-none transition-all duration-200 peer-focus:top-1.5 peer-focus:text-[0.6rem] peer-focus:uppercase peer-focus:tracking-[1.5px] peer-focus:text-gold ${
+          filled ? 'top-1.5 text-[0.6rem] uppercase tracking-[1.5px] text-gold' : 'top-1/2 -translate-y-1/2 text-[0.85rem] text-gray-500'
+        }`}
+      >
+        {placeholder}
+      </label>
+    </div>
+  );
+};
+
 const AdminLogin = () => {
   const { requestOtp, verifyOtp } = useAuth();
   const navigate = useNavigate();
@@ -52,57 +102,6 @@ const AdminLogin = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const Field = ({
-    icon, type, value, onChange, showToggle, onToggle, show,
-    placeholder, autoComplete, inputRef, onPaste, onInput, maxLength, inputMode,
-  }) => {
-    const filled = String(value || '').length > 0;
-    return (
-      <div className="relative h-14">
-        {/* Leading icon */}
-        <span className={`absolute left-4 top-1/2 -translate-y-1/2 transition-colors ${filled ? 'text-gold' : 'text-gray-500'}`}>
-          {icon}
-        </span>
-
-        {/* Trailing toggle */}
-        {showToggle && (
-          <button
-            type="button"
-            onClick={onToggle}
-            className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center w-10 h-10 text-gray-500 hover:text-gold cursor-pointer bg-transparent border-none transition-colors"
-            aria-label="Toggle"
-          >
-            {show ? <FiEyeOff size={17} /> : <FiEye size={17} />}
-          </button>
-        )}
-
-        <input
-          ref={inputRef}
-          type={type}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          autoComplete={autoComplete}
-          onPaste={onPaste}
-          onInput={onInput}
-          maxLength={maxLength}
-          inputMode={inputMode}
-          className="peer h-full w-full bg-transparent text-white outline-none"
-          style={{ padding: '20px 40px 6px 44px' }}
-        />
-
-        {/* Floating label */}
-        <label
-          className={`absolute left-11 pointer-events-none transition-all duration-200 peer-focus:top-1.5 peer-focus:text-[0.6rem] peer-focus:uppercase peer-focus:tracking-[1.5px] peer-focus:text-gold ${
-            filled ? 'top-1.5 text-[0.6rem] uppercase tracking-[1.5px] text-gold' : 'top-1/2 -translate-y-1/2 text-[0.85rem] text-gray-500'
-          }`}
-        >
-          {placeholder}
-        </label>
-      </div>
-    );
   };
 
   const buttonBase =
