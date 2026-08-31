@@ -151,8 +151,8 @@ const Services = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                   {category.services.map((service) => (
                     <div key={service.name} className="glass-card rounded-2xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] hover:border-gold/30 group">
-                      <div className="h-[180px] overflow-hidden">
-                        <img src={service.image} alt={service.name} className={`w-full h-full object-cover ${service.pos === 'center' ? 'object-center' : 'object-top'} transition-all duration-500 group-hover:scale-[1.02]`} />
+                      <div className="h-[260px] overflow-hidden">
+                        <img src={service.image} alt={service.name} className="w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-[1.02]" />
                       </div>
                       <div className="p-5">
                         <h3 className="text-[0.95rem] font-semibold transition-colors duration-300 group-hover:text-gold mb-1.5">{service.name}</h3>
