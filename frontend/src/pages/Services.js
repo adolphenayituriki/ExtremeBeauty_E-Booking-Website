@@ -3,7 +3,7 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiArrowRight, FiEye, FiStar, FiCheckCircle, FiSearch, FiX } from 'react-icons/fi';
 
-const allCategories = [
+export const allCategories = [
   {
     title: 'Brows',
     key: 'Brows',

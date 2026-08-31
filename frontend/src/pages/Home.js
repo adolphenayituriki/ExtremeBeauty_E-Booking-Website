@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiArrowRight, FiChevronLeft, FiChevronRight, FiStar, FiEye, FiPlay, FiCalendar, FiCheck, FiX } from 'react-icons/fi';
 import { motion, useInView } from 'framer-motion';
 import { useSiteContent } from '../utils/content';
+import { allCategories as serviceCategories } from './Services';
 
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
@@ -83,6 +84,12 @@ const Home = () => {
   const heroSlides = content?.heroSlides || defaultHeroSlides;
   const carouselImages = content?.gallery || defaultCarouselImages;
   const categories = content?.categories || defaultCategories;
+  const categoriesWithServices = categories.map((cat) => {
+    const match = serviceCategories.find(
+      (sc) => sc.key === cat.category || sc.title === cat.category || sc.title === cat.name
+    );
+    return { ...cat, services: match ? match.services : [] };
+  });
   const featuredServices = content?.featuredServices || defaultFeaturedServices;
   const heroStats = content?.heroStats || [
     { value: '500+', label: 'Happy Clients' },
@@ -232,20 +239,41 @@ const Home = () => {
             </div>
           </FadeIn>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[1200px] mx-auto px-5">
-            {categories.map((cat, index) => (
+            {categoriesWithServices.map((cat, index) => (
               <FadeIn key={index} delay={index * 0.1}>
-                <Link to={`/services?category=${cat.category}`} className="group block relative h-[260px] overflow-hidden rounded-2xl">
-                  <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
-                  <div className="absolute inset-0 flex flex-col justify-end p-5">
+                <div className="group relative h-[430px] overflow-hidden rounded-2xl bg-black">
+                  <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center opacity-40 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] grayscale-[20%] group-hover:opacity-30 group-hover:scale-110 group-hover:grayscale-0" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/10" />
+
+                  <div className="absolute inset-x-0 bottom-0 p-5">
                     <div className="text-gold mb-2 opacity-80 group-hover:opacity-100 transition-opacity">{cat.icon}</div>
-                    <h3 className="text-[1.1rem] text-white font-semibold mb-0.5 group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
-                    <p className="text-[0.7rem] text-gray-300 mb-3">{cat.description}</p>
-                    <span className="inline-flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-[2px] text-gold/80 group-hover:text-gold transition-colors">
-                      Explore <FiArrowRight size={11} />
-                    </span>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-[1.1rem] text-white font-semibold group-hover:text-gold transition-colors duration-300">{cat.name}</h3>
+                      <span className="text-[0.6rem] font-bold uppercase tracking-[1px] text-gold bg-gold/10 border border-gold/30 px-2 py-0.5 rounded-full">
+                        {cat.services.length} Service{cat.services.length !== 1 ? 's' : ''}
+                      </span>
+                    </div>
+
+                    <ul className="space-y-1.5 mb-5 max-h-[170px] overflow-hidden">
+                      {cat.services.map((s) => (
+                        <li key={s.name} className="flex items-center justify-between gap-2 text-[0.72rem] leading-[1.3]">
+                          <span className="text-gray-200 flex items-center min-w-0">
+                            <span className="text-gold mr-1.5 shrink-0">•</span>
+                            <span className="truncate">{s.name}</span>
+                          </span>
+                          <span className="text-white font-semibold whitespace-nowrap shrink-0">{s.price}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <Link
+                      to={`/services?category=${encodeURIComponent(cat.category || cat.name)}`}
+                      className="flex items-center justify-center gap-2 w-full py-2.5 text-[0.68rem] font-semibold uppercase tracking-[2px] text-black bg-gold rounded-xl transition-all duration-300 hover:bg-gold-light hover:shadow-[0_8px_24px_rgba(184,149,106,0.4)]"
+                    >
+                      View All <FiArrowRight size={13} />
+                    </Link>
                   </div>
-                </Link>
+                </div>
               </FadeIn>
             ))}
           </div>
