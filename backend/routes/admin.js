@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   registerAdmin, loginAdmin, getMe, updateProfile,
   getAdmins, createAdmin, updateAdmin, deleteAdmin,
+  requestPasswordChangeOtp, confirmPasswordChange,
 } = require('../controllers/adminController');
 const { getAuditLogs } = require('../controllers/auditController');
 const { getNotifications } = require('../controllers/notificationController');
@@ -20,5 +21,8 @@ router.delete('/admins/:id', protect, requireSuperadmin, deleteAdmin);
 
 router.get('/audit', protect, requireSuperadmin, getAuditLogs);
 router.get('/notifications', protect, getNotifications);
+
+router.post('/change-password/request', protect, requestPasswordChangeOtp);
+router.post('/change-password/confirm', protect, confirmPasswordChange);
 
 module.exports = router;

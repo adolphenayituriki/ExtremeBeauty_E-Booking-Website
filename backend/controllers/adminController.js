@@ -1,6 +1,8 @@
 const Admin = require('../models/Admin');
+const Otp = require('../models/Otp');
 const jwt = require('jsonwebtoken');
 const { logChange } = require('../utils/audit');
+const { sendOtpEmail } = require('../utils/mailer');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || 'extremebeauty_secret', {
@@ -176,4 +178,101 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
-module.exports = { registerAdmin, loginAdmin, getMe, updateProfile, getAdmins, createAdmin, updateAdmin, deleteAdmin };
+const OTP_TTL_MINUTES = 3;
+const OTP_LENGTH = 6;
+
+function generateOtpCode() {
+  let code = '';
+  for (let i = 0; i < OTP_LENGTH; i++) {
+    code += Math.floor(Math.random() * 10);
+  }
+  return code;
+}
+
+const requestPasswordChangeOtp = async (req, res) => {
+  try {
+    const { currentPassword } = req.body;
+    if (!currentPassword) {
+      return res.status(400).json({ success: false, message: 'Current password is required' });
+    }
+
+    const admin = await Admin.findById(req.admin._id).select('+password');
+    if (!admin) {
+      return res.status(404).json({ success: false, message: 'Admin not found' });
+    }
+
+    if (!(await admin.matchPassword(currentPassword))) {
+      return res.status(401).json({ success: false, message: 'Incorrect current password' });
+    }
+
+    const code = generateOtpCode();
+    const expiresAt = new Date(Date.now() + OTP_TTL_MINUTES * 60 * 1000);
+
+    await Otp.deleteMany({ email: admin.email });
+    await Otp.create({ email: admin.email, code, expiresAt });
+
+    await sendOtpEmail(admin.email, code);
+    res.json({
+      success: true,
+      message: 'Verification code sent to your email',
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const confirmPasswordChange = async (req, res) => {
+  try {
+    const { code, newPassword } = req.body;
+    if (!code || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Verification code and new password are required' });
+    }
+
+    if (String(newPassword).length < 6) {
+      return res.status(400).json({ success: false, message: 'New password must be at least 6 characters' });
+    }
+
+    const admin = await Admin.findById(req.admin._id);
+    if (!admin) {
+      return res.status(404).json({ success: false, message: 'Admin not found' });
+    }
+
+    const otp = await Otp.findOne({ email: admin.email, used: false }).sort({ createdAt: -1 });
+    if (!otp) {
+      return res.status(400).json({ success: false, message: 'No active verification code. Please request a new one.' });
+    }
+
+    if (otp.expiresAt < new Date()) {
+      return res.status(400).json({ success: false, message: 'This code has expired. Please request a new one.' });
+    }
+
+    if (otp.code !== String(code).trim()) {
+      return res.status(400).json({ success: false, message: 'Incorrect verification code' });
+    }
+
+    otp.used = true;
+    await otp.save();
+
+    admin.password = newPassword;
+    await admin.save();
+
+    logChange(req, 'updated', 'Admin', admin._id, { changedPassword: true });
+
+    const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET || 'extremebeauty_secret', { expiresIn: '7d' });
+    res.json({
+      success: true,
+      message: 'Password changed successfully',
+      data: {
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role,
+        token,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { registerAdmin, loginAdmin, getMe, updateProfile, getAdmins, createAdmin, updateAdmin, deleteAdmin, requestPasswordChangeOtp, confirmPasswordChange };
