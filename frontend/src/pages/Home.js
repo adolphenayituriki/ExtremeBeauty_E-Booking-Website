@@ -242,9 +242,12 @@ const Home = () => {
             {categoriesWithServices.map((cat, index) => (
               <FadeIn key={index} delay={index * 0.1}>
                 <Link to={`/services?category=${encodeURIComponent(cat.category || cat.name)}`} className="group block overflow-hidden rounded-2xl bg-black transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)] hover:-translate-y-1">
-                  <div className="relative h-[150px] overflow-hidden">
-                    <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110" />
-                    <span className="absolute top-2.5 right-2.5 text-[0.55rem] font-bold uppercase tracking-[1px] text-gold bg-black/60 backdrop-blur border border-gold/30 px-2 py-0.5 rounded-full">
+                  <div className="relative p-2 pb-0">
+                    <div className="relative h-[150px] overflow-hidden rounded-t-xl border border-white/10">
+                      <img src={cat.image} alt={cat.name} loading="lazy" className="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                    </div>
+                    <span className="absolute top-4 right-4 text-[0.55rem] font-bold uppercase tracking-[1px] text-gold bg-black/60 backdrop-blur border border-gold/30 px-2 py-0.5 rounded-full">
                       {cat.services.length}
                     </span>
                   </div>
