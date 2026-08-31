@@ -75,7 +75,6 @@ const Home = () => {
   const teachingSteps = [
     { title: 'Consultation', image: 'Teaching-1.jpeg', description: 'We begin by understanding your natural features and the look you want to achieve.' },
     { title: 'Design & Mapping', image: 'Teaching-2.jpg', description: 'Your lash line and brows are carefully mapped for perfect proportion and symmetry.' },
-    { title: 'Preparation', image: 'Teaching-3.jpg', description: 'Your skin and lashes are gently cleansed and prepped for a flawless application.' },
     { title: 'Application', image: 'Teaching-4.jpg', description: 'Precision placement, lash by lash, technique by technique, for a seamless finish.' },
     { title: 'Refinement', image: 'Teaching-5.jpg', description: 'We perfect every detail, balancing shape and symmetry for a natural result.' },
     { title: 'Aftercare & Guidance', image: 'Teaching-6.jpg', description: 'You leave with clear aftercare guidance to keep your look beautiful for longer.' },
