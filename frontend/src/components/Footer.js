@@ -149,10 +149,6 @@ const Footer = () => {
                 <FiArrowUpRight size={9} /> Admin
               </Link>
             </div>
-          </div>
-
-          {/* Developer credit */}
-          <div className="mt-4 pt-4 border-t border-white/[0.04] flex items-center justify-center">
             <a
               href="https://www.bitscoding.com"
               target="_blank"
