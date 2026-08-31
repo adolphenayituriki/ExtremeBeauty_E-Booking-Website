@@ -9,7 +9,7 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const [step, setStep] = useState('creds'); // 'creds' | 'otp'
-  const [email, setEmail] = useState('www.nayituriki.com@gmail.com');
+  const [email, setEmail] = useState('extremebeautyrw.com@gmail.com');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [code, setCode] = useState('');
