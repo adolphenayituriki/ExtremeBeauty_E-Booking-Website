@@ -146,8 +146,8 @@ const Home = () => {
   return (
     <>
       <Seo
-        title="Extreme Beauty Lashes & Brows | Beauty Salon in Kigali, Rwanda"
-        description="Extreme Beauty Lashes & Brows — Kigali's trusted lash & brow studio. Microblading, eyelash extensions, lash lift and brow lamination. Book your appointment today."
+        title="Extreme Beauty Lashes & Brows | Lash & Brow Studio in Kigali, Rwanda"
+        description="Eyelash extensions, volume lashes, mega volume lashes, lash lift & eyebrow microblading in Kigali, Rwanda. Book microblading or lash extensions at Extreme Beauty Lashes & Brows, Nyarutarama."
         path="/"
       />
       {/* ===== 1. HERO ===== */}
@@ -233,6 +233,24 @@ const Home = () => {
           {heroSlides.map((_, index) => (
             <button key={index} className={`w-2.5 h-2.5 rounded-full border-2 transition-all duration-300 cursor-pointer p-0 ${index === currentHero ? 'bg-gold border-gold scale-125' : 'bg-transparent border-white/20 hover:border-gold'}`} onClick={() => { setCurrentHero(index); setHeroAnimating(false); }} aria-label={`Slide ${index + 1}`} />
           ))}
+        </div>
+      </section>
+
+      {/* ===== 1b. SEO INTRO ===== */}
+      <section className="py-12 px-5 bg-white border-b border-gray-100">
+        <div className="max-w-[820px] mx-auto text-center">
+          <h2 className="text-[1.5rem] mb-3 font-cormorant font-semibold">
+            Eyelash Extensions &amp; Eyebrow Microblading in Kigali, Rwanda
+          </h2>
+          <p className="text-gray-500 text-[0.88rem] leading-[1.85]">
+            Extreme Beauty Lashes &amp; Brows is a professional lash and brow
+            studio in Nyarutarama, Kigali. We specialise in eyelash extensions,
+            volume lashes, mega volume lashes, hybrid lashes and lash lift, plus
+            eyebrow microblading, microshading, hybrid brows and brow lamination.
+            Whether you want a natural classic set or a dramatic volume look, our
+            trained artists tailor every treatment to your features. Book your
+            lash and brow appointment online today.
+          </p>
         </div>
       </section>
 
@@ -513,6 +531,50 @@ const Home = () => {
             </div>
           </div>
         </FadeIn>
+      </section>
+
+      {/* ===== 7. SEO FAQ ===== */}
+      <section className="py-16 px-5 bg-white">
+        <div className="max-w-[820px] mx-auto">
+          <h2 className="text-[1.5rem] mb-8 text-center font-cormorant font-semibold">
+            Lash &amp; Brow Questions, Answered
+          </h2>
+          <div className="space-y-6">
+            <div>
+              <h3 className="font-medium text-[0.95rem] mb-1">Where is Extreme Beauty Lashes &amp; Brows located?</h3>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+                We are located at 105 KG 9th Ave, Nyarutarama, Kigali, Rwanda.
+                You can book an appointment online or contact us on
+                +250 785 069 349 / +250 787 035 643.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-medium text-[0.95rem] mb-1">How long do eyelash extensions last?</h3>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+                A full set of eyelash extensions typically lasts 3&ndash;4 weeks
+                with proper aftercare, after which a refill is recommended to
+                keep your lashes looking full and fresh.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-medium text-[0.95rem] mb-1">What lash styles do you offer?</h3>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+                We offer classic, hybrid, volume, mega volume and wispy lash
+                sets. A classic set adds one extension per natural lash for a
+                natural look, while volume and mega volume sets use ultra-fine
+                fans for a fuller, more dramatic appearance.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-medium text-[0.95rem] mb-1">Do you offer eyebrow services?</h3>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+                Yes. We specialise in eyebrow microblading, microshading, hybrid
+                (combination) brows and brow lamination, all tailored to give
+                you natural, well-defined eyebrows that suit your face.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Service Detail Modal */}
