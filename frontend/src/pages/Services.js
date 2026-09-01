@@ -100,21 +100,6 @@ const Services = () => {
         </div>
       </div>
 
-      <section className="py-10 px-5 bg-white border-b border-gray-100">
-        <div className="max-w-[760px] mx-auto text-center">
-          <h2 className="text-[1.4rem] mb-3 font-cormorant font-semibold">
-            Lash &amp; Brow Services in Kigali
-          </h2>
-          <p className="text-gray-500 text-[0.88rem] leading-[1.8]">
-            Extreme Beauty Lashes &amp; Brows is a professional lash and brow
-            studio in Nyarutarama, Kigali. We offer eyelash extensions, volume
-            lashes, mega volume lashes, hybrid lashes, lash lift, eyebrow
-            microblading, microshading, hybrid brows and brow lamination — all
-            crafted to enhance your natural beauty. Browse our services and
-            prices below and book your appointment online in minutes.
-          </p>
-        </div>
-      </section>
 
       {isFiltering && (
         <div className="bg-white/80 backdrop-blur border-b border-gray-100 py-4 px-5">
