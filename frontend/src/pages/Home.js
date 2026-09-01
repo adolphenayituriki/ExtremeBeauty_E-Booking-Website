@@ -309,7 +309,7 @@ const Home = () => {
               <FadeIn key={index} delay={index * 0.08}>
                 <div className="group glass-card rounded-2xl overflow-hidden cursor-pointer" onClick={() => setSelectedService(service)}>
                   <div className="relative h-[220px] overflow-hidden flex items-center justify-center">
-                    <img src={service.image} alt={service.title} loading="lazy" decoding="async" className={`w-full h-full transition-transform duration-700 ${(['Lash Lift', 'Volume Set'].includes(service.title)) ? 'object-contain bg-[#f6f1e9]' : 'object-cover object-top group-hover:scale-[1.04]'}`} />
+                    <img src={service.image} alt={service.title} loading="lazy" decoding="async" className={`w-full h-full transition-transform duration-700 ${(['Lash Lift', 'Volume Set'].includes(service.title)) ? 'object-cover object-bottom' : 'object-cover object-top group-hover:scale-[1.04]'}`} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <span className="absolute top-3 left-3 glass text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-gold px-2.5 py-1 rounded-full">{service.category}</span>
                   </div>
