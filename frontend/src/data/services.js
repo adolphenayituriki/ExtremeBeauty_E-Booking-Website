@@ -57,7 +57,7 @@ export const services = [
     name: "Hybrid Set",
     price: 50000,
     priceFormatted: "RWF 50,000",
-    image: "/images/IMG-20260826-WA0009.jpg",
+    image: "/images/Hybride%20set.jpg",
     category: "Lashes",
     description:
       "A mix of classic and volume techniques creating a textured, wispy look.",

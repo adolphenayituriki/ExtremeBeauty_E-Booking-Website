@@ -33,7 +33,7 @@ export const allCategories = [
     icon: <FiEye size={20} />,
     services: [
       { name: 'Classic Set', description: 'One extension applied to each natural lash for a subtle, natural enhancement.', image: '/images/Brows%20Category.jpg', price: 'RWF 45,000' },
-      { name: 'Hybrid Set', description: 'A mix of classic and volume techniques creating a textured, wispy look.', image: '/images/IMG-20260826-WA0009-card.jpg', price: 'RWF 50,000' },
+      { name: 'Hybrid Set', description: 'A mix of classic and volume techniques creating a textured, wispy look.', image: '/images/Hybride%20set.jpg', price: 'RWF 50,000' },
       { name: 'Volume Set', description: 'Multiple lightweight fans applied to each natural lash for a full, dramatic appearance.', image: '/images/Volume%20lashes%20set.jpg', price: 'RWF 55,000', pos: 'center' },
       { name: 'Mega Volume Set', description: 'Ultra-dramatic look using the finest fans of 6-16 lashes per natural lash.', image: '/images/Mega%20volume.jpg', price: 'RWF 60,000', pos: 'center' },
       { name: 'Wispy Sets', description: 'A trendy, textured style with varying lengths creating a doll-like effect.', image: '/images/Whisper%20set.jpg', price: 'RWF 45,000 – 60,000' },
