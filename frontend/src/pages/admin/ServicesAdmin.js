@@ -4,8 +4,7 @@ import {
   FiPlus, FiEdit2, FiTrash2, FiLoader, FiRefreshCw, FiSearch, FiStar, FiX,
   FiTag, FiDollarSign, FiList, FiEye, FiUpload, FiImage, FiChevronDown, FiFilter,
 } from 'react-icons/fi';
-import { adminFetch, getToken, resolveAssetUrl } from '../../utils/adminApi';
-import API_URL from '../../utils/adminApi';
+import { adminFetch, resolveAssetUrl } from '../../utils/adminApi';
 
 const categoryOptions = ['Brows', 'Lash Lift', 'Lashes', 'Retouch', 'Training'];
 
@@ -163,24 +162,24 @@ const ServicesAdmin = () => {
   const handleImageUpload = async (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
-    const fd = new FormData();
-    fd.append('file', file);
+    if (!/image\//.test(file.type)) {
+      toast.warning('Please choose an image file');
+      e.target.value = '';
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.warning('Image must be 5MB or smaller');
+      e.target.value = '';
+      return;
+    }
     setUploadingImage(true);
     try {
-      const token = getToken();
-      const res = await fetch(`${API_URL}/api/upload`, {
-        method: 'POST',
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        body: fd,
-      });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.message || 'Upload failed');
-      const url = json.data;
-      setForm((f) => ({ ...f, image: url }));
-      setImagePreview(url);
-      toast.success('Image uploaded');
+      const dataUrl = await compressImage(file);
+      setForm((f) => ({ ...f, image: dataUrl }));
+      setImagePreview(dataUrl);
+      toast.success('Image uploaded and saved in the database');
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || 'Could not process this image');
     } finally {
       setUploadingImage(false);
       e.target.value = '';
@@ -509,7 +508,20 @@ const ServicesAdmin = () => {
                   </div>
                   <div className="mt-2">
                     <label className={labelBase}>...or paste image URL</label>
-                    <input name="image" value={form.image} onChange={handleChange} placeholder="/images/example.jpg" className={inputBase} />
+                    {form.image && form.image.startsWith('data:') ? (
+                      <div className={`${inputBase} flex items-center justify-between gap-2 cursor-not-allowed`} title="This image was uploaded and stored in the database.">
+                        <span className="text-gray-400 truncate">data:image (stored in database)</span>
+                        <button
+                          type="button"
+                          onClick={() => { setForm((f) => ({ ...f, image: '' })); setImagePreview(''); }}
+                          className="text-[0.65rem] text-gray-400 hover:text-red-500 underline underline-offset-2 bg-transparent border-none cursor-pointer shrink-0"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ) : (
+                      <input name="image" value={form.image} onChange={handleChange} placeholder="/images/example.jpg or https://..." className={inputBase} />
+                    )}
                   </div>
                 </div>
                 <div className="sm:col-span-2">
@@ -570,5 +582,47 @@ const FilterSelect = ({ icon, value, onChange, options }) => (
     <FiChevronDown size={12} className="absolute right-2 text-gray-400 pointer-events-none" />
   </div>
 );
+
+// Read a file into a base64 data URL.
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Could not read the image'));
+    reader.readAsDataURL(file);
+  });
+}
+
+// Resize + compress an image client-side and return a data URL. Storing the
+// image as a data URL in MongoDB keeps it persistent (survives backend
+// redeploys, unlike the ephemeral uploads/ folder) and host-independent.
+const MAX_IMAGE_DIM = 1600;
+const JPEG_QUALITY = 0.82;
+
+async function compressImage(file) {
+  const original = await readFileAsDataUrl(file);
+  const image = await new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Could not load this image'));
+    img.src = original;
+  });
+
+  const scale = Math.min(1, MAX_IMAGE_DIM / Math.max(image.width, image.height));
+  const w = Math.round(image.width * scale);
+  const h = Math.round(image.height * scale);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas is not supported in this browser');
+  ctx.drawImage(image, 0, 0, w, h);
+
+  const outputMime = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+  const output = canvas.toDataURL(outputMime, JPEG_QUALITY);
+
+  return output.length < original.length ? output : original;
+}
 
 export default ServicesAdmin;

@@ -291,9 +291,10 @@ Open **Services & Prices** in the sidebar.
 - **Featured toggle** and **Active/Hidden toggle** directly in the table.
 - **Detail view** — click a row to see price, category, status, order, and
   description with edit/delete actions.
-- **Image upload** — uploaded files are stored on the backend and displayed via
-  its `/uploads` endpoint. Uploaded image paths are automatically resolved to
-  the backend origin wherever they're previewed in the admin panel.
+- **Image upload** — uploaded images are compressed (max 1600px) and stored
+  directly in the database as a data URL. This makes them **persistent** (they
+  survive backend redeploys and restarts) and host-independent. The stored
+  image can be previewed from the edit form or removed with the **Remove** link.
 
 > Only **Active** services appear in the public services list and booking
 > service picker.
