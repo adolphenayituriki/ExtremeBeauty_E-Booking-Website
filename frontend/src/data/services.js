@@ -93,7 +93,7 @@ export const services = [
     name: "Lash Removal",
     price: 5000,
     priceFormatted: "RWF 5,000",
-    image: "/images/IMG-20260826-WA0015.jpg",
+    image: "/images/Lash%20removal.jpeg",
     category: "Lashes",
     description:
       "Professional and safe removal of eyelash extensions protecting your natural lashes.",

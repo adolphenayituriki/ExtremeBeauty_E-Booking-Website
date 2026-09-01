@@ -37,7 +37,7 @@ export const allCategories = [
       { name: 'Volume Set', description: 'Multiple lightweight fans applied to each natural lash for a full, dramatic appearance.', image: '/images/Volume%20lashes%20set.jpg', price: 'RWF 55,000', pos: 'center' },
       { name: 'Mega Volume Set', description: 'Ultra-dramatic look using the finest fans of 6-16 lashes per natural lash.', image: '/images/Volume%20lashes%20set%20(2).jpg', price: 'RWF 60,000', pos: 'center' },
       { name: 'Wispy Sets', description: 'A trendy, textured style with varying lengths creating a doll-like effect.', image: '/images/Whisper%20set.jpg', price: 'RWF 45,000 – 60,000' },
-      { name: 'Lash Removal', description: 'Professional and safe removal of eyelash extensions protecting your natural lashes.', image: '/images/IMG-20260826-WA0015.jpg', price: 'RWF 5,000' },
+      { name: 'Lash Removal', description: 'Professional and safe removal of eyelash extensions protecting your natural lashes.', image: '/images/Lash%20removal.jpeg', price: 'RWF 5,000' },
     ],
   },
   {
