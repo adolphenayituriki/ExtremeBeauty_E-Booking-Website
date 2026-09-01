@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const connectDB = require('./config/db');
@@ -41,13 +42,17 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Extreme Beauty API is running' });
 });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
+// Only serve the built frontend if it actually exists (single-service
+// deployments). When the frontend is deployed separately (e.g. Vercel) the
+// build folder is absent, so we skip static serving to avoid noisy ENOENT logs.
+const frontendBuild = path.join(__dirname, '../frontend/build');
+if (process.env.NODE_ENV === 'production' && fs.existsSync(path.join(frontendBuild, 'index.html'))) {
+  app.use(express.static(frontendBuild));
   app.get('*', (req, res) => {
     if (req.url.startsWith('/api/')) {
       return res.status(404).json({ message: 'API endpoint not found' });
     }
-    res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+    res.sendFile(path.join(frontendBuild, 'index.html'));
   });
 }
 
