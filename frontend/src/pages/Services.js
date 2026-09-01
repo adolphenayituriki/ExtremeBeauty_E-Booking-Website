@@ -86,8 +86,8 @@ const Services = () => {
   return (
     <>
       <Seo
-        title="Services & Prices | Extreme Beauty Lashes & Brows"
-        description="Explore lash & brow services and prices at Extreme Beauty Lashes & Brows, Kigali: microblading, eyelash extensions, lash lift, brow lamination and more."
+        title="Lash & Brow Services in Kigali | Extreme Beauty Lashes & Brows"
+        description="Eyelash extensions, volume lashes, mega volume lashes, microblading & brow lamination in Kigali. Book lash extensions or microblading at Extreme Beauty Lashes & Brows, Nyarutarama, Rwanda."
         path="/services"
       />
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
@@ -98,6 +98,22 @@ const Services = () => {
           <p className="text-gray-400 text-[0.88rem]">Professional beauty services crafted to enhance your natural beauty</p>
         </div>
       </div>
+
+      <section className="py-10 px-5 bg-white border-b border-gray-100">
+        <div className="max-w-[760px] mx-auto text-center">
+          <h2 className="text-[1.4rem] mb-3 font-cormorant font-semibold">
+            Lash &amp; Brow Services in Kigali
+          </h2>
+          <p className="text-gray-500 text-[0.88rem] leading-[1.8]">
+            Extreme Beauty Lashes &amp; Brows is a professional lash and brow
+            studio in Nyarutarama, Kigali. We offer eyelash extensions, volume
+            lashes, mega volume lashes, hybrid lashes, lash lift, eyebrow
+            microblading, microshading, hybrid brows and brow lamination — all
+            crafted to enhance your natural beauty. Browse our services and
+            prices below and book your appointment online in minutes.
+          </p>
+        </div>
+      </section>
 
       {isFiltering && (
         <div className="bg-white/80 backdrop-blur border-b border-gray-100 py-4 px-5">
@@ -171,6 +187,51 @@ const Services = () => {
           ))}
         </>
       )}
+
+      <section className="py-16 px-5 bg-white">
+        <div className="max-w-[760px] mx-auto">
+          <h2 className="text-[1.5rem] mb-8 text-center font-cormorant font-semibold">
+            Frequently Asked Questions About Our Services
+          </h2>
+          <div className="space-y-6">
+            <div>
+              <h3 className="font-medium text-[0.95rem] mb-1">How long do eyelash extensions last in Kigali?</h3>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+                A full set of eyelash extensions typically lasts 3&ndash;4 weeks
+                before a refill is needed, depending on your natural lash growth
+                cycle. We offer refills to keep your lashes looking fresh.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-medium text-[0.95rem] mb-1">What is the difference between classic, volume and mega volume lashes?</h3>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+                Classic lashes use one extension per natural lash for a natural
+                look. Volume lashes use ultra-fine fans for a fuller, fluffier
+                finish, and mega volume lashes add even more density for a bold,
+                dramatic lash line. We will recommend the right set for your
+                natural lashes and desired look.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-medium text-[0.95rem] mb-1">Is microblading painful and how long does it last?</h3>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+                Microblading is performed with a numbing cream, so most clients
+                feel little to no discomfort. Results typically last 1&ndash;2
+                years, with a retouch recommended to maintain the shape and
+                colour of your eyebrows.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-medium text-[0.95rem] mb-1">How do I book an appointment?</h3>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+                You can book directly online through our Booking page in just a
+                few minutes, or contact us for a free consultation and we will
+                help you choose the perfect service.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="py-20 px-5 bg-gray-950 text-white text-center">
         <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium">Not Sure Which Service?</p>
