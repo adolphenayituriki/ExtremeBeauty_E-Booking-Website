@@ -2,7 +2,7 @@ const Admin = require('../models/Admin');
 const Otp = require('../models/Otp');
 const jwt = require('jsonwebtoken');
 const { logChange } = require('../utils/audit');
-const { sendOtpEmail } = require('../utils/mailer');
+const { sendOtpEmail, sendManagerInvitationEmail } = require('../utils/mailer');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET || 'extremebeauty_secret', {
@@ -124,6 +124,7 @@ const createAdmin = async (req, res) => {
     }
     const admin = await Admin.create({ name, email, password, role: 'admin' });
     logChange(req, 'created', 'Manager', admin._id, { name, email, role: 'admin' });
+    sendManagerInvitationEmail(email, { name, password }).catch(e => console.log(`[Manager] Invitation email failed: ${e.message}`));
     res.status(201).json({ success: true, data: { _id: admin._id, name: admin.name, email: admin.email, role: admin.role } });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

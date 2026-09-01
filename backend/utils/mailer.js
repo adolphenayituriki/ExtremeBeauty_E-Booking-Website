@@ -115,6 +115,27 @@ function getTrackUrl() {
   return base ? `${base}/tracking` : 'https://www.extremebeautyrw.com/tracking';
 }
 
+function getAdminLoginUrl() {
+  const base = (process.env.SITE_URL || '').replace(/\/$/, '');
+  return base ? `${base}/admin/login` : 'https://www.extremebeautyrw.com/admin/login';
+}
+
+const MOBILE_CSS = `<style>
+  @media only screen and (max-width:600px) {
+    .eb-wrap { width:100% !important; max-width:100% !important; }
+    .eb-pad { padding:24px 16px !important; }
+    .eb-header-pad { padding:28px 16px !important; }
+    .eb-footer-pad { padding:20px 16px !important; }
+    .eb-detail td { display:block !important; width:100% !important; padding:11px 16px !important; box-sizing:border-box !important; }
+    .eb-detail tr td:first-child { border-bottom:none !important; }
+    .eb-contact td { display:block !important; width:100% !important; padding:5px 0 !important; }
+    .eb-btn { display:block !important; width:100% !important; box-sizing:border-box !important; text-align:center !important; }
+    .eb-two-col td { display:block !important; width:100% !important; padding:5px 0 !important; }
+    .eb-header-title { font-size:20px !important; letter-spacing:4px !important; }
+    .eb-sub-title { font-size:10px !important; letter-spacing:3px !important; }
+  }
+</style>`;
+
 async function sendBookingConfirmation(to, { name, service, date, time, bookingRef, phone }) {
   const t = getTransporter();
   const fromName = 'Extreme Beauty';
@@ -127,13 +148,14 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
   const price = SERVICE_PRICES[service] || 'On Request';
   const subject = `Booking Confirmed — ${bookingRef}`;
   const html = `
-    <div style="font-family:Arial, Helvetica, sans-serif; max-width:620px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
-      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:40px 28px; text-align:center;">
-        <p style="font-size:26px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+    <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${MOBILE_CSS}</head><body style="margin:0;padding:0;background:#f5f5f5;">
+    <div class="eb-wrap" style="font-family:Arial, Helvetica, sans-serif; max-width:620px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div class="eb-header-pad" style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:40px 28px; text-align:center;">
+        <p class="eb-header-title" style="font-size:26px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
         <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
-        <p style="font-size:12px; letter-spacing:4px; color:rgba(255,255,255,0.9); margin:0; font-weight:600; text-transform:uppercase;">Booking Confirmation</p>
+        <p class="eb-sub-title" style="font-size:12px; letter-spacing:4px; color:rgba(255,255,255,0.9); margin:0; font-weight:600; text-transform:uppercase;">Booking Confirmation</p>
       </div>
-      <div style="padding:36px 38px;">
+      <div class="eb-pad" style="padding:36px 38px;">
         <div style="text-align:center; margin-bottom:28px;">
           <div style="width:64px; height:64px; background:#b8956a; border-radius:50%; margin:0 auto 16px; line-height:64px; font-size:30px; color:#ffffff;">&#10003;</div>
           <h2 style="font-size:23px; font-weight:700; color:#111111; margin:0 0 6px;">Hi ${name || 'Valued Client'},</h2>
@@ -145,7 +167,7 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
             <p style="font-size:11px; letter-spacing:2px; color:#b99b55; margin:0 0 4px; font-weight:700; text-transform:uppercase;">Booking Reference</p>
             <p style="font-size:24px; font-weight:700; color:#b8956a; letter-spacing:2px; margin:0;">${bookingRef}</p>
           </div>
-          <table style="width:100%; border-collapse:collapse;">
+          <table class="eb-detail" style="width:100%; border-collapse:collapse;">
             <tr>
               <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:13px; color:#8a8272; width:38%; font-weight:600;">Service</td>
               <td style="padding:14px 22px; border-bottom:1px solid #f3ede2; font-size:15px; color:#111111; font-weight:600;">${service}</td>
@@ -171,12 +193,12 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
 
         <p style="font-size:13px; color:#777777; line-height:1.7; margin:0 0 20px; text-align:center;">You can <strong>track your booking status</strong> anytime using your booking reference code on our website.</p>
         <div style="text-align:center; margin-bottom:26px;">
-          <a href="${getTrackUrl()}" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track My Booking</a>
+          <a href="${getTrackUrl()}" class="eb-btn" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track My Booking</a>
         </div>
 
         <div style="background:#faf6ee; border:1px solid #f0e9dd; border-radius:12px; padding:22px 24px; margin-bottom:26px;">
           <p style="font-size:13px; font-weight:700; color:#b8956a; text-transform:uppercase; letter-spacing:2px; margin:0 0 14px; text-align:center;">Get in Touch</p>
-          <table style="width:100%; border-collapse:collapse;">
+          <table class="eb-contact" style="width:100%; border-collapse:collapse;">
             <tr>
               <td style="padding:7px 0; font-size:12px; color:#8a8272; width:34%; font-weight:600;">Location</td>
               <td style="padding:7px 0; font-size:13px; color:#111111;"><a href="${COMPANY.maps}" style="color:#111111; text-decoration:underline;">${COMPANY.address}</a></td>
@@ -184,7 +206,7 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
             <tr>
               <td style="padding:7px 0; font-size:12px; color:#8a8272; font-weight:600;">Contact</td>
               <td style="padding:7px 0;">
-                <table style="width:100%; border-collapse:separate; border-spacing:6px 0;">
+                <table class="eb-two-col" style="width:100%; border-collapse:separate; border-spacing:6px 0;">
                   <tr>
                     <td style="width:50%; border:1px solid #e6dcc8; border-radius:9px; padding:10px 12px; text-align:center; background:#ffffff;">
                       <p style="margin:0 0 4px; font-size:11px; color:#8a8272; font-weight:700; letter-spacing:1px; text-transform:uppercase;">Call us</p>
@@ -217,12 +239,13 @@ async function sendBookingConfirmation(to, { name, service, date, time, bookingR
           <p style="font-size:14px; color:#333333; margin:0; font-family:Georgia, serif; font-style:italic;">We look forward to seeing you!</p>
         </div>
       </div>
-      <div style="background:#111111; padding:26px 24px; text-align:center;">
+      <div class="eb-footer-pad" style="background:#111111; padding:26px 24px; text-align:center;">
         <p style="font-size:13px; color:#d4af62; margin:0 0 6px; font-weight:700; letter-spacing:2px;">${COMPANY.name}</p>
         <p style="font-size:11px; color:#9a8b6f; margin:0;">${COMPANY.address}</p>
         <p style="font-size:11px; color:#9a8b6f; margin:4px 0 0;">${COMPANY.callNumber} \u00B7 ${COMPANY.email} \u00B7 WhatsApp ${COMPANY.whatsappNumber}</p>
       </div>
     </div>
+    </body></html>
   `;
   const text = `Hi ${name || 'there'},\n\nYour booking is confirmed!\n\nRef: ${bookingRef}\nService: ${service}\nPrice: ${price}\nDate: ${date}\nTime: ${time}\n\nYou can track your booking on our website using your reference code.\n\n${COMPANY.name}\n${COMPANY.address}\nPhone: ${COMPANY.phone1} / ${COMPANY.phone2}\nEmail: ${COMPANY.email}\nHours: ${COMPANY.hours}\nCall: ${COMPANY.callNumber}\nWhatsApp: ${COMPANY.whatsappNumber}`;
 
@@ -273,13 +296,14 @@ async function sendBookingStatusUpdate(to, { name, bookingRef, status }) {
   const subject = `Booking ${status} — ${bookingRef}`;
   const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
   const html = `
-    <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
-      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:32px 28px; text-align:center;">
-        <p style="font-size:22px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+    <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${MOBILE_CSS}</head><body style="margin:0;padding:0;background:#f5f5f5;">
+    <div class="eb-wrap" style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div class="eb-header-pad" style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:32px 28px; text-align:center;">
+        <p class="eb-header-title" style="font-size:22px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
         <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
-        <p style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Booking Update</p>
+        <p class="eb-sub-title" style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Booking Update</p>
       </div>
-      <div style="padding:34px 36px; text-align:center;">
+      <div class="eb-pad" style="padding:34px 36px; text-align:center;">
         <h2 style="font-size:22px; font-weight:700; color:#111111; margin:0 0 8px;">Hi ${name || 'there'},</h2>
         <p style="font-size:14px; color:#555555; line-height:1.7; margin:0 0 20px;">Your booking status has been updated.</p>
         <div style="display:inline-block; background:${color}; color:#ffffff; border-radius:30px; padding:12px 34px; font-size:16px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px;">${statusLabel}</div>
@@ -288,15 +312,16 @@ async function sendBookingStatusUpdate(to, { name, bookingRef, status }) {
           <p style="font-size:13px; color:#777777; line-height:1.7; margin:0;">To view the full details or check for any further updates, please visit our website and track your booking with your reference code.</p>
         </div>
         <div style="text-align:center; margin-top:24px;">
-          <a href="${getTrackUrl()}" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track Booking</a>
+          <a href="${getTrackUrl()}" class="eb-btn" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Track Booking</a>
         </div>
         <p style="font-size:13px; color:#888888; line-height:1.7; margin:22px 0 0;">If you have any questions, please contact us. We're happy to help!</p>
       </div>
-      <div style="background:#111111; padding:24px 24px; text-align:center;">
+      <div class="eb-footer-pad" style="background:#111111; padding:24px 24px; text-align:center;">
         <p style="font-size:13px; color:#d4af62; margin:0 0 4px; font-weight:700; letter-spacing:2px;">EXTREME BEAUTY LASHES &amp; BROWS</p>
         <p style="font-size:11px; color:#9a8b6f; margin:0;">105 KG 9th Ave, Nyarutarama, Kigali · +250 785 069 349</p>
       </div>
     </div>
+    </body></html>
   `;
   const text = `Hi ${name || 'there'},\n\nYour booking ${bookingRef} has been ${statusLabel.toLowerCase()}.\n\nContact us if you have any questions.`;
 
@@ -336,7 +361,8 @@ async function sendOtpEmail(to, code) {
 
   const subject = 'Your Extreme Beauty admin verification code';
   const html = `
-    <div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px;">
+    <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${MOBILE_CSS}</head><body style="margin:0;padding:0;background:#f5f5f5;">
+    <div class="eb-wrap" style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px;">
       <div style="text-align:center;padding-bottom:20px;border-bottom:1px solid #f0f0f0;">
         <p style="font-size:12px;letter-spacing:3px;color:#b8956a;margin:0 0 4px;">EXTREME BEAUTY</p>
         <p style="font-size:18px;font-weight:600;color:#111;margin:0;">Admin Sign-In Verification</p>
@@ -350,6 +376,7 @@ async function sendOtpEmail(to, code) {
         <p style="font-size:11px;color:#bbb;margin:0;">Extreme Beauty Lashes &amp; Brows · Nyarutarama, Kigali</p>
       </div>
     </div>
+    </body></html>
   `;
 
   const text = `Use code ${code} to sign in to your Extreme Beauty admin dashboard. It expires in 3 minutes. If you didn't request this, ignore this email.`;
@@ -424,7 +451,8 @@ async function sendReplyEmail(to, { subject, message, originalSubject }) {
 
   const safeMessage = String(message || '').replace(/\n/g, '<br/>');
   const html = `
-    <div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px;">
+    <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${MOBILE_CSS}</head><body style="margin:0;padding:0;background:#f5f5f5;">
+    <div class="eb-wrap" style="font-family:Arial,sans-serif;max-width:520px;margin:auto;padding:24px;border:1px solid #eee;border-radius:12px;">
       <div style="text-align:center;padding-bottom:18px;border-bottom:1px solid #f0f0f0;">
         <p style="font-size:12px;letter-spacing:3px;color:#b8956a;margin:0 0 4px;">EXTREME BEAUTY</p>
         <p style="font-size:18px;font-weight:600;color:#111;margin:0;">Studio Reply</p>
@@ -439,6 +467,7 @@ async function sendReplyEmail(to, { subject, message, originalSubject }) {
         <p style="font-size:11px;color:#bbb;margin:0;">Extreme Beauty Lashes &amp; Brows · Nyarutarama, Kigali</p>
       </div>
     </div>
+    </body></html>
   `;
 
   const text = message;
@@ -520,16 +549,17 @@ async function sendAdminNewBooking({ name, service, date, time, bookingRef, emai
   const price = SERVICE_PRICES[service] || 'On Request';
   const subject = `New Booking Received — ${bookingRef}`;
   const html = `
-    <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
-      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:30px 28px; text-align:center;">
-        <p style="font-size:21px; letter-spacing:5px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+    <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${MOBILE_CSS}</head><body style="margin:0;padding:0;background:#f5f5f5;">
+    <div class="eb-wrap" style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div class="eb-header-pad" style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:30px 28px; text-align:center;">
+        <p class="eb-header-title" style="font-size:21px; letter-spacing:5px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
         <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
-        <p style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Studio Notification</p>
+        <p class="eb-sub-title" style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Studio Notification</p>
       </div>
-      <div style="padding:30px 36px;">
+      <div class="eb-pad" style="padding:30px 36px;">
         <h2 style="font-size:20px; font-weight:700; color:#111111; margin:0 0 8px;">New Booking Request</h2>
         <p style="font-size:14px; color:#555555; line-height:1.7; margin:0 0 22px;">A new appointment has just been placed. Here are the details:</p>
-        <table style="width:100%; border-collapse:collapse; border:1px solid #f0e9dd; border-radius:10px;">
+        <table class="eb-detail" style="width:100%; border-collapse:collapse; border:1px solid #f0e9dd; border-radius:10px;">
           <tr>
             <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; width:38%; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Client</td>
             <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111; font-weight:600;">${name || '—'}</td>
@@ -564,10 +594,11 @@ async function sendAdminNewBooking({ name, service, date, time, bookingRef, emai
           </tr>
         </table>
       </div>
-      <div style="background:#111111; padding:22px 24px; text-align:center;">
+      <div class="eb-footer-pad" style="background:#111111; padding:22px 24px; text-align:center;">
         <p style="font-size:12px; color:#d4af62; margin:0; font-weight:600; letter-spacing:1px;">EXTREME BEAUTY LASHES &amp; BROWS</p>
       </div>
     </div>
+    </body></html>
   `;
   const text = `New booking received!\n\nClient: ${name}\nRef: ${bookingRef}\nService: ${service}\nDate: ${date}\nTime: ${time}\nEmail: ${email}\nPhone: ${phone}`;
 
@@ -612,16 +643,17 @@ async function sendAdminStatusUpdate({ name, bookingRef, status, email, phone })
   const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
   const subject = `Booking ${statusLabel} — ${bookingRef}`;
   const html = `
-    <div style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
-      <div style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:30px 28px; text-align:center;">
-        <p style="font-size:21px; letter-spacing:5px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+    <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${MOBILE_CSS}</head><body style="margin:0;padding:0;background:#f5f5f5;">
+    <div class="eb-wrap" style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div class="eb-header-pad" style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:30px 28px; text-align:center;">
+        <p class="eb-header-title" style="font-size:21px; letter-spacing:5px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
         <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
-        <p style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Booking Status Update</p>
+        <p class="eb-sub-title" style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Booking Status Update</p>
       </div>
-      <div style="padding:30px 36px;">
+      <div class="eb-pad" style="padding:30px 36px;">
         <h2 style="font-size:20px; font-weight:700; color:#111111; margin:0 0 8px;">Booking status changed</h2>
         <p style="font-size:14px; color:#555555; line-height:1.7; margin:0 0 22px;">The status of the following booking was updated by the studio:</p>
-        <table style="width:100%; border-collapse:collapse; border:1px solid #f0e9dd; border-radius:10px;">
+        <table class="eb-detail" style="width:100%; border-collapse:collapse; border:1px solid #f0e9dd; border-radius:10px;">
           <tr>
             <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; background:#faf6ee; font-size:12px; color:#8a8272; width:38%; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Client</td>
             <td style="padding:13px 20px; border-bottom:1px solid #f3ede2; font-size:14px; color:#111111; font-weight:600;">${name || '—'}</td>
@@ -644,10 +676,11 @@ async function sendAdminStatusUpdate({ name, bookingRef, status, email, phone })
           </tr>
         </table>
       </div>
-      <div style="background:#111111; padding:22px 24px; text-align:center;">
+      <div class="eb-footer-pad" style="background:#111111; padding:22px 24px; text-align:center;">
         <p style="font-size:12px; color:#d4af62; margin:0; font-weight:600; letter-spacing:1px;">EXTREME BEAUTY LASHES &amp; BROWS</p>
       </div>
     </div>
+    </body></html>
   `;
   const text = `Booking ${bookingRef} for ${name} has been updated to: ${statusLabel}.\n\nEmail: ${email}\nPhone: ${phone}`;
 
@@ -672,6 +705,117 @@ async function sendAdminStatusUpdate({ name, bookingRef, status, email, phone })
   }
 }
 
+async function sendManagerInvitationEmail(to, { name, password }) {
+  const t = getTransporter();
+
+  if (!t) {
+    console.log(`[Manager] Email not configured. Invitation for ${to}`);
+    return { delivered: false };
+  }
+
+  const subject = 'You are now a manager at Extreme Beauty';
+  const loginUrl = getAdminLoginUrl();
+  const html = `
+    <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">${MOBILE_CSS}</head><body style="margin:0;padding:0;background:#f5f5f5;">
+    <div class="eb-wrap" style="font-family:Arial, Helvetica, sans-serif; max-width:600px; margin:auto; background:#ffffff; border:1px solid #e8e1d6; border-radius:14px; overflow:hidden;">
+      <div class="eb-header-pad" style="background:linear-gradient(135deg, #b8956a 0%, #d4af62 50%, #c9a067 100%); padding:32px 28px; text-align:center;">
+        <p class="eb-header-title" style="font-size:22px; letter-spacing:6px; color:#ffffff; margin:0 0 8px; font-weight:700;">EXTREME <span style="font-weight:300;">BEAUTY</span></p>
+        <div style="width:44px; height:2px; background:rgba(255,255,255,0.6); margin:0 auto 10px;"></div>
+        <p class="eb-sub-title" style="font-size:11px; letter-spacing:4px; color:rgba(255,255,255,0.85); margin:0; font-weight:600; text-transform:uppercase;">Manager Invitation</p>
+      </div>
+      <div class="eb-pad" style="padding:34px 36px;">
+        <h2 style="font-size:22px; font-weight:700; color:#111111; margin:0 0 10px;">Welcome, ${name || 'there'}! 👋</h2>
+        <p style="font-size:14px; color:#555555; line-height:1.7; margin:0 0 22px;">You have been added as a <strong style="color:#b8956a;">manager</strong> for the Extreme Beauty Lashes &amp; Brows website. You now have access to the admin dashboard to manage bookings, services and content.</p>
+
+        <div style="background:#faf6ee; border:1px solid #f0e9dd; border-radius:12px; padding:20px 24px; margin-bottom:24px;">
+          <p style="font-size:13px; font-weight:700; color:#b8956a; text-transform:uppercase; letter-spacing:2px; margin:0 0 14px; text-align:center;">Your Sign-in Details</p>
+          <table class="eb-detail" style="width:100%; border-collapse:collapse;">
+            <tr>
+              <td style="padding:10px 14px; border-bottom:1px solid #f0e9dd; font-size:12px; color:#8a8272; width:38%; font-weight:600;">Email</td>
+              <td style="padding:10px 14px; border-bottom:1px solid #f0e9dd; font-size:14px; color:#111111; font-weight:600;">${to}</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 14px; font-size:12px; color:#8a8272; font-weight:600;">Password</td>
+              <td style="padding:10px 14px; font-size:14px; color:#111111; font-weight:700;">${password}</td>
+            </tr>
+          </table>
+        </div>
+
+        <p style="font-size:13px; color:#777777; line-height:1.7; margin:0 0 10px;">To sign in, go to the admin login page, enter your email and password, then enter the one-time verification code that will be sent to this inbox. For security, please change your password after your first sign-in.</p>
+        <div style="text-align:center; margin:22px 0;">
+          <a href="${loginUrl}" class="eb-btn" style="display:inline-block; background:linear-gradient(135deg, #b8956a 0%, #d4af62 100%); color:#ffffff; text-decoration:none; font-size:13px; letter-spacing:1px; padding:14px 36px; border-radius:40px; text-transform:uppercase; font-weight:700;">Open Admin Dashboard</a>
+        </div>
+      </div>
+      <div class="eb-footer-pad" style="background:#111111; padding:24px 24px; text-align:center;">
+        <p style="font-size:13px; color:#d4af62; margin:0 0 6px; font-weight:700; letter-spacing:2px;">${COMPANY.name}</p>
+        <p style="font-size:11px; color:#9a8b6f; margin:0;">${COMPANY.address}</p>
+        <p style="font-size:11px; color:#9a8b6f; margin:4px 0 0;">${COMPANY.callNumber} \u00B7 ${COMPANY.email}</p>
+      </div>
+    </div>
+    </body></html>
+  `;
+  const text = `Hello ${name || 'there'},\n\nYou have been added as a manager for the Extreme Beauty Lashes & Brows website.\n\nYour sign-in details:\nEmail: ${to}\nPassword: ${password}\n\nSign in at: ${loginUrl}\nYou will receive a one-time verification code on the next step after signing in.\n\nFor security, please change your password after your first sign-in.`;
+
+  if (t.isBrevoApi) {
+    try {
+      await sendViaBrevoApi({
+        to,
+        from: process.env.SMTP_FROM || process.env.EMAIL_USER || 'info@extremebeauty.com',
+        subject,
+        html,
+        text,
+      });
+      return { delivered: true };
+    } catch (e) {
+      console.log(`[Manager] Brevo delivery failed for ${to}: ${e.message}`);
+      return { delivered: false, error: e.message };
+    }
+  }
+
+  if (t.isResend) {
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${t.apiKey}`,
+        },
+        body: JSON.stringify({
+          from: `${FROM_NAME} <${process.env.RESEND_FROM || process.env.EMAIL_USER || 'onboarding@resend.dev'}>`,
+          to,
+          subject,
+          html,
+          text,
+          reply_to: process.env.EMAIL_USER || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(`[Manager] Resend delivery failed for ${to}`);
+        return { delivered: false, error: data.message || 'Delivery failed' };
+      }
+      return { delivered: true };
+    } catch (e) {
+      console.log(`[Manager] Resend error for ${to}`);
+      return { delivered: false, error: e.message };
+    }
+  }
+
+  try {
+    await t.sendMail({
+      from: getFromAddress(),
+      to,
+      subject,
+      html,
+      text,
+    });
+    return { delivered: true };
+  } catch (e) {
+    console.log(`[Manager] delivery failed for ${to}: ${e.message}`);
+    return { delivered: false, error: e.message };
+  }
+}
+
 module.exports = {
   sendOtpEmail,
   sendReplyEmail,
@@ -679,5 +823,6 @@ module.exports = {
   sendBookingStatusUpdate,
   sendAdminNewBooking,
   sendAdminStatusUpdate,
+  sendManagerInvitationEmail,
   getTransporter,
 };

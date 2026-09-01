@@ -93,7 +93,7 @@ const AdminsAdmin = () => {
           method: 'POST',
           body: JSON.stringify(form),
         });
-        toast.success('Manager added');
+        toast.success('Manager added — invitation email sent');
       } else {
         const payload = { name: form.name, email: form.email };
         if (form.password) payload.password = form.password;
@@ -307,7 +307,7 @@ const AdminsAdmin = () => {
                   className="w-full px-3 py-2 glass-input border border-black/10 text-[0.82rem] text-black outline-none rounded-lg placeholder:text-gray-400 focus:border-gold/50"
                 />
                 {modal.mode === 'add' && (
-                  <p className="text-[0.62rem] text-gray-400 mt-1.5">The manager signs in with this email, password, then the same OTP code sent to their inbox. Share the password securely.</p>
+                  <p className="text-[0.62rem] text-gray-400 mt-1.5">Their sign-in details (email + password) will be emailed to the manager automatically. They'll also receive an OTP code on login.</p>
                 )}
               </div>
             </div>
