@@ -12,7 +12,7 @@ export const services = [
     name: "Microshading Eyebrows",
     price: 100000,
     priceFormatted: "RWF 100,000",
-    image: "/images/Microshading.jpg",
+    image: "/images/Ombr%C3%A9,%20microshading.jpg",
     category: "Brows",
     description:
       "A soft, powdered effect technique using tiny dots to create a filled-in, makeup-like finish.",
