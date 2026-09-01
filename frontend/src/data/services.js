@@ -75,7 +75,7 @@ export const services = [
     name: "Mega Volume Set",
     price: 60000,
     priceFormatted: "RWF 60,000",
-    image: "/images/Volume%20lashes%20set%20(2).jpg",
+    image: "/images/Mega%20volume.jpg",
     category: "Lashes",
     description:
       "Ultra-dramatic look using the finest fans of 6-16 lashes per natural lash.",
