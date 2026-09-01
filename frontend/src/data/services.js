@@ -9,7 +9,7 @@ export const services = [
       "A semi-permanent tattooing technique that creates natural-looking, fuller eyebrows using fine, hair-like strokes.",
   },
   {
-    name: "Microshading Eyebrows",
+    name: "Ombré, microshading",
     price: 100000,
     priceFormatted: "RWF 100,000",
     image: "/images/Ombr%C3%A9,%20microshading.jpg",

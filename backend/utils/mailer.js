@@ -81,7 +81,7 @@ function getTransporter() {
 
 const SERVICE_PRICES = {
   'Microblading Eyebrows': 'RWF 100,000',
-  'Microshading Eyebrows': 'RWF 100,000',
+  'Ombré, microshading': 'RWF 100,000',
   'Hybrid / Combination Brows': 'RWF 100,000',
   'Brows Lamination': 'RWF 30,000',
   'Lash Lift': 'RWF 30,000',

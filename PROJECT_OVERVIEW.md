@@ -192,7 +192,7 @@ Extreme-website/
 | Category              | Service                   |
 |-----------------------|---------------------------|
 | **Brows**             | Microblading Eyebrows     |
-|                       | Microshading Eyebrows     |
+|                       | Ombré, microshading       |
 |                       | Hybrid / Combination Brows|
 |                       | Brows Lamination          |
 | **Lashes**            | Lash Lift                 |

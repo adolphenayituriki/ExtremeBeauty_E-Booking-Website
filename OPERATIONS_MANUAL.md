@@ -396,7 +396,7 @@ and a **"Track My Booking"** button linking to the tracking page.
 | Service | Price (RWF) | Category |
 |---------|-------------|----------|
 | Microblading Eyebrows | 100,000 | Brows |
-| Microshading Eyebrows | 100,000 | Brows |
+| Ombré, microshading | 100,000 | Brows |
 | Hybrid / Combination Brows | 100,000 | Brows |
 | Brows Lamination | 30,000 | Brows |
 | Lash Lift | 30,000 | Lash Lift |

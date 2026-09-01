@@ -34,7 +34,7 @@ const bookingSchema = new mongoose.Schema({
     required: [true, 'Service selection is required'],
     enum: [
       'Microblading Eyebrows',
-      'Microshading Eyebrows',
+      'Ombré, microshading',
       'Hybrid / Combination Brows',
       'Brows Lamination',
       'Lash Lift',

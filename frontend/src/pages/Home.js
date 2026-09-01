@@ -71,7 +71,7 @@ const Home = () => {
     { category: 'LASHES', title: 'Wispy Sets', description: 'Trendy, textured lash style with varying lengths for a natural yet eye-catching wispy effect.', image: '/images/Whisper%20set.jpg' },
     { category: 'BROWS', title: 'Brows Lamination', description: 'Semi-permanent treatment that reshapes and sets brow hairs for a sleek, brushed-up look.', image: '/images/Bwow%20Lamination.jpg' },
     { category: 'LASHES', title: 'Lash Lift', description: 'Perm treatment that curls your natural lashes upward, giving a longer, more lifted appearance.', image: '/images/Lash%20Lift_After%20and%20Before.jpeg' },
-    { category: 'BROWS', title: 'Microshading Eyebrows', description: 'Soft, powdered effect eyebrow technique using tiny dots for a filled-in, makeup-like finish.', image: '/images/Microshading.jpg' },
+    { category: 'BROWS', title: 'Ombré, microshading', description: 'Soft, powdered effect eyebrow technique using tiny dots for a filled-in, makeup-like finish.', image: '/images/Microshading.jpg' },
   ];
 
   const teachingSteps = [

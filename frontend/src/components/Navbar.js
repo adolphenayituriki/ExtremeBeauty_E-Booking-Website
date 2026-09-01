@@ -4,7 +4,7 @@ import { FiMenu, FiX, FiInstagram, FiPhone, FiMail, FiMapPin, FiSearch, FiCalend
 import { useSiteInfo } from '../utils/content';
 
 const allServices = [
-  'Microblading Eyebrows', 'Microshading Eyebrows', 'Hybrid / Combination Brows', 'Brows Lamination',
+  'Microblading Eyebrows', 'Ombré, microshading', 'Hybrid / Combination Brows', 'Brows Lamination',
   'Lash Lift', 'Classic Set', 'Hybrid Set', 'Volume Set', 'Mega Volume Set',
   'Wispy Sets', 'Lash Removal', 'Eyebrows Retouch',
 ];
