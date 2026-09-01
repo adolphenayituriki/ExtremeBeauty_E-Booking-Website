@@ -236,24 +236,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ===== 1b. SEO INTRO ===== */}
-      <section className="py-12 px-5 bg-white border-b border-gray-100">
-        <div className="max-w-[820px] mx-auto text-center">
-          <h2 className="text-[1.5rem] mb-3 font-cormorant font-semibold">
-            Eyelash Extensions &amp; Eyebrow Microblading in Kigali, Rwanda
-          </h2>
-          <p className="text-gray-500 text-[0.88rem] leading-[1.85]">
-            Extreme Beauty Lashes &amp; Brows is a professional lash and brow
-            studio in Nyarutarama, Kigali. We specialise in eyelash extensions,
-            volume lashes, mega volume lashes, hybrid lashes and lash lift, plus
-            eyebrow microblading, microshading, hybrid brows and brow lamination.
-            Whether you want a natural classic set or a dramatic volume look, our
-            trained artists tailor every treatment to your features. Book your
-            lash and brow appointment online today.
-          </p>
-        </div>
-      </section>
-
       {/* ===== 2. CATEGORIES ===== */}
       <section className="py-20 px-5 bg-white relative">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(184,149,106,0.04)_0%,transparent_60%)]" />
@@ -536,9 +518,21 @@ const Home = () => {
       {/* ===== 7. SEO FAQ ===== */}
       <section className="py-16 px-5 bg-white">
         <div className="max-w-[820px] mx-auto">
-          <h2 className="text-[1.5rem] mb-8 text-center font-cormorant font-semibold">
-            Lash &amp; Brow Questions, Answered
+          <h2 className="text-[1.5rem] mb-3 text-center font-cormorant font-semibold">
+            Eyelash Extensions &amp; Eyebrow Microblading in Kigali, Rwanda
           </h2>
+          <p className="text-gray-500 text-[0.88rem] leading-[1.85] text-center mb-8">
+            Extreme Beauty Lashes &amp; Brows is a professional lash and brow
+            studio in Nyarutarama, Kigali. We specialise in eyelash extensions,
+            volume lashes, mega volume lashes, hybrid lashes and lash lift, plus
+            eyebrow microblading, microshading, hybrid brows and brow lamination.
+            Whether you want a natural classic set or a dramatic volume look, our
+            trained artists tailor every treatment to your features. Book your
+            lash and brow appointment online today.
+          </p>
+          <h3 className="text-[1.2rem] mb-8 text-center font-cormorant font-semibold">
+            Lash &amp; Brow Questions, Answered
+          </h3>
           <div className="space-y-6">
             <div>
               <h3 className="font-medium text-[0.95rem] mb-1">Where is Extreme Beauty Lashes &amp; Brows located?</h3>
