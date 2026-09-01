@@ -429,6 +429,47 @@ and a **"Track My Booking"** button linking to the tracking page.
 - **Phone**: +250 785 069 349 / +250 787 035 643
 - **Instagram**: @extreme_beauty.rw
 
+### E. Website Domain & SEO (Vercel + Google)
+
+The public site is deployed on **Vercel** and the API on **Render**.
+
+**Domain setup**
+
+- `extremebeautyrw.com` is registered through Vercel and **redirects** to
+  `www.extremebeautyrw.com`.
+- `www.extremebeautyrw.com` connects directly to the Vercel project and is the
+  single canonical host for the site.
+- SSL certificates are managed automatically by Vercel (auto-renew).
+- DNS / nameservers: managed by Vercel (`ns1.vercel-dns.com`,
+  `ns2.vercel-dns.com`).
+
+**SEO assets already in place (code)**
+
+- `google-site-verification` meta tag and TXT record for Google Search Console.
+- Open Graph meta tags + JSON-LD `BeautySalon` schema in `index.html`.
+- `sitemap.xml` — lists all 7 public pages under
+  `https://www.extremebeautyrw.com/`.
+- `robots.txt` — points search engines to the sitemap.
+- Site URLs (`canonical`, schema, receipt, booking emails, "View Site" link)
+  all use `https://www.extremebeautyrw.com`.
+
+**Google Search Console — recommended steps**
+
+1. Verify the site using the **domain method** or the **`www` property**
+   (`www.extremebeautyrw.com`), since the bare domain redirects to `www`.
+2. Submit the sitemap. Because the bare domain redirects, use the **full URL**
+   `https://www.extremebeautyrw.com/sitemap.xml` (entering only `sitemap.xml`
+   can return "Invalid sitemap address").
+3. Allow a few days for Google to crawl and index the pages.
+
+**Deployment notes**
+
+- Frontend (Vercel): builds automatically on push to `master`. The latest
+  domain/SEO changes appear after the build finishes.
+- Backend (Render): runs the API only. It will serve the built frontend
+  **only if** `frontend/build/index.html` exists; in this split setup it is
+  absent, so static serving is skipped (this avoids noisy error logs).
+
 ---
 
 *Manual compiled for Extreme Beauty Lashes & Brows — Nyarutarama, Kigali.*
