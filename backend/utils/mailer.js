@@ -112,7 +112,7 @@ const COMPANY = {
 
 function getTrackUrl() {
   const base = (process.env.SITE_URL || '').replace(/\/$/, '');
-  return base ? `${base}/tracking` : 'https://extremebeauty.vercel.app/tracking';
+  return base ? `${base}/tracking` : 'https://www.extremebeautyrw.com/tracking';
 }
 
 async function sendBookingConfirmation(to, { name, service, date, time, bookingRef, phone }) {

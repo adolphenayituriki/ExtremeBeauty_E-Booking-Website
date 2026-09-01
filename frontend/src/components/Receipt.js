@@ -174,7 +174,7 @@ const Receipt = ({ booking }) => {
               {receiptId}
             </div>
             <p style={{ fontSize: '8px', color: '#8a8272', margin: '6px 0 0', letterSpacing: '0.5px' }}>
-              extremebeauty.vercel.app/tracking
+              www.extremebeautyrw.com/tracking
             </p>
           </div>
         </div>

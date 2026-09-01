@@ -32,7 +32,7 @@ The system has **two parts**:
 | Part | Where | Used for |
 |------|-------|----------|
 | **Public website** | The salon's site (shown to customers) | Customers browse services, book, track, send a message |
-| **Admin panel** | Your site address followed by `admin` (e.g. `your-site.com/admin`) | You manage bookings, messages, services, and website content |
+| **Admin panel** | Your site address followed by `admin` (e.g. `www.extremebeautyrw.com/admin`) | You manage bookings, messages, services, and website content |
 
 > Only staff with a login can open the admin panel. Customers never see it.
 
@@ -94,7 +94,7 @@ The result shows the status color-coded:
 
 Login uses **two steps** (like online banking codes):
 
-1. Go to the admin address (e.g. `your-site.com/admin`).
+1. Go to the admin address (e.g. `www.extremebeautyrw.com/admin`).
 2. Enter your **email** and **password**.
 3. Click **Send Code**.
 4. Open your email inbox and copy the **6-digit code** (valid for 3 minutes).

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://extremebeauty.vercel.app/sitemap.xml
+Sitemap: https://www.extremebeautyrw.com/sitemap.xml
