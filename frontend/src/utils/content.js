@@ -40,7 +40,7 @@ export const DEFAULT_CONTENT = {
     { category: 'BROWS', title: 'Ombré, microshading', description: 'Soft, powdered effect eyebrow technique using tiny dots for a filled-in, makeup-like finish.', image: '/images/Microshading.jpg' },
   ],
   gallery: [
-    '/images/IMG-20260826-WA0010.jpg', '/images/IMG-20260826-WA0012.jpg', '/images/IMG-20260826-WA0013.jpg',
+    '/images/Hero-bg-Image-1.jpg', '/images/IMG-20260826-WA0010.jpg', '/images/IMG-20260826-WA0012.jpg', '/images/IMG-20260826-WA0013.jpg',
     '/images/IMG-20260826-WA0015.jpg', '/images/IMG-20260826-WA0016.jpg', '/images/IMG-20260826-WA0017.jpg',
     '/images/IMG-20260826-WA0018.jpg', '/images/IMG-20260826-WA0019.jpg', '/images/IMG-20260826-WA0021.jpg',
     '/images/IMG-20260826-WA0006.jpg', '/images/IMG-20260826-WA0007.jpg', '/images/IMG-20260826-WA0008.jpg',

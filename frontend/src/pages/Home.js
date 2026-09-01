@@ -31,6 +31,7 @@ const defaultHeroSlides = [
 ];
 
 const defaultCarouselImages = [
+  '/images/Hero-bg-Image-1.jpg',
   '/images/IMG-20260826-WA0010.jpg',
   '/images/IMG-20260826-WA0012.jpg',
   '/images/IMG-20260826-WA0013.jpg',
