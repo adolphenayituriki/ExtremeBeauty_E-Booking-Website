@@ -75,4 +75,16 @@ export const requestJson = async (path, options = {}) => {
 
 export const adminFetch = fetchJson;
 
+// Resolve an asset path (e.g. "/uploads/abc.jpg") to an absolute URL that
+// points at the API origin. Plain "/images/..." and full URLs pass through.
+// Without this, admin-uploaded files (stored on the backend host) would be
+// requested from the frontend origin and fail to load in split deployments.
+export function resolveAssetUrl(src) {
+  if (!src) return src;
+  if (typeof src !== 'string') return src;
+  if (src.startsWith('/uploads/')) return `${API_URL}${src}`;
+  if (src.startsWith('http://') || src.startsWith('https://')) return src;
+  return src;
+}
+
 export default API_URL;

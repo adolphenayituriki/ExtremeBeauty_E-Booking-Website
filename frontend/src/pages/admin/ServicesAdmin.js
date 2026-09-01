@@ -4,7 +4,7 @@ import {
   FiPlus, FiEdit2, FiTrash2, FiLoader, FiRefreshCw, FiSearch, FiStar, FiX,
   FiTag, FiDollarSign, FiList, FiEye, FiUpload, FiImage, FiChevronDown, FiFilter,
 } from 'react-icons/fi';
-import { adminFetch, getToken } from '../../utils/adminApi';
+import { adminFetch, getToken, resolveAssetUrl } from '../../utils/adminApi';
 import API_URL from '../../utils/adminApi';
 
 const categoryOptions = ['Brows', 'Lash Lift', 'Lashes', 'Retouch', 'Training'];
@@ -293,7 +293,7 @@ const ServicesAdmin = () => {
                     <td className="px-4 py-2.5">
                       <div className="flex items-center gap-3">
                         {s.image ? (
-                          <img src={s.image} alt={s.name} className="w-10 h-10 rounded-lg object-cover bg-black/5 shrink-0" />
+                          <img src={resolveAssetUrl(s.image)} alt={s.name} className="w-10 h-10 rounded-lg object-cover bg-black/5 shrink-0" />
                         ) : (
                           <div className="w-10 h-10 rounded-lg bg-black/5 flex items-center justify-center text-black/40 font-semibold text-[0.7rem] shrink-0">
                             {s.name.charAt(0).toUpperCase()}
@@ -389,7 +389,7 @@ const ServicesAdmin = () => {
               </button>
               <div className="relative flex items-center gap-2.5">
                 {active.image ? (
-                  <img src={active.image} alt={active.name} className="w-8 h-8 rounded-full bg-white/10 border border-white/15 object-cover shrink-0" />
+                  <img src={resolveAssetUrl(active.image)} alt={active.name} className="w-8 h-8 rounded-full bg-white/10 border border-white/15 object-cover shrink-0" />
                 ) : (
                   <div className="w-8 h-8 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white text-[0.85rem] font-cormorant font-bold shrink-0">
                     {active.name.charAt(0).toUpperCase()}
@@ -490,7 +490,7 @@ const ServicesAdmin = () => {
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-xl overflow-hidden bg-black/5 border border-black/10 shrink-0 flex items-center justify-center">
                       {imagePreview ? (
-                        <img src={imagePreview} alt="preview" className="w-full h-full object-cover" />
+                        <img src={resolveAssetUrl(imagePreview)} alt="preview" className="w-full h-full object-cover" />
                       ) : (
                         <span className="text-gray-300"><FiImage size={16} /></span>
                       )}
