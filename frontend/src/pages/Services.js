@@ -193,18 +193,24 @@ const Services = () => {
           <h2 className="text-[1.5rem] mb-8 text-center font-cormorant font-semibold">
             Frequently Asked Questions About Our Services
           </h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-medium text-[0.95rem] mb-1">How long do eyelash extensions last in Kigali?</h3>
-              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+          <div className="grid sm:grid-cols-1 gap-4">
+            <div className="border border-gray-200/80 rounded-2xl p-5 bg-gradient-to-b from-white to-gold/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(184,149,106,0.14)] hover:border-gold/40 transition-all duration-300">
+              <div className="flex items-start gap-3 mb-2">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/[0.12] text-gold flex items-center justify-center text-sm">⏱️</span>
+                <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">How long do eyelash extensions last in Kigali?</h3>
+              </div>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7] pl-11">
                 A full set of eyelash extensions typically lasts 3&ndash;4 weeks
                 before a refill is needed, depending on your natural lash growth
                 cycle. We offer refills to keep your lashes looking fresh.
               </p>
             </div>
-            <div>
-              <h3 className="font-medium text-[0.95rem] mb-1">What is the difference between classic, volume and mega volume lashes?</h3>
-              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+            <div className="border border-gray-200/80 rounded-2xl p-5 bg-gradient-to-b from-white to-gold/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(184,149,106,0.14)] hover:border-gold/40 transition-all duration-300">
+              <div className="flex items-start gap-3 mb-2">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/[0.12] text-gold flex items-center justify-center text-sm">✨</span>
+                <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">What is the difference between classic, volume and mega volume lashes?</h3>
+              </div>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7] pl-11">
                 Classic lashes use one extension per natural lash for a natural
                 look. Volume lashes use ultra-fine fans for a fuller, fluffier
                 finish, and mega volume lashes add even more density for a bold,
@@ -212,18 +218,24 @@ const Services = () => {
                 natural lashes and desired look.
               </p>
             </div>
-            <div>
-              <h3 className="font-medium text-[0.95rem] mb-1">Is microblading painful and how long does it last?</h3>
-              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+            <div className="border border-gray-200/80 rounded-2xl p-5 bg-gradient-to-b from-white to-gold/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(184,149,106,0.14)] hover:border-gold/40 transition-all duration-300">
+              <div className="flex items-start gap-3 mb-2">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/[0.12] text-gold flex items-center justify-center text-sm">💆‍♀️</span>
+                <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">Is microblading painful and how long does it last?</h3>
+              </div>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7] pl-11">
                 Microblading is performed with a numbing cream, so most clients
                 feel little to no discomfort. Results typically last 1&ndash;2
                 years, with a retouch recommended to maintain the shape and
                 colour of your eyebrows.
               </p>
             </div>
-            <div>
-              <h3 className="font-medium text-[0.95rem] mb-1">How do I book an appointment?</h3>
-              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+            <div className="border border-gray-200/80 rounded-2xl p-5 bg-gradient-to-b from-white to-gold/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(184,149,106,0.14)] hover:border-gold/40 transition-all duration-300">
+              <div className="flex items-start gap-3 mb-2">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/[0.12] text-gold flex items-center justify-center text-sm">📅</span>
+                <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">How do I book an appointment?</h3>
+              </div>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7] pl-11">
                 You can book directly online through our Booking page in just a
                 few minutes, or contact us for a free consultation and we will
                 help you choose the perfect service.

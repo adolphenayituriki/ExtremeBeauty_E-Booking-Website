@@ -533,35 +533,47 @@ const Home = () => {
           <h3 className="text-[1.2rem] mb-8 text-center font-cormorant font-semibold">
             Lash &amp; Brow Questions, Answered
           </h3>
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-medium text-[0.95rem] mb-1">Where is Extreme Beauty Lashes &amp; Brows located?</h3>
-              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="border border-gray-200/80 rounded-2xl p-5 bg-gradient-to-b from-white to-gold/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(184,149,106,0.14)] hover:border-gold/40 transition-all duration-300">
+              <div className="flex items-start gap-3 mb-2">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/[0.12] text-gold flex items-center justify-center text-sm">📍</span>
+                <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">Where is Extreme Beauty Lashes &amp; Brows located?</h3>
+              </div>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7] pl-11">
                 We are located at 105 KG 9th Ave, Nyarutarama, Kigali, Rwanda.
                 You can book an appointment online or contact us on
                 +250 785 069 349 / +250 787 035 643.
               </p>
             </div>
-            <div>
-              <h3 className="font-medium text-[0.95rem] mb-1">How long do eyelash extensions last?</h3>
-              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+            <div className="border border-gray-200/80 rounded-2xl p-5 bg-gradient-to-b from-white to-gold/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(184,149,106,0.14)] hover:border-gold/40 transition-all duration-300">
+              <div className="flex items-start gap-3 mb-2">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/[0.12] text-gold flex items-center justify-center text-sm">⏱️</span>
+                <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">How long do eyelash extensions last?</h3>
+              </div>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7] pl-11">
                 A full set of eyelash extensions typically lasts 3&ndash;4 weeks
                 with proper aftercare, after which a refill is recommended to
                 keep your lashes looking full and fresh.
               </p>
             </div>
-            <div>
-              <h3 className="font-medium text-[0.95rem] mb-1">What lash styles do you offer?</h3>
-              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+            <div className="border border-gray-200/80 rounded-2xl p-5 bg-gradient-to-b from-white to-gold/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(184,149,106,0.14)] hover:border-gold/40 transition-all duration-300">
+              <div className="flex items-start gap-3 mb-2">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/[0.12] text-gold flex items-center justify-center text-sm">✨</span>
+                <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">What lash styles do you offer?</h3>
+              </div>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7] pl-11">
                 We offer classic, hybrid, volume, mega volume and wispy lash
                 sets. A classic set adds one extension per natural lash for a
                 natural look, while volume and mega volume sets use ultra-fine
                 fans for a fuller, more dramatic appearance.
               </p>
             </div>
-            <div>
-              <h3 className="font-medium text-[0.95rem] mb-1">Do you offer eyebrow services?</h3>
-              <p className="text-gray-500 text-[0.85rem] leading-[1.7]">
+            <div className="border border-gray-200/80 rounded-2xl p-5 bg-gradient-to-b from-white to-gold/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(184,149,106,0.14)] hover:border-gold/40 transition-all duration-300">
+              <div className="flex items-start gap-3 mb-2">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/[0.12] text-gold flex items-center justify-center text-sm">💆‍♀️</span>
+                <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">Do you offer eyebrow services?</h3>
+              </div>
+              <p className="text-gray-500 text-[0.85rem] leading-[1.7] pl-11">
                 Yes. We specialise in eyebrow microblading, microshading, hybrid
                 (combination) brows and brow lamination, all tailored to give
                 you natural, well-defined eyebrows that suit your face.
