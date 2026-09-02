@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const SITE_URL = 'https://www.extremebeautyrw.com';
-const DEFAULT_TITLE = 'Extreme Beauty Lashes & Brows | Beauty Salon in Kigali, Rwanda';
+const DEFAULT_TITLE = 'Extreme Beauty Lashes & Brows';
 const DEFAULT_DESC =
   'Professional lash & brow studio in Kigali, Rwanda. Microblading, eyelash extensions, lash lift, brow lamination & brow shaping. Book your appointment today.';
 

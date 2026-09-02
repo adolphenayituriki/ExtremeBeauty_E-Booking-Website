@@ -148,7 +148,7 @@ const Home = () => {
   return (
     <>
       <Seo
-        title="Extreme Beauty Lashes & Brows | Lash & Brow Studio in Kigali, Rwanda"
+        title="Extreme Beauty Lashes & Brows"
         description="Eyelash extensions, volume lashes, mega volume lashes, lash lift & eyebrow microblading in Kigali, Rwanda. Book microblading or lash extensions at Extreme Beauty Lashes & Brows, Nyarutarama."
         path="/"
       />
