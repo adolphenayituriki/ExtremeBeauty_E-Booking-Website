@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import FloatingButtons from './components/FloatingButtons';
 import Home from './pages/Home';
 import Services from './pages/Services';
+import ServiceDetail from './pages/ServiceDetail';
 import About from './pages/About';
 import Booking from './pages/Booking';
 import Contact from './pages/Contact';
@@ -90,6 +91,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/service/:slug" element={<ServiceDetail />} />
               <Route path="/about" element={<About />} />
               <Route path="/booking" element={<Booking />} />
               <Route path="/contact" element={<Contact />} />

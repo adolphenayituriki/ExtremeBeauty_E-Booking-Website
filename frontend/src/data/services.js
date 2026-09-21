@@ -1,6 +1,9 @@
+import { slugify } from "../utils/seoData";
+
 export const services = [
   {
     name: "Microblading Eyebrows",
+    slug: slugify("Microblading Eyebrows"),
     price: 100000,
     priceFormatted: "RWF 100,000",
     image: "/images/Microblading.jpg",
@@ -10,6 +13,7 @@ export const services = [
   },
   {
     name: "Ombré, microshading",
+    slug: slugify("Ombré, microshading"),
     price: 100000,
     priceFormatted: "RWF 100,000",
     image: "/images/Ombr%C3%A9,%20microshading.jpg",
@@ -19,6 +23,7 @@ export const services = [
   },
   {
     name: "Hybrid / Combination Brows",
+    slug: slugify("Hybrid / Combination Brows"),
     price: 100000,
     priceFormatted: "RWF 100,000",
     image: "/images/Hybrid%20%20Combination%20Brows.jpg",
@@ -28,6 +33,7 @@ export const services = [
   },
   {
     name: "Brows Lamination",
+    slug: slugify("Brows Lamination"),
     price: 30000,
     priceFormatted: "RWF 30,000",
     image: "/images/Brow%20lamination.jpg",
@@ -37,6 +43,7 @@ export const services = [
   },
   {
     name: "Lash Lift",
+    slug: slugify("Lash Lift"),
     price: 30000,
     priceFormatted: "RWF 30,000",
     image: "/images/Lash%20lift.jpg",
@@ -46,6 +53,7 @@ export const services = [
   },
   {
     name: "Classic Set",
+    slug: slugify("Classic Set"),
     price: 45000,
     priceFormatted: "RWF 45,000",
     image: "/images/Brows%20Category.jpg",
@@ -55,6 +63,7 @@ export const services = [
   },
   {
     name: "Hybrid Set",
+    slug: slugify("Hybrid Set"),
     price: 50000,
     priceFormatted: "RWF 50,000",
     image: "/images/Hybride%20set.jpg",
@@ -64,6 +73,7 @@ export const services = [
   },
   {
     name: "Volume Set",
+    slug: slugify("Volume Set"),
     price: 55000,
     priceFormatted: "RWF 55,000",
     image: "/images/Volume%20lashes%20set.jpg",
@@ -73,6 +83,7 @@ export const services = [
   },
   {
     name: "Mega Volume Set",
+    slug: slugify("Mega Volume Set"),
     price: 60000,
     priceFormatted: "RWF 60,000",
     image: "/images/Mega%20volume.jpg",
@@ -82,6 +93,7 @@ export const services = [
   },
   {
     name: "Wispy Sets",
+    slug: slugify("Wispy Sets"),
     price: 50000,
     priceFormatted: "RWF 45,000 - 60,000",
     image: "/images/Whisper%20set.jpg",
@@ -91,6 +103,7 @@ export const services = [
   },
   {
     name: "Lash Removal",
+    slug: slugify("Lash Removal"),
     price: 5000,
     priceFormatted: "RWF 5,000",
     image: "/images/Lash%20removal.jpeg",
@@ -100,6 +113,7 @@ export const services = [
   },
   {
     name: "Eyebrows Retouch",
+    slug: slugify("Eyebrows Retouch"),
     price: 60000,
     priceFormatted: "RWF 60,000",
     image: "/images/Eyebrows.jpg",
@@ -109,6 +123,7 @@ export const services = [
   },
   {
     name: "Training Session",
+    slug: slugify("Training Session"),
     price: 0,
     priceFormatted: "On Request",
     image: "/images/Teaching-1.jpeg",
@@ -127,6 +142,8 @@ export const categories = [
 ];
 
 export const getServiceByName = (name) => services.find((s) => s.name === name);
+
+export const getServiceBySlug = (slug) => services.find((s) => s.slug === slug);
 
 export const getServicesByCategory = (categoryKey) =>
   services.filter((s) => s.category === categoryKey);

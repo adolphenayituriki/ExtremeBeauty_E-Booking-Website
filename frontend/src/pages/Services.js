@@ -3,6 +3,7 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiArrowRight, FiEye, FiStar, FiCheckCircle, FiSearch, FiX, FiChevronDown } from 'react-icons/fi';
 import Seo from '../utils/Seo';
+import { slugify } from '../utils/seoData';
 
 export const allCategories = [
   {
@@ -157,13 +158,20 @@ const Services = () => {
                         <img src={service.image} alt={service.name} className={`w-full h-full ${service.fit === 'contain' ? 'object-contain bg-black/5' : 'object-cover object-center'} transition-all duration-500 group-hover:scale-[1.02]`} />
                       </div>
                       <div className="p-5">
-                        <h3 className="text-[0.95rem] font-semibold transition-colors duration-300 group-hover:text-gold mb-1.5">{service.name}</h3>
+                        <Link to={`/service/${slugify(service.name)}`} className="no-underline">
+                          <h3 className="text-[0.95rem] font-semibold transition-colors duration-300 group-hover:text-gold mb-1.5">{service.name}</h3>
+                        </Link>
                         <span className="text-[0.82rem] font-bold text-gold mb-3 block">{service.price}</span>
                         <p className="text-gray-500 text-[0.8rem] leading-[1.6] mb-4">{service.description}</p>
-                        <button onClick={() => { toast.info(`Booking ${service.name}...`); setTimeout(() => navigate(`/booking?service=${encodeURIComponent(service.name)}`), 400); }} className="group/btn inline-flex items-center justify-center gap-2 w-full py-3 border border-gray-200 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black rounded-xl transition-all duration-300 hover:bg-gold hover:text-white hover:border-gold cursor-pointer bg-transparent">
-                          Book Now
-                          <FiArrowRight size={13} className="transition-transform duration-300 group-hover/btn:translate-x-0.5" />
-                        </button>
+                        <div className="flex gap-2">
+                          <button onClick={() => { toast.info(`Booking ${service.name}...`); setTimeout(() => navigate(`/booking?service=${encodeURIComponent(service.name)}`), 400); }} className="group/btn inline-flex items-center justify-center gap-2 w-full py-3 border border-gray-200 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black rounded-xl transition-all duration-300 hover:bg-gold hover:text-white hover:border-gold cursor-pointer bg-transparent">
+                            Book Now
+                            <FiArrowRight size={13} className="transition-transform duration-300 group-hover/btn:translate-x-0.5" />
+                          </button>
+                          <Link to={`/service/${slugify(service.name)}`} className="inline-flex items-center justify-center px-3 py-3 text-[0.68rem] font-semibold uppercase tracking-[1px] text-gray-500 rounded-xl border border-gray-100 transition-all duration-300 hover:border-gold hover:text-gold no-underline">
+                            Details
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   ))}
