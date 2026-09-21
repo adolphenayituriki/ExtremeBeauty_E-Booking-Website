@@ -2,8 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiArrowRight, FiEye, FiStar, FiCheckCircle, FiSearch, FiX, FiChevronDown } from 'react-icons/fi';
-import Seo from '../utils/Seo';
-import { slugify } from '../utils/seoData';
+import Seo, { SeoJsonLd } from '../utils/Seo';
+import { slugify, SITE_URL, SITE_NAME } from '../utils/seoData';
+import { services } from '../data/services';
 
 export const allCategories = [
   {
@@ -52,6 +53,57 @@ export const allCategories = [
   },
 ];
 
+const servicesFaqs = [
+  {
+    q: 'How long do eyelash extensions last in Kigali?',
+    a: 'A full set of eyelash extensions typically lasts 3-4 weeks before a refill is needed, depending on your natural lash growth cycle. We offer refills to keep your lashes looking fresh.'
+  },
+  {
+    q: 'What is the difference between classic, volume and mega volume lashes?',
+    a: 'Classic lashes use one extension per natural lash for a natural look. Volume lashes use ultra-fine fans for a fuller, fluffier finish, and mega volume lashes add even more density for a bold, dramatic lash line. We will recommend the right set for your natural lashes and desired look.'
+  },
+  {
+    q: 'Is microblading painful and how long does it last?',
+    a: 'Microblading is performed with a numbing cream, so most clients feel little to no discomfort. Results typically last 1-2 years, with a retouch recommended to maintain the shape and colour of your eyebrows.'
+  },
+  {
+    q: 'How do I book an appointment?',
+    a: 'You can book directly online through our Booking page in just a few minutes, or contact us for a free consultation and we will help you choose the perfect service.'
+  }
+];
+
+const servicesListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'OfferCatalog',
+  name: 'Lash and Brow Services in Kigali',
+  url: `${SITE_URL}/services`,
+  description: 'Eyelash extensions, volume lashes, lash lift, microblading, microshading, hybrid brows, brow lamination and training at Extreme Beauty Lashes & Brows, Nyarutarama, Kigali.',
+  provider: { '@type': 'BeautySalon', name: SITE_NAME, url: `${SITE_URL}/` },
+  itemListElement: services.map((s) => ({
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      name: s.name,
+      url: `${SITE_URL}/service/${s.slug}`,
+      image: `${SITE_URL}${s.image}`,
+      description: s.description,
+      offers: s.price
+        ? { '@type': 'Offer', price: s.price, priceCurrency: 'RWF' }
+        : undefined,
+    },
+  })),
+};
+
+const servicesFaqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: servicesFaqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
 const Services = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -92,6 +144,8 @@ const Services = () => {
         description="Eyelash extensions, volume lashes, mega volume lashes, microblading & brow lamination in Kigali. Book lash extensions or microblading at Extreme Beauty Lashes & Brows, Nyarutarama, Rwanda."
         path="/services"
       />
+      <SeoJsonLd id="services-catalog" data={servicesListJsonLd} />
+      <SeoJsonLd id="services-faq" data={servicesFaqJsonLd} />
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">
@@ -188,24 +242,7 @@ const Services = () => {
             Frequently Asked Questions About Our Services
           </h2>
           <div className="space-y-4">
-            {[
-              {
-                q: 'How long do eyelash extensions last in Kigali?',
-                a: 'A full set of eyelash extensions typically lasts 3-4 weeks before a refill is needed, depending on your natural lash growth cycle. We offer refills to keep your lashes looking fresh.'
-              },
-              {
-                q: 'What is the difference between classic, volume and mega volume lashes?',
-                a: 'Classic lashes use one extension per natural lash for a natural look. Volume lashes use ultra-fine fans for a fuller, fluffier finish, and mega volume lashes add even more density for a bold, dramatic lash line. We will recommend the right set for your natural lashes and desired look.'
-              },
-              {
-                q: 'Is microblading painful and how long does it last?',
-                a: 'Microblading is performed with a numbing cream, so most clients feel little to no discomfort. Results typically last 1-2 years, with a retouch recommended to maintain the shape and colour of your eyebrows.'
-              },
-              {
-                q: 'How do I book an appointment?',
-                a: 'You can book directly online through our Booking page in just a few minutes, or contact us for a free consultation and we will help you choose the perfect service.'
-              }
-            ].map((item, i) => {
+            {servicesFaqs.map((item, i) => {
               const isOpen = openFaq === i;
               return (
                 <div key={i} className="border border-gray-200 rounded-xl bg-white overflow-hidden transition-colors duration-300">

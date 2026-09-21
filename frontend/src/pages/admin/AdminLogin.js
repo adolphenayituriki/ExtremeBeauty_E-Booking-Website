@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FiMail, FiArrowRight, FiArrowLeft, FiLoader, FiLock, FiEye, FiEyeOff, FiCheck } from 'react-icons/fi';
 import { useAuth } from '../../context/AdminAuthContext';
+import { SeoNoindex } from '../../utils/Seo';
 
 const Field = ({
   icon, type, value, onChange, showToggle, onToggle, show,
@@ -108,7 +109,9 @@ const AdminLogin = () => {
     "w-full relative overflow-hidden rounded-xl border-none cursor-pointer transition-all duration-300 group";
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-3 sm:p-4 relative overflow-hidden">
+    <>
+      <SeoNoindex />
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-3 sm:p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.12)_0%,transparent_60%)]" />
 
       <div className="relative z-10 w-full max-w-[380px] animate-fade-in-up">
@@ -255,6 +258,7 @@ const AdminLogin = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

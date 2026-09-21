@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FiCheck, FiArrowRight } from 'react-icons/fi';
-import Seo from '../utils/Seo';
+import { FiCheck, FiArrowRight, FiEye, FiStar, FiAward, FiMapPin } from 'react-icons/fi';
+import Seo, { SeoJsonLd } from '../utils/Seo';
+import { SITE_URL, SITE_NAME } from '../utils/seoData';
 
 const About = () => {
   const features = [
@@ -11,6 +12,27 @@ const About = () => {
     { title: 'Personalized Care', text: 'Customized to your unique style' },
   ];
 
+  const aboutJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About Extreme Beauty Lashes & Brows',
+    url: `${SITE_URL}/about`,
+    description:
+      'Extreme Beauty Lashes & Brows is a professional lash and brow studio in Nyarutarama, Kigali, Rwanda specialising in eyelash extensions, lash lift, microblading, microshading, hybrid brows and brow lamination.',
+    about: {
+      '@type': 'BeautySalon',
+      name: SITE_NAME,
+      url: `${SITE_URL}/`,
+      telephone: '+250785069349',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '105 KG 9th Ave, Nyarutarama',
+        addressLocality: 'Kigali',
+        addressCountry: 'RW',
+      },
+    },
+  };
+
   return (
     <>
       <Seo
@@ -18,6 +40,7 @@ const About = () => {
         description="Learn about Extreme Beauty Lashes & Brows, Kigali's trusted lash and brow studio — expert technicians, premium products and personalized care."
         path="/about"
       />
+      <SeoJsonLd id="about-page" data={aboutJsonLd} />
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">
@@ -55,6 +78,46 @@ const About = () => {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 px-5 bg-white">
+        <div className="max-w-[900px] mx-auto">
+          <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium text-center">Why Kigali&apos;s Lashes &amp; Brows Studio</p>
+          <h2 className="text-[1.8rem] mb-4 text-center font-cormorant font-semibold">Kigali&apos;s Trusted Studio for Eyelash Extensions &amp; Eyebrow Microblading</h2>
+          <p className="text-gray-500 text-[0.88rem] leading-[1.85] text-center mb-8">
+            Extreme Beauty Lashes &amp; Brows in Nyarutarama is a leading beauty salon in Rwanda for
+            eyelash extensions, volume lashes, mega volume lashes, lash lift and eyebrow treatments
+            including microblading, ombré microshading, hybrid brows and brow lamination. Every
+            appointment is delivered by certified lash and brow artists using premium products and
+            sterilised equipment, in a spotless studio in the heart of Kigali.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            {[
+              { icon: <FiEye size={18} />, title: 'Lash Extensions', text: 'Classic, hybrid, volume, mega volume and wispy sets for Kigali clients.' },
+              { icon: <FiStar size={18} />, title: 'Brow Artistry', text: 'Microblading, microshading, hybrid brows and lamination — natural, defined results.' },
+              { icon: <FiAward size={18} />, title: 'Certified Training', text: 'Learn professional lash and brow techniques at our Kigali academy.' },
+            ].map((item, i) => (
+              <div key={i} className="glass-card rounded-2xl p-5 flex flex-col items-start text-left">
+                <span className="text-gold mb-3">{item.icon}</span>
+                <h3 className="text-[0.95rem] font-semibold text-black mb-1">{item.title}</h3>
+                <p className="text-[0.78rem] text-gray-500 leading-[1.6]">{item.text}</p>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-3 justify-center mb-10">
+            <Link to="/services" className="inline-flex items-center gap-2 bg-black text-white px-6 py-3 text-[0.75rem] font-semibold uppercase tracking-[2px] rounded-xl transition-all duration-300 hover:bg-gold no-underline">
+              Explore Our Services <FiArrowRight size={14} />
+            </Link>
+            <Link to="/teaching" className="inline-flex items-center gap-2 border border-gray-200 text-black px-6 py-3 text-[0.75rem] font-semibold uppercase tracking-[2px] rounded-xl transition-all duration-300 hover:border-gold hover:text-gold no-underline">
+              See Our Training <FiArrowRight size={14} />
+            </Link>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-[0.82rem] text-gray-500">
+            <span className="flex items-center gap-2"><FiMapPin size={14} className="text-gold" /> 105 KG 9th Ave, Nyarutarama, Kigali, Rwanda</span>
+            <span className="hidden sm:block w-px h-3 bg-gray-200" />
+            <span>Mon–Sat, 09:00–18:00</span>
           </div>
         </div>
       </section>

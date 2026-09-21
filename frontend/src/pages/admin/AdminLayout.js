@@ -8,6 +8,7 @@ import {
 import { useAuth } from '../../context/AdminAuthContext';
 import { adminFetch } from '../../utils/adminApi';
 import { SITE_URL } from '../../utils/apiConfig';
+import { SeoNoindex } from '../../utils/Seo';
 
 const SEEN_KEY = 'eb_admin_last_seen';
 
@@ -145,7 +146,9 @@ const AdminLayout = () => {
     }`;
 
   return (
-    <div className="min-h-screen bg-[#faf8f6] flex">
+    <>
+      <SeoNoindex />
+      <div className="min-h-screen bg-[#faf8f6] flex">
       {/* Backdrop for mobile */}
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
@@ -392,6 +395,7 @@ const AdminLayout = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 

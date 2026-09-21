@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import { useSiteContent } from '../utils/content';
 import { allCategories as serviceCategories } from './Services';
 import Seo from '../utils/Seo';
+import { slugify } from '../utils/seoData';
 
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
@@ -319,9 +320,9 @@ const Home = () => {
                     <h3 className="text-[1.05rem] mb-1.5 group-hover:text-gold transition-colors duration-300">{service.title}</h3>
                     <p className="text-gray-500 text-[0.8rem] leading-[1.6] mb-4 line-clamp-2">{service.description}</p>
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100/60">
-                      <span className="inline-flex items-center gap-1.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-gold transition-all duration-300">
+                      <Link to={`/service/${slugify(service.title)}`} onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1.5 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-gold transition-colors duration-300 no-underline">
                         View Details <FiArrowRight size={13} />
-                      </span>
+                      </Link>
                       <Link to={`/booking?service=${encodeURIComponent(service.title)}`} onClick={(e) => e.stopPropagation()} className="text-[0.7rem] text-gray-400 hover:text-gold transition-colors duration-300">
                         Book Now
                       </Link>

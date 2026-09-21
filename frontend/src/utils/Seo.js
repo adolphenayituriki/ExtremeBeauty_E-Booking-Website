@@ -70,10 +70,23 @@ const Seo = ({ title, description, path = '', type = 'website', image = DEFAULT_
   return null;
 };
 
+export const SeoNoindex = () => {
+  useEffect(() => {
+    setMeta('name', 'robots', 'noindex, nofollow');
+
+    const existing = document.querySelector('link[rel="canonical"]');
+    if (existing) existing.remove();
+
+    return () => { removeMeta('name', 'robots'); };
+  }, []);
+
+  return null;
+};
+
 const JSON_LD_FALLBACK_KEY = 'seo-jsonld';
 
-export const SeoJsonLd = ({ data, key }) => {
-  const jsonKey = key || JSON_LD_FALLBACK_KEY;
+export const SeoJsonLd = ({ data, id }) => {
+  const jsonKey = id || JSON_LD_FALLBACK_KEY;
   useEffect(() => {
     let el = document.getElementById(jsonKey);
     if (el) el.remove();

@@ -2,6 +2,9 @@ export const SITE_URL = 'https://www.extremebeautyrw.com';
 export const SITE_NAME = 'Extreme Beauty Lashes & Brows';
 export const SITE_LOGO = `${SITE_URL}/logo/Logo-White-BG.jpg`;
 
+const FP = '+250 785 069 349';
+const ADDRESS = '105 KG 9th Ave, Nyarutarama, Kigali, Rwanda';
+
 export function slugify(text) {
   return String(text || '')
     .normalize('NFD')
@@ -9,6 +12,49 @@ export function slugify(text) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+}
+
+/* Keyword-rich, service-specific FAQ Q&As. These power both the on-page FAQ
+   accordion and the FAQPage structured data, which Google can show as rich
+   results when people search for these services. */
+export function getServiceFaqs(service) {
+  const name = service?.name || '';
+  const lower = name.toLowerCase();
+
+  return [
+    {
+      q: `What is ${name} and how does it work?`,
+      a: `${name} is one of the most requested treatments at Extreme Beauty Lashes & Brows in Nyarutarama, Kigali. ${service?.description || ''} Our specialists assess your features and recommend the best approach for natural, lasting results.`,
+    },
+    {
+      q: `Where can I get ${lower} in Kigali?`,
+      a: `We perform ${lower} at Extreme Beauty Lashes & Brows, located at ${ADDRESS}. You can book online in just a few minutes or call us on ${FP} to schedule your appointment.`,
+    },
+    {
+      q: `How much does ${lower} cost at Extreme Beauty?`,
+      a: `A ${lower} appointment at Extreme Beauty Lashes & Brows in Kigali costs ${service?.priceFormatted || 'on request'}. Your specialist will confirm the exact price during your consultation, with no hidden fees.`,
+    },
+    {
+      q: `How long does ${lower} take to complete?`,
+      a: `A ${lower} appointment at our Nyarutarama studio typically takes 45–120 minutes depending on the treatment. We use premium products, sterilised tools and strict hygiene standards so you get a beautiful, safe result.`,
+    },
+    {
+      q: `How long does the result of ${lower} last?`,
+      a: `The longevity of ${lower} depends on your natural lash and brow cycle and aftercare. Our team will give you clear aftercare guidance and recommend the right follow-up so your look stays fresh and beautiful.`,
+    },
+  ];
+}
+
+export function buildFaqJsonLd(service) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: getServiceFaqs(service).map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
 }
 
 export function buildServiceMeta(service) {
@@ -63,5 +109,7 @@ export function buildServiceMeta(service) {
     ],
   };
 
-  return { slug, path, title, description, image, jsonLd, breadcrumbJsonLd };
+  const faqJsonLd = buildFaqJsonLd(service);
+
+  return { slug, path, title, description, image, jsonLd, breadcrumbJsonLd, faqJsonLd, faqs: getServiceFaqs(service) };
 }

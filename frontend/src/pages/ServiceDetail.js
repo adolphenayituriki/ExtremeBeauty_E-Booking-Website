@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
-import { FiArrowRight, FiCheck, FiChevronRight, FiStar, FiClock, FiShield, FiHeart } from 'react-icons/fi';
+import { FiArrowRight, FiCheck, FiChevronRight, FiChevronDown, FiStar, FiClock, FiShield, FiHeart } from 'react-icons/fi';
 import Seo, { SeoJsonLd } from '../utils/Seo';
 import { services, getServiceBySlug } from '../data/services';
 import { buildServiceMeta, SITE_NAME } from '../utils/seoData';
@@ -20,6 +20,8 @@ const ServiceDetail = () => {
 
   const meta = useMemo(() => (service ? buildServiceMeta(service) : null), [service]);
 
+  const [openFaq, setOpenFaq] = useState(0);
+
   if (!service || !meta) {
     return <Navigate to="/services" replace />;
   }
@@ -38,8 +40,9 @@ const ServiceDetail = () => {
         type="service"
         image={meta.image}
       />
-      <SeoJsonLd key={`service-${service.slug}`} data={meta.jsonLd} />
-      <SeoJsonLd key={`breadcrumb-${service.slug}`} data={meta.breadcrumbJsonLd} />
+      <SeoJsonLd id={`service-${service.slug}`} data={meta.jsonLd} />
+      <SeoJsonLd id={`breadcrumb-${service.slug}`} data={meta.breadcrumbJsonLd} />
+      <SeoJsonLd id={`faq-${service.slug}`} data={meta.faqJsonLd} />
 
       {/* Breadcrumbs */}
       <div className="pt-[110px] bg-gray-950 text-white">
@@ -160,6 +163,43 @@ const ServiceDetail = () => {
             <Link to="/services" className="inline-flex items-center gap-2 bg-black text-white px-7 py-3 text-[0.75rem] font-semibold uppercase tracking-[2px] rounded-xl transition-all duration-300 hover:bg-gold">
               View All Services <FiArrowRight size={14} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-16 px-5 bg-white">
+        <div className="max-w-[760px] mx-auto">
+          <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium text-center">Common Questions</p>
+          <h2 className="text-[1.8rem] mb-2 text-center font-cormorant font-semibold text-black">
+            {service.name} in Kigali — Frequently Asked Questions
+          </h2>
+          <p className="text-gray-500 text-[0.85rem] text-center mb-8 max-w-[560px] mx-auto leading-relaxed">
+            Everything you need to know about {service.name.toLowerCase()} at Extreme Beauty Lashes & Brows, Nyarutarama, Kigali.
+          </p>
+          <div className="space-y-4">
+            {meta.faqs.map((item, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div key={i} className="border border-gray-200 rounded-xl bg-white overflow-hidden transition-colors duration-300">
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                    className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left cursor-pointer bg-transparent"
+                    aria-expanded={isOpen}
+                  >
+                    <h3 className="font-medium text-[0.95rem] font-cormorant text-gray-900">{item.q}</h3>
+                    <FiChevronDown
+                      size={18}
+                      className={`text-gold flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+                  <div className={`transition-all duration-300 overflow-hidden ${isOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <p className="px-5 pb-4 text-gray-500 text-[0.85rem] leading-[1.7]">{item.a}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

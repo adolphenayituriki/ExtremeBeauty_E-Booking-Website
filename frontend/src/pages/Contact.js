@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { FiPhone, FiMail, FiMapPin, FiClock, FiArrowRight, FiSend, FiMessageSquare } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { useSiteInfo } from '../utils/content';
-import Seo from '../utils/Seo';
+import Seo, { SeoJsonLd } from '../utils/Seo';
+import { SITE_URL } from '../utils/seoData';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
@@ -53,6 +54,28 @@ const Contact = () => {
   const labelBase = "block text-[0.7rem] font-semibold uppercase tracking-[1.5px] text-gray-500 mb-2";
   const mapsEmbed = `https://maps.google.com/maps?q=${encodeURIComponent(site.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 
+  const contactJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: 'Contact Extreme Beauty Lashes & Brows',
+    url: `${SITE_URL}/contact`,
+    description:
+      'Contact Extreme Beauty Lashes & Brows in Nyarutarama, Kigali, Rwanda to book eyelash extensions, lash lift, microblading, microshading or brow lamination appointments.',
+    mainEntity: {
+      '@type': 'BeautySalon',
+      name: 'Extreme Beauty Lashes & Brows',
+      url: `${SITE_URL}/`,
+      telephone: '+250785069349',
+      email: site.email || 'info@extremebeauty.rw',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '105 KG 9th Ave, Nyarutarama',
+        addressLocality: 'Kigali',
+        addressCountry: 'RW',
+      },
+    },
+  };
+
   const contactInfo = [
     { icon: <FiMapPin size={18} />, title: 'Location', value: site.address, href: site.mapsUrl },
     { icon: <FiPhone size={18} />, title: 'Phone', value: site.phone1, sub: 'Call us anytime', href: `tel:${site.callRaw}` },
@@ -68,6 +91,7 @@ const Contact = () => {
         description="Get in touch with Extreme Beauty Lashes & Brows in Kigali, Rwanda. Call, WhatsApp or send us a message to book your lash and brow appointment."
         path="/contact"
       />
+      <SeoJsonLd id="contact-page" data={contactJsonLd} />
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">

@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiCheck, FiAward, FiUsers, FiHeart } from 'react-icons/fi';
 import { motion, useInView } from 'framer-motion';
-import Seo from '../utils/Seo';
+import Seo, { SeoJsonLd } from '../utils/Seo';
+import { SITE_URL } from '../utils/seoData';
 
 const FadeIn = ({ children, delay = 0, className = '' }) => {
   const ref = useRef(null);
@@ -36,6 +37,34 @@ const highlights = [
 ];
 
 const Teaching = () => {
+  const courseJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: 'Lash & Brow Training in Kigali',
+    description:
+      'Certified training in eyelash extensions and eyebrow treatments in Kigali, Rwanda, with hands-on practice on live models and essential safety guidance.',
+    url: `${SITE_URL}/teaching`,
+    provider: {
+      '@type': 'BeautySalon',
+      name: 'Extreme Beauty Lashes & Brows',
+      url: `${SITE_URL}/`,
+    },
+    hasCourseInstance: {
+      '@type': 'CourseInstance',
+      courseMode: 'onsite',
+      location: {
+        '@type': 'Place',
+        name: 'Extreme Beauty Lashes & Brows',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: '105 KG 9th Ave, Nyarutarama',
+          addressLocality: 'Kigali',
+          addressCountry: 'RW',
+        },
+      },
+    },
+  };
+
   return (
     <>
       <Seo
@@ -43,6 +72,7 @@ const Teaching = () => {
         description="Learn professional lash and brow techniques at Extreme Beauty's training academy in Kigali. Step-by-step process, hands-on guidance and aftercare support."
         path="/teaching"
       />
+      <SeoJsonLd id="teaching-course" data={courseJsonLd} />
       <div className="pt-[110px] pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">
