@@ -161,7 +161,7 @@ const AdminLayout = () => {
         }`}
       >
         {/* Brand top */}
-        <div className="px-6 pt-6 pb-6 border-b border-white/10">
+        <div className="px-6 pt-6 pb-6 border-b border-white/10 shrink-0">
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center justify-center flex-1">
               <div className="w-[140px] h-[46px] flex items-center justify-center overflow-hidden">
@@ -176,7 +176,7 @@ const AdminLayout = () => {
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto pt-6">
+        <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto pt-6 min-h-0">
           {NAV.map((item) => (
             <NavLink key={item.to} to={item.to} end={item.end} className={linkClass} onClick={() => setSidebarOpen(false)}>
               {({ isActive }) => (
@@ -191,7 +191,7 @@ const AdminLayout = () => {
         </nav>
 
         {/* User + logout */}
-        <div className="p-4 border-t border-white/10">
+        <div className="p-4 border-t border-white/10 shrink-0">
           <div className="flex items-center gap-3 mb-3 px-2">
             <div className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white font-semibold text-[0.78rem]">
               {(admin?.name || 'A').charAt(0).toUpperCase()}
@@ -330,13 +330,6 @@ const AdminLayout = () => {
                 </div>
               )}
             </div>
-            <button
-              onClick={handleLogout}
-              className="lg:hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.68rem] font-semibold uppercase tracking-[1.5px] text-gray-300 bg-white/[0.06] border border-white/15 hover:text-gold hover:border-gold/40 hover:bg-gold/10 cursor-pointer transition-all duration-300 whitespace-nowrap"
-              aria-label="Logout"
-            >
-              <FiLogOut size={13} /> Logout
-            </button>
             <a
               href={`${SITE_URL}/`}
               target="_blank"
