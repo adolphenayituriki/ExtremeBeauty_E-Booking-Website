@@ -47,11 +47,8 @@ export async function fetchJson(path, options = {}) {
   const json = await parseJson(response, path);
 
   if (response.status === 401) {
-    if (json && json.message) {
-      throw new Error(json.message);
-    }
     clearAuth();
-    throw new Error('Session expired. Please log in again.');
+    throw new Error((json && json.message) || 'Session expired. Please log in again.');
   }
 
   if (!response.ok) {

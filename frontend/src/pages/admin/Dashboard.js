@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
@@ -34,19 +34,22 @@ const Dashboard = () => {
   const [replyMessage, setReplyMessage] = useState('');
   const [sendingContactReply, setSendingContactReply] = useState(false);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await adminFetch('/api/stats');
-        setStats(data);
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
+  const loadStats = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await adminFetch('/api/stats');
+      setStats(data);
+    } catch (error) {
+      setStats(null);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadStats();
+  }, [loadStats]);
 
   const updateBookingStatus = async (id, status) => {
     setUpdatingStatus(id);
@@ -144,6 +147,23 @@ const Dashboard = () => {
     return (
       <div className="flex items-center justify-center py-32">
         <div className="w-8 h-8 border-2 border-gray-300 border-t-gold rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (!stats) {
+    return (
+      <div className="flex items-center justify-center py-32">
+        <div className="glass-card rounded-2xl p-8 text-center max-w-sm">
+          <p className="font-cormorant font-semibold text-[1.05rem] text-black mb-1">Could not load the dashboard</p>
+          <p className="text-[0.75rem] text-gray-500 mb-5">There was a problem fetching your statistics. Check your connection and try again.</p>
+          <button
+            onClick={loadStats}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-gold via-gold-light to-gold text-black px-5 py-2.5 rounded-xl text-[0.72rem] font-bold uppercase tracking-[2px] transition-shadow hover:shadow-[0_8px_24px_rgba(184,149,106,0.4)]"
+          >
+            <FiLoader size={14} /> Try Again
+          </button>
+        </div>
       </div>
     );
   }
