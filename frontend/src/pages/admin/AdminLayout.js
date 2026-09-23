@@ -330,6 +330,13 @@ const AdminLayout = () => {
                 </div>
               )}
             </div>
+            <button
+              onClick={handleLogout}
+              className="lg:hidden inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[0.68rem] font-semibold uppercase tracking-[1.5px] text-gray-300 bg-white/[0.06] border border-white/15 hover:text-gold hover:border-gold/40 hover:bg-gold/10 cursor-pointer transition-all duration-300 whitespace-nowrap"
+              aria-label="Logout"
+            >
+              <FiLogOut size={13} /> Logout
+            </button>
             <a
               href={`${SITE_URL}/`}
               target="_blank"
