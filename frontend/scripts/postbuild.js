@@ -70,7 +70,7 @@ function readServices() {
   }
   const services = [];
   const re =
-    /\{\s*name:\s*["']([^"']+)["']\s*,\s*slug:\s*slugify\([^)]*\)\s*,\s*price:\s*(\d+)\s*,\s*priceFormatted:\s*["']([^"']*)["']\s*,\s*image:\s*["']([^"']*)["']\s*,\s*(?:video:\s*["'][^"']*["']\s*,\s*)?category:\s*["']([^"']*)["']\s*,\s*description:\s*"([\s\S]*?)"\s*\}?/g;
+    /\{\s*name:\s*["']([^"']+)["']\s*,\s*slug:\s*slugify\([^)]*\)\s*,\s*price:\s*(\d+)\s*,\s*priceFormatted:\s*["']([^"']*)["']\s*,\s*image:\s*["']([^"']*)["']\s*,\s*(?:video:\s*["'][^"']*["']\s*,\s*)?(?:displayName:\s*["'][^"']*["']\s*,\s*)?(?:tagline:\s*["'][^"']*["']\s*,\s*)?category:\s*["']([^"']*)["']\s*,\s*(?:tagline:\s*["'][^"']*["']\s*,\s*)?description:\s*"([\s\S]*?)"\s*\}?/g;
   let match;
   while ((match = re.exec(code)) !== null) {
     services.push({
@@ -101,7 +101,11 @@ const PAGE_ROUTES = [
 
 const STATIC_ROUTES = PAGE_ROUTES.map((r) => r.path);
 const SERVICE_ROUTES = SERVICE_SLUGS.map((slug) => `service/${slug}`);
-const ALL_ROUTES = [...STATIC_ROUTES, ...SERVICE_ROUTES];
+/* Admin routes are client-rendered only (never in the sitemap) but we still
+   emit a static shell for them with noindex/no canonical, so they cannot fall
+   through Vercel's SPA rewrite and be mistaken for a duplicate of the homepage. */
+const ADMIN_ROUTES = ['admin', 'admin/login'];
+const ALL_ROUTES = [...STATIC_ROUTES, ...SERVICE_ROUTES, ...ADMIN_ROUTES];
 
 /* ------------------------------------------------------------------ */
 /* Sitemap                                                            */
@@ -484,7 +488,7 @@ function esc(s) {
    everything react-scripts injected (the <link> stylesheets, the <script src>
    bundles, prefetch/manifest and font tags) intact — only title, meta,
    canonical and JSON-LD are swapped per route. */
-function injectSeo(headInner, { title, description, canonical, image = LOGO_URL, ogType = 'website', blocks = [] }) {
+function injectSeo(headInner, { title, description, canonical, image = LOGO_URL, ogType = 'website', blocks = [], noindex = false }) {
   const cleaned = headInner
     .replace(/<title[^>]*>[\s\S]*?<\/title>/gi, '')
     .replace(/<link rel="canonical"[^>]*>/gi, '')
@@ -494,6 +498,14 @@ function injectSeo(headInner, { title, description, canonical, image = LOGO_URL,
     .replace(/<meta name="twitter:[^"]*"[^>]*>/gi, '')
     .replace(/<script type="application\/ld\+json"[\s\S]*?<\/script>/gi, '')
     .trim();
+
+  if (noindex) {
+    return `<head>
+    ${cleaned}
+    <title>${esc(title)}</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>`;
+  }
 
   const blockHtml = blocks.map((b) => `<script type="application/ld+json">
 ${JSON.stringify(b, null, 2)}
@@ -523,6 +535,16 @@ ${JSON.stringify(b, null, 2)}
 }
 
 function routeSeo(route) {
+  if (route === 'admin' || route === 'admin/login') {
+    return {
+      title: 'Admin | Extreme Beauty Lashes & Brows',
+      description: '',
+      canonical: null,
+      noindex: true,
+      blocks: [],
+    };
+  }
+
   if (route === '') {
     return {
       title: SITE_NAME,
@@ -726,13 +748,28 @@ async function findBrowser() {
     );
   }
   const system = candidates.filter(Boolean).find((p) => typeof p === 'string' && p.length > 0 && fs.existsSync(p));
-  if (system) return system;
+  if (system) {
+    return {
+      executablePath: system,
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+      defaultViewport: null,
+    };
+  }
   try {
     const chromium = require('@sparticuz/chromium');
     const sparticuzPath = await chromium.executablePath();
     if (sparticuzPath && fs.existsSync(sparticuzPath)) {
       console.log('[postbuild] Using Chromium from @sparticuz/chromium.');
-      return sparticuzPath;
+      return {
+        executablePath: sparticuzPath,
+        // @sparticuz/chromium ships the headless *shell* binary; puppeteer-core
+        // (v23+) requires headless: 'shell' to drive it, and the bundled args
+        // (--no-sandbox, --single-process, etc.) are required for serverless.
+        headless: 'shell',
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+      };
     }
   } catch (error) {
     console.warn('[postbuild] @sparticuz/chromium unavailable:', error.message);
@@ -760,8 +797,8 @@ async function browserRender() {
     return;
   }
 
-  const browserPath = await findBrowser();
-  if (!browserPath) {
+  const browserInfo = await findBrowser();
+  if (!browserInfo) {
     console.warn('[postbuild] No Chrome/Edge found; keeping static SEO pages (browser render skipped).');
     return;
   }
@@ -774,16 +811,17 @@ async function browserRender() {
     return;
   }
 
-  console.log(`[postbuild] Rendering ${ALL_ROUTES.length} routes with ${browserPath}...`);
+  console.log(`[postbuild] Rendering ${ALL_ROUTES.length} routes with ${browserInfo.executablePath}...`);
 
   const server = await startServer();
   let browser = null;
 
   try {
     browser = await puppeteer.launch({
-      executablePath: browserPath,
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu'],
+      executablePath: browserInfo.executablePath,
+      headless: browserInfo.headless,
+      args: browserInfo.args,
+      ...(browserInfo.defaultViewport ? { defaultViewport: browserInfo.defaultViewport } : {}),
     });
   } catch (error) {
     console.warn('[postbuild] Could not launch browser:', error.message, '-> keeping static SEO pages.');
@@ -840,10 +878,38 @@ async function browserRender() {
 /* Main                                                               */
 /* ------------------------------------------------------------------ */
 
+/* Confirm the pages we are about to ship actually contain visible body
+   content (not just the SPA shell). Without it Google tends to leave the
+   URLs as "Discovered/Crawled - currently not indexed". */
+function verifyBodyContent() {
+  const sampleRoute = ALL_ROUTES.find((r) => r.startsWith('service/')) || '';
+  const rel = sampleRoute ? `${sampleRoute}/index.html` : 'index.html';
+  const target = path.join(buildDir, rel);
+  try {
+    const html = fs.readFileSync(target, 'utf8');
+    const bodyStart = html.indexOf('<body');
+    const body = bodyStart === -1 ? '' : html.slice(bodyStart);
+    const hasContent = /<div id="root">\s*<\w/.test(body) || body.length > 3000;
+    if (hasContent) {
+      console.log(`[postbuild] OK: body content present in /${sampleRoute || ''} (${body.length} chars).`);
+    } else {
+      console.warn(
+        '[postbuild] WARNING: pre-rendered pages still have an empty <body>. ' +
+          'The headless browser step did not produce content on this build, so ' +
+          'Google may keep the pages unindexed. Check that @sparticuz/chromium ' +
+          'launched successfully in the deploy logs.'
+      );
+    }
+  } catch (error) {
+    console.warn('[postbuild] could not verify body content:', error.message);
+  }
+}
+
 async function main() {
   writeSitemap();
   generateStaticPages();
   await browserRender();
+  verifyBodyContent();
   console.log('[postbuild] Done.');
 }
 
