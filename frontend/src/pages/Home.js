@@ -90,6 +90,7 @@ const Home = () => {
   const [heroAnimating, setHeroAnimating] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const carouselRef = useRef(null);
+  const lipVideoRef = useRef(null);
   const [carouselPaused, setCarouselPaused] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [videoIndex, setVideoIndex] = useState(0);
@@ -325,6 +326,17 @@ const Home = () => {
     }, 2500);
     return () => clearInterval(interval);
   }, [carouselPaused]);
+
+  useEffect(() => {
+    const video = lipVideoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.setAttribute("muted", "");
+    const play = () => { video.play().catch(() => {}); };
+    play();
+    video.addEventListener("loadeddata", play);
+    return () => video.removeEventListener("loadeddata", play);
+  }, []);
 
   const scrollCarousel = useCallback((dir) => {
     setCarouselIndex((prev) => {
@@ -640,6 +652,71 @@ const Home = () => {
             >
               View All Services <FiArrowRight size={14} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== LIP BLUSH SHOWCASE ===== */}
+      <section className="py-20 px-5 bg-gray-950 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_65%)]" />
+        <div className="absolute top-10 right-1/4 w-[320px] h-[320px] bg-gold/[0.05] rounded-full blur-[130px]" />
+        <div className="max-w-[1200px] mx-auto relative">
+          <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-14 items-center">
+            <FadeIn>
+              <div>
+                <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-3 font-medium">
+                  Featured Treatment
+                </p>
+                <h2 className="text-[2rem] sm:text-[2.4rem] leading-[1.15] mb-4 font-cormorant font-semibold text-white">
+                  Lip Blush
+                </h2>
+                <p className="text-gray-300 text-[0.9rem] leading-[1.85] mb-6 max-w-[460px]">
+                  A luxurious semi-permanent lip enhancement designed to awaken
+                  your lips' natural beauty. Lip blush creates a delicate wash of
+                  color, refines lip definition and enhances symmetry for a
+                  beautifully soft, naturally radiant finish.
+                </p>
+                <div className="flex flex-wrap items-center gap-3 mb-6">
+                  <Link
+                    to="/booking?service=Lipbrush"
+                    className="btn-primary inline-flex items-center gap-2"
+                  >
+                    Book Lip Blush <FiArrowRight size={14} />
+                  </Link>
+                  <Link
+                    to="/service/lipbrush"
+                    className="btn-secondary border-white/20 text-white hover:border-gold hover:text-gold hover:bg-gold/5"
+                  >
+                    View Details
+                  </Link>
+                </div>
+                <div className="flex items-center gap-4 text-gold/80 text-[0.75rem]">
+                  <span className="flex items-center gap-1.5">
+                    <FiHeart size={12} /> Timeless Elegance
+                  </span>
+                  <span className="w-px h-3 bg-white/10" />
+                  <span>RWF 300,000</span>
+                </div>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.15}>
+              <div className="relative rounded-3xl overflow-hidden border border-white/10 glass-card">
+                <video
+                  ref={lipVideoRef}
+                  src="/videos/Lipbrush.mp4"
+                  poster="/images/Lipbrush.jpeg"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="w-full h-[300px] sm:h-[420px] object-cover block bg-black"
+                />
+                <span className="absolute top-4 left-4 glass text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-gold px-3 py-1 rounded-full pointer-events-none">
+                  New Service
+                </span>
+              </div>
+            </FadeIn>
           </div>
         </div>
       </section>
