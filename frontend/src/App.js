@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingButtons from './components/FloatingButtons';
+import NewServiceNotice from './components/NewServiceNotice';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail';
@@ -80,6 +81,12 @@ const PublicFloating = () => {
   return <FloatingButtons />;
 };
 
+const PublicNewServiceNotice = () => {
+  const { pathname } = useLocation();
+  if (pathname.startsWith('/admin')) return null;
+  return <NewServiceNotice />;
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -112,6 +119,7 @@ function App() {
           </main>
           <PublicFooter />
           <PublicFloating />
+          <PublicNewServiceNotice />
           <ToastContainer
             position="top-right"
             autoClose={4000}
