@@ -20,7 +20,7 @@ const seed = {
     { name: 'Lash Lift', description: 'Premium Service', image: '/images/Lash%20lift.jpg', category: 'Lash Lift' },
     { name: 'Eyelash Extensions', description: '6 Styles Available', image: '/images/Volume%20lashes%20set.jpg', category: 'Lashes' },
     { name: 'Eyebrows Retouch', description: 'Touch-Up Service', image: '/images/Eyebrows.jpg', category: 'Retouch' },
-    { name: 'Lipbrush', description: '1 Service', image: '/images/Lipbrush.jpeg', category: 'Lipbrush', fit: 'contain' },
+    { name: 'Lip Blush', description: 'Timeless Elegance', image: '/images/Lipbrush.png', category: 'Lipbrush', fit: 'contain' },
   ],
   featuredServices: [
     { category: 'BROWS', title: 'Microblading Eyebrows', description: 'Semi-permanent tattooing technique that creates natural-looking, fuller eyebrows with hair-like strokes.', image: '/images/Microblading.jpg' },

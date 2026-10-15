@@ -216,7 +216,24 @@ const Home = () => {
 
   const heroSlides = content?.heroSlides || defaultHeroSlides;
   const carouselImages = content?.gallery || defaultCarouselImages;
-  const categories = content?.categories || defaultCategories;
+  const contentCategories = content?.categories;
+  const categoryKey = (cat) => (cat?.category || cat?.name || "").toLowerCase();
+  const categories = contentCategories?.length
+    ? (() => {
+        const defaultsByKey = new Map(
+          defaultCategories.map((c) => [categoryKey(c), c]),
+        );
+        const merged = contentCategories.map((c) => ({
+          ...defaultsByKey.get(categoryKey(c)),
+          ...c,
+        }));
+        const present = new Set(contentCategories.map(categoryKey));
+        defaultCategories.forEach((c) => {
+          if (!present.has(categoryKey(c))) merged.push(c);
+        });
+        return merged;
+      })()
+    : defaultCategories;
   const categoriesWithServices = categories.map((cat) => {
     const match = serviceCategories.find(
       (sc) =>
