@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { FiArrowRight, FiEye, FiStar, FiCheckCircle, FiSearch, FiX, FiChevronDown } from 'react-icons/fi';
+import { FiArrowRight, FiEye, FiStar, FiCheckCircle, FiSearch, FiX, FiChevronDown, FiHeart } from 'react-icons/fi';
 import Seo, { SeoJsonLd } from '../utils/Seo';
 import { slugify, SITE_URL, SITE_NAME } from '../utils/seoData';
 import { services } from '../data/services';
@@ -49,6 +49,15 @@ export const allCategories = [
     icon: <FiCheckCircle size={20} />,
     services: [
       { name: 'Eyebrows Retouch', description: 'Touch-up and refresh service for previously done microblading, microshading, or combination brows.', image: '/images/Eyebrows.jpg', price: 'RWF 60,000', pos: 'center' },
+    ],
+  },
+  {
+    title: 'Lip Blush',
+    key: 'Lipbrush',
+    label: 'Lip Treatments',
+    icon: <FiHeart size={20} />,
+    services: [
+      { name: 'Lipbrush', displayName: 'Lip Blush', description: 'LIP BLUSH | Timeless Elegance: A luxurious semi-permanent lip enhancement designed to awaken your lips’ natural beauty. Lip blush creates a delicate wash of color, refines lip definition, and enhances symmetry for a beautifully soft, naturally radiant finish. Your lips, perfected with elegance.', image: '/images/Lipbrush.jpeg', price: 'RWF 300,000', fit: 'contain' },
     ],
   },
 ];
@@ -213,12 +222,12 @@ const Services = () => {
                       </div>
                       <div className="p-5">
                         <Link to={`/service/${slugify(service.name)}`} className="no-underline">
-                          <h3 className="text-[0.95rem] font-semibold transition-colors duration-300 group-hover:text-gold mb-1.5">{service.name}</h3>
+                          <h3 className="text-[0.95rem] font-semibold transition-colors duration-300 group-hover:text-gold mb-1.5">{service.displayName || service.name}</h3>
                         </Link>
                         <span className="text-[0.82rem] font-bold text-gold mb-3 block">{service.price}</span>
                         <p className="text-gray-500 text-[0.8rem] leading-[1.6] mb-4">{service.description}</p>
                         <div className="flex gap-2">
-                          <button onClick={() => { toast.info(`Booking ${service.name}...`); setTimeout(() => navigate(`/booking?service=${encodeURIComponent(service.name)}`), 400); }} className="group/btn inline-flex items-center justify-center gap-2 w-full py-3 border border-gray-200 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black rounded-xl transition-all duration-300 hover:bg-gold hover:text-white hover:border-gold cursor-pointer bg-transparent">
+                          <button onClick={() => { toast.info(`Booking ${service.displayName || service.name}...`); setTimeout(() => navigate(`/booking?service=${encodeURIComponent(service.name)}`), 400); }} className="group/btn inline-flex items-center justify-center gap-2 w-full py-3 border border-gray-200 text-[0.72rem] font-semibold uppercase tracking-[1.5px] text-black rounded-xl transition-all duration-300 hover:bg-gold hover:text-white hover:border-gold cursor-pointer bg-transparent">
                             Book Now
                             <FiArrowRight size={13} className="transition-transform duration-300 group-hover/btn:translate-x-0.5" />
                           </button>

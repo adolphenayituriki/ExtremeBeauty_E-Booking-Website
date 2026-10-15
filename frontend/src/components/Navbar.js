@@ -6,7 +6,7 @@ import { useSiteInfo } from '../utils/content';
 const allServices = [
   'Microblading Eyebrows', 'Ombré, microshading', 'Hybrid / Combination Brows', 'Brows Lamination',
   'Lash Lift', 'Classic Set', 'Hybrid Set', 'Volume Set', 'Mega Volume Set',
-  'Wispy Sets', 'Lash Removal', 'Eyebrows Retouch',
+  'Wispy Sets', 'Lash Removal', 'Eyebrows Retouch', 'Lipbrush',
 ];
 
 const categoryMap = {
@@ -15,6 +15,7 @@ const categoryMap = {
   'Brows': 'Brows',
   'Lash Lift': 'Lash Lift',
   'Retouch': 'Eyebrows Retouch',
+  'Lipbrush': 'Lipbrush',
 };
 
 const categoryLinks = [
@@ -23,6 +24,7 @@ const categoryLinks = [
   { path: '/services', label: 'Lashes', category: 'Lashes' },
   { path: '/services', label: 'Brows', category: 'Brows' },
   { path: '/services', label: 'Lash Lift', category: 'Lash Lift' },
+  { path: '/services', label: 'Lip Blush', category: 'Lipbrush' },
   { path: '/about', label: 'About Us' },
   { path: '/teaching', label: 'Teaching' },
   { path: '/contact', label: 'Contact' },

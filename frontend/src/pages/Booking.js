@@ -6,6 +6,36 @@ import { services, categories, getServiceByName } from '../data/services';
 import Receipt from '../components/Receipt';
 import Seo from '../utils/Seo';
 
+const LipbrushImageSlider = ({ className = "w-full h-full object-cover" }) => {
+  const images = ['/images/Lipbrush.jpeg', '/images/Lipbrush.png'];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      {images.map((image, index) => (
+        <img
+          key={index}
+          src={image}
+          alt="Lipbrush treatment - Extreme Beauty"
+          className={`absolute inset-0 w-full h-full object-contain bg-gray-50 transition-all duration-[1500ms] ease-in-out ${
+            index === currentIndex ? 'opacity-100 scale-105' : 'opacity-0 scale-100'
+          }`}
+          loading="lazy"
+          decoding="async"
+        />
+      ))}
+    </div>
+  );
+};
+
 const API_URL = process.env.REACT_APP_API_URL || 'https://extremebeauty-e-booking-website.onrender.com';
 
 async function safePost(url, body) {
@@ -127,8 +157,12 @@ const Booking = () => {
             {/* ── Service Summary Card ── */}
             {bookedService && (
               <div className="mb-8 rounded-2xl overflow-hidden border border-gray-200/60 shadow-sm">
-                <div className="relative h-[160px]">
-                  <img src={bookedService.image} alt={bookedService.name} className="w-full h-full object-cover" />
+                <div className="relative h-[180px]">
+                  {bookedService.name === 'Lipbrush' ? (
+                    <LipbrushImageSlider />
+                  ) : (
+                    <img src={bookedService.image} alt={bookedService.name} className="w-full h-full object-cover" />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <span className="absolute top-4 right-4 inline-block px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[1px] rounded-full bg-emerald-500 text-white">
                     Approved
@@ -329,8 +363,12 @@ const Booking = () => {
 
                 {/* Service Preview Card */}
                 <div className="rounded-2xl overflow-hidden border border-gray-200/60 shadow-sm">
-                  <div className="relative h-[180px]">
-                    <img src={selectedService.image} alt={selectedService.name} className="w-full h-full object-cover" />
+                  <div className="relative h-[200px]">
+                    {selectedService.name === 'Lipbrush' ? (
+                      <LipbrushImageSlider />
+                    ) : (
+                      <img src={selectedService.image} alt={selectedService.name} className="w-full h-full object-cover" />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                     <span className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white text-[0.68rem] font-medium px-3 py-1.5 rounded-full">{selectedService.category}</span>
                     <div className="absolute bottom-5 left-5 right-5">

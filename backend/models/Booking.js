@@ -46,6 +46,7 @@ const bookingSchema = new mongoose.Schema({
       'Lash Removal',
       'Eyebrows Retouch',
       'Training Session',
+      'Lipbrush',
     ],
   },
   date: {

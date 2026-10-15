@@ -6,7 +6,7 @@ import {
 } from 'react-icons/fi';
 import { adminFetch, resolveAssetUrl } from '../../utils/adminApi';
 
-const categoryOptions = ['Brows', 'Lash Lift', 'Lashes', 'Retouch', 'Training'];
+const categoryOptions = ['Brows', 'Lash Lift', 'Lashes', 'Retouch', 'Lipbrush', 'Training'];
 
 const emptyForm = {
   name: '', price: '', priceFormatted: '', image: '', category: 'Brows',

@@ -96,7 +96,7 @@ const About = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             {[
               { icon: <FiEye size={18} />, title: 'Lash Extensions', text: 'Classic, hybrid, volume, mega volume and wispy sets for Kigali clients.' },
-              { icon: <FiStar size={18} />, title: 'Brow Artistry', text: 'Microblading, microshading, hybrid brows and lamination — natural, defined results.' },
+              { icon: <FiStar size={18} />, title: 'Brow Artistry', text: 'Microblading, microshading, hybrid brows and lamination. Natural, defined results.' },
               { icon: <FiAward size={18} />, title: 'Certified Training', text: 'Learn professional lash and brow techniques at our Kigali academy.' },
             ].map((item, i) => (
               <div key={i} className="glass-card rounded-2xl p-5 flex flex-col items-start text-left">
@@ -117,7 +117,7 @@ const About = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-[0.82rem] text-gray-500">
             <span className="flex items-center gap-2"><FiMapPin size={14} className="text-gold" /> 105 KG 9th Ave, Nyarutarama, Kigali, Rwanda</span>
             <span className="hidden sm:block w-px h-3 bg-gray-200" />
-            <span>Mon–Sat, 09:00–18:00</span>
+            <span>Mon–Sat, 08:00–10:00</span>
           </div>
         </div>
       </section>

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { FiArrowRight, FiCheck, FiChevronRight, FiChevronDown, FiStar, FiClock, FiShield, FiHeart } from 'react-icons/fi';
 import Seo, { SeoJsonLd } from '../utils/Seo';
@@ -13,6 +13,38 @@ const whyBook = [
   { icon: <FiClock size={15} />, title: 'Personalised Care', text: 'Every treatment is tailored to your features and desired look.' },
   { icon: <FiHeart size={15} />, title: 'Client Favourite', text: 'Trusted by 2,000+ happy clients across Kigali, Rwanda.' },
 ];
+
+const LipbrushImageSlider = () => {
+  const images = ['/images/Lipbrush.jpeg', '/images/Lipbrush.png'];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <div className="relative w-full h-[340px] sm:h-[420px] overflow-hidden bg-gray-50">
+      {images.map((image, index) => (
+        <img
+          key={index}
+          src={image}
+          alt="Lip blush treatment - Extreme Beauty"
+          className={`absolute inset-0 w-full h-full object-contain transition-all duration-[2000ms] ease-in-out ${
+            index === currentIndex
+              ? 'opacity-100 scale-[1.04]'
+              : 'opacity-0 scale-100'
+          }`}
+          loading="lazy"
+          decoding="async"
+        />
+      ))}
+    </div>
+  );
+};
 
 const ServiceDetail = () => {
   const { slug } = useParams();
@@ -59,7 +91,9 @@ const ServiceDetail = () => {
       <div className="pb-10 bg-gray-950 text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(184,149,106,0.08)_0%,transparent_70%)]" />
         <div className="container mx-auto px-5 relative z-10">
-          <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium">{service.category}</p>
+          <p className="text-[0.68rem] tracking-[4px] uppercase text-gold mb-2 font-medium">
+            {service.tagline || service.category}
+          </p>
           <h1 className="text-[2.2rem] mb-2 font-cormorant font-semibold text-white">{service.name}</h1>
           <p className="text-gray-400 text-[0.85rem] max-w-[560px] mx-auto leading-relaxed">
             {service.description}
@@ -80,20 +114,35 @@ const ServiceDetail = () => {
           <div className="relative order-2 lg:order-1">
             <div className="absolute -top-3 -left-3 border-t-2 border-l-2 border-gold w-24 h-24 rounded-tl-2xl" />
             <div className="relative overflow-hidden rounded-2xl glass-card">
-              <img
-                src={service.image}
-                alt={`${service.name} - ${SITE_NAME} in Kigali`}
-                className="w-full h-[340px] sm:h-[420px] object-cover"
-                loading="lazy"
-                decoding="async"
-              />
+              {service.name === 'Lipbrush' ? (
+                <LipbrushImageSlider />
+              ) : service.video ? (
+                <video
+                  src={service.video}
+                  poster={service.image}
+                  controls
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-[340px] sm:h-[420px] object-cover"
+                />
+              ) : (
+                <img
+                  src={service.image}
+                  alt={`${service.name} - ${SITE_NAME} in Kigali`}
+                  className="w-full h-[340px] sm:h-[420px] object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
             </div>
           </div>
 
           <div className="order-1 lg:order-2">
             <p className="text-[0.7rem] tracking-[4px] uppercase text-gold mb-2 font-medium">About This Service</p>
             <h2 className="text-[1.9rem] mb-4 font-cormorant font-semibold text-black">
-              {service.name} in Nyarutarama, Kigali
+              {service.tagline ? 'Lip Blush' : service.name} in Nyarutarama, Kigali
             </h2>
             <p className="text-gray-500 text-[0.88rem] leading-[1.8] mb-4">
               {service.description} At {SITE_NAME}, we combine artistry with precision to deliver

@@ -131,6 +131,18 @@ export const services = [
     description:
       "Learn the craft of lashes and brows. Certified training, hands-on practice on live models, and essential safety guidance included.",
   },
+  {
+    name: "Lipbrush",
+    slug: slugify("Lipbrush"),
+    price: 300000,
+    priceFormatted: "RWF 300,000",
+    image: "/images/Lipbrush.jpeg",
+    video: "/videos/Lipbrush.mp4",
+    category: "Lipbrush",
+    tagline: "LIP BLUSH | Timeless Elegance",
+    description:
+      "A luxurious semi-permanent lip enhancement designed to awaken your lips' natural beauty. Lip blush creates a delicate wash of color, refines lip definition, and enhances symmetry for a beautifully soft, naturally radiant finish. Your lips, perfected with elegance.",
+  },
 ];
 
 export const categories = [
@@ -138,6 +150,7 @@ export const categories = [
   { key: "Lash Lift", label: "Lash Lift & Perm" },
   { key: "Lashes", label: "Eyelash Extensions" },
   { key: "Retouch", label: "Touch-Ups & Retouch" },
+  { key: "Lipbrush", label: "Lip Treatments" },
   { key: "Training", label: "Training Sessions" },
 ];
 

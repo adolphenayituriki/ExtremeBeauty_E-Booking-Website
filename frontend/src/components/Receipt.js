@@ -16,6 +16,7 @@ const SERVICE_PRICES = {
   'Lash Removal': 'RWF 5,000',
   'Eyebrows Retouch': 'RWF 60,000',
   'Training Session': 'On Request',
+  'Lipbrush': 'RWF 300,000',
 };
 
 const Receipt = ({ booking }) => {

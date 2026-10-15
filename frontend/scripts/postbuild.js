@@ -70,7 +70,7 @@ function readServices() {
   }
   const services = [];
   const re =
-    /\{\s*name:\s*["']([^"']+)["']\s*,\s*slug:\s*slugify\([^)]*\)\s*,\s*price:\s*(\d+)\s*,\s*priceFormatted:\s*["']([^"']*)["']\s*,\s*image:\s*["']([^"']*)["']\s*,\s*category:\s*["']([^"']*)["']\s*,\s*description:\s*"([\s\S]*?)"\s*\}?/g;
+    /\{\s*name:\s*["']([^"']+)["']\s*,\s*slug:\s*slugify\([^)]*\)\s*,\s*price:\s*(\d+)\s*,\s*priceFormatted:\s*["']([^"']*)["']\s*,\s*image:\s*["']([^"']*)["']\s*,\s*(?:video:\s*["'][^"']*["']\s*,\s*)?category:\s*["']([^"']*)["']\s*,\s*description:\s*"([\s\S]*?)"\s*\}?/g;
   let match;
   while ((match = re.exec(code)) !== null) {
     services.push({

@@ -18,6 +18,10 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  video: {
+    type: String,
+    trim: true,
+  },
   category: {
     type: String,
     required: [true, 'Category is required'],
