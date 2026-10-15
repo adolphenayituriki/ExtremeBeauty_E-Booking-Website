@@ -5,6 +5,7 @@ import { FiArrowRight, FiEye, FiStar, FiCheckCircle, FiSearch, FiX, FiChevronDow
 import Seo, { SeoJsonLd } from '../utils/Seo';
 import { slugify, SITE_URL, SITE_NAME } from '../utils/seoData';
 import { services } from '../data/services';
+import ShareButton from '../components/ShareButton';
 
 export const allCategories = [
   {
@@ -234,6 +235,13 @@ const Services = () => {
                           <Link to={`/service/${slugify(service.name)}`} className="inline-flex items-center justify-center px-3 py-3 text-[0.68rem] font-semibold uppercase tracking-[1px] text-gray-500 rounded-xl border border-gray-100 transition-all duration-300 hover:border-gold hover:text-gold no-underline">
                             Details
                           </Link>
+                          <ShareButton
+                            iconOnly
+                            path={`/service/${slugify(service.name)}`}
+                            title={`${service.displayName || service.name} in Kigali`}
+                            text={`Check out ${service.displayName || service.name} at ${SITE_NAME}`}
+                            buttonClassName="border-gray-100 text-gray-500 hover:border-gold hover:text-gold"
+                          />
                         </div>
                       </div>
                     </div>

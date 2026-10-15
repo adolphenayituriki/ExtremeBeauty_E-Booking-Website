@@ -145,11 +145,11 @@ const Home = () => {
       image: "/images/Microblading.jpg",
     },
     {
-      category: "LASHES",
-      title: "Volume Set",
+      category: "LIPS",
+      title: "Lip Blush",
       description:
-        "Multiple lightweight extensions per natural lash creating a full, dramatic look perfect for special occasions.",
-      image: "/images/Volume%20set%20final.jpg",
+        "A luxurious semi-permanent lip enhancement that awakens your lips’ natural beauty with a delicate wash of color.",
+      image: "/images/Lipbrush.png",
     },
     {
       category: "LASHES",
@@ -597,7 +597,7 @@ const Home = () => {
                       alt={service.title}
                       loading="lazy"
                       decoding="async"
-                      className={`w-full h-full transition-transform duration-700 ${service.title === "Volume Set" ? "object-[50%_120%]" : service.title === "Lash Lift" ? "object-contain" : "object-cover object-top group-hover:scale-[1.04]"}`}
+                      className={`w-full h-full transition-transform duration-700 ${service.title === "Volume Set" ? "object-[50%_120%]" : service.title === "Lash Lift" || service.title === "Lip Blush" ? "object-contain" : "object-cover object-top group-hover:scale-[1.04]"}`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <span className="absolute top-3 left-3 glass text-[0.62rem] font-semibold uppercase tracking-[1.5px] text-gold px-2.5 py-1 rounded-full">

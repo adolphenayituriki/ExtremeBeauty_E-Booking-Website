@@ -4,6 +4,7 @@ import { FiArrowRight, FiCheck, FiChevronRight, FiChevronDown, FiStar, FiClock, 
 import Seo, { SeoJsonLd } from '../utils/Seo';
 import { services, getServiceBySlug } from '../data/services';
 import { buildServiceMeta, SITE_NAME } from '../utils/seoData';
+import ShareButton from '../components/ShareButton';
 
 const perCategory = (targetCategory) => services.filter((s) => s.category === targetCategory);
 
@@ -104,6 +105,13 @@ const ServiceDetail = () => {
             <span className="inline-flex items-center gap-1 text-[0.72rem] text-gray-400">
               <FiStar size={11} className="text-gold fill-gold" /> 5★ Rated in Kigali
             </span>
+          </div>
+          <div className="flex justify-center mt-6">
+            <ShareButton
+              path={meta.path}
+              title={`${service.name} in Kigali`}
+              text={`Check out ${service.name} at ${SITE_NAME}`}
+            />
           </div>
         </div>
       </div>
